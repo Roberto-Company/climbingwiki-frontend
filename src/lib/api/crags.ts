@@ -4,6 +4,7 @@ import type { CragResponse, PagedResponse } from "@/lib/types";
 
 export interface ListCragsParams extends PageParams {
   zoneId?: number;
+  name?: string;
 }
 
 export function listCrags(params: ListCragsParams = {}): Promise<PagedResponse<CragResponse>> {

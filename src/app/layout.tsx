@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getSession } from "@/lib/auth/session";
 import { UserNav } from "@/components/auth/UserNav";
+import { SearchBar } from "@/components/catalog/SearchBar";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -39,6 +41,9 @@ export default async function RootLayout({
             <Link href="/zones" className="font-sans text-sm font-semibold text-moss-600 hover:text-moss-800">
               Zones
             </Link>
+            <Suspense>
+              <SearchBar />
+            </Suspense>
           </div>
           <UserNav user={session} />
         </header>

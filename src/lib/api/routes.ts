@@ -4,6 +4,7 @@ import type { PagedResponse, RouteResponse } from "@/lib/types";
 
 export interface ListRoutesParams extends PageParams {
   sectorId?: number;
+  name?: string;
 }
 
 export function listRoutes(params: ListRoutesParams = {}): Promise<PagedResponse<RouteResponse>> {

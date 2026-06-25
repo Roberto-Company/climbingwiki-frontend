@@ -5,6 +5,7 @@ import type { PagedResponse, ZoneResponse } from "@/lib/types";
 export interface ListZonesParams extends PageParams {
   parentZoneId?: number;
   rootOnly?: boolean;
+  name?: string;
 }
 
 export function listZones(params: ListZonesParams = {}): Promise<PagedResponse<ZoneResponse>> {
