@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+:root {
+  /* Surfaces — warm chalk paper, not clinical white */
+  --color-chalk: #f6f2e7;
+  --color-sand: #ece4d1;
+  --color-sand-dark: #d9cdaf;
+
+  /* Text */
+  --color-charcoal: #2a2722;
+  --color-stone: #6b6358;
+
+  /* Brand — moss (primary) / sandstone ochre (accent) */
+  --color-moss-50: #eef3ec;
+  --color-moss-200: #b9cdb2;
+  --color-moss-400: #6d8f63;
+  --color-moss-600: #46663d;
+  --color-moss-800: #2c4226;
+
+  --color-ochre-200: #ecd9a3;
+  --color-ochre-400: #d9a441;
+  --color-ochre-600: #b9802a;
+
+  --color-border: #cfc4a6;
+}
+
+@theme inline {
+  --color-background: var(--color-chalk);
+  --color-foreground: var(--color-charcoal);
+
+  --color-surface: var(--color-sand);
+  --color-surface-strong: var(--color-sand-dark);
+
+  --color-moss-50: var(--color-moss-50);
+  --color-moss-200: var(--color-moss-200);
+  --color-moss-400: var(--color-moss-400);
+  --color-moss-600: var(--color-moss-600);
+  --color-moss-800: var(--color-moss-800);
+
+  --color-ochre-200: var(--color-ochre-200);
+  --color-ochre-400: var(--color-ochre-400);
+  --color-ochre-600: var(--color-ochre-600);
+
+  --color-stone: var(--color-stone);
+  --color-border: var(--color-border);
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-fraunces);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
