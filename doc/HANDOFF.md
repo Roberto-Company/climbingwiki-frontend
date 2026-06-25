@@ -4,7 +4,7 @@ Written so a Claude Code session whose primary working directory is `FrontendApp
 
 ## Where things stand
 
-- **Phase 0 (scaffold) and Phase 1 (auth) are both done.**
+- **Phase 0 (scaffold), Phase 1 (auth), and Phase 2 (catalog browsing) are all done.**
 - **Migration applied:** `BackendApi/database/alter_auth_tokens.sql` was run against the local `climbingwiki-db` MySQL container this session (user-approved) — `users` now has `email_verified`, `verification_token`, `verification_token_expires_at`, `reset_token`, `reset_token_expires_at`. The other pending migration, `alter_ratings_half_star.sql`, is still **not** applied (needed for Phase 3 ratings UI).
 - **Important Next.js 16 fact:** `middleware.ts` is deprecated and renamed to **`proxy.ts`** (exported function name `proxy`, same level as `app/`, so here it's `src/proxy.ts`). This codebase postdates this assistant's training data — confirmed from the actual docs bundled in `node_modules/next/dist/docs/`, not from memory. If you're not sure whether a Next.js convention you "remember" still applies, check there first.
 
@@ -35,7 +35,28 @@ Written so a Claude Code session whose primary working directory is `FrontendApp
 
 **Verified end-to-end** against the real backend + MySQL (not just `tsc`/`eslint`/`build`): register → login → profile → logout, `/profile` redirect when logged out, `/login` redirect when logged in, forgot-password → reset-password (old password rejected after reset, new password accepted), verify-email (confirmed `email_verified` flipped in DB). All via Playwright against `npm run dev` + `mvnw spring-boot:run`.
 
-- **Next action when resuming:** Phase 2 in `ROADMAP.md` — catalog browsing (read-only). Blocked on real data: OpenBeta import / grade seeding is owned by a separate session, so catalog pages won't have anything meaningful to render yet. Could still scaffold the page shells/`lib/api` resource clients against the live (empty) API in the meantime.
+### Phase 2 — Catalog browsing (read-only)
+
+**Backend gap found and closed first.** Reading `ZoneController`/`CragController`/`SectorController`/`RouteController` showed none of them had parent-filter query params (only `PitchController`'s `?routeId=` did). Asked the user; chose adding the params to `BackendApi` over client-side filtering (see `DECISIONS.md` D23). Added in `BackendApi` this session (separate repo, also committed/pushed there with user approval):
+- `GET /api/zones?parentZoneId=<id>` and `?rootOnly=true` (mutually exclusive; `rootOnly` exists because a single nullable param can't mean both "no filter" and "filter for null parent" — see D24).
+- `GET /api/crags?zoneId=<id>`, `GET /api/sectors?cragId=<id>`, `GET /api/routes?sectorId=<id>`.
+- 12 new backend tests added (service + controller layers), full suite green (484/484), server restarted and smoke-tested via `curl` before frontend work resumed.
+
+**`lib/api` resource clients** (`src/lib/api/`): one file per catalog resource — `zones.ts`, `crags.ts`, `sectors.ts`, `routes.ts`, `pitches.ts`, `tags.ts`, `grading-systems.ts`, `grades.ts` — each wrapping `apiFetch` with a typed `list*`/`get*` pair. Shared `query.ts` exports `toQueryString()` (object → `?key=value` string, skipping `undefined`) and `PageParams` (`page?`, `size?`, `sort?`). `GradingSystem`/`Grade` list functions return plain arrays, not `PagedResponse<T>` — confirmed from the actual controller source, those two resources were never paginated server-side (D27). All re-exported from the `lib/api` barrel (`index.ts`).
+
+**Catalog page shells** (`src/app/(catalog)/`), all plain `async` Server Components (no client state — D25):
+- `zones/page.tsx` — root zones (`rootOnly: true`), paginated.
+- `zones/[id]/page.tsx` — one zone: its sub-zones (`parentZoneId`) and its crags (`zoneId`).
+- `crags/[id]/page.tsx` — one crag: rock type/orientation/altitude/approach, and its sectors (`cragId`).
+- `sectors/[id]/page.tsx` — one sector: its routes (`sectorId`), each tagged with `routeType`.
+- `routes/[id]/page.tsx` — one route: first-ascent info, equipment notes, tag chips, and its pitches (`routeId`) sorted by `orderIndex`.
+- All detail pages call `ApiError`-aware fetch + `notFound()` on a real 404 from the backend (verified live: `/zones/999999` → Next.js 404 page).
+- Shared presentational pieces in `src/components/catalog/`: `CatalogCard` (link card), `EmptyState`, `Pagination` (prev/next via `?page=`, only rendered when `totalPages > 1`).
+- Root `layout.tsx` header now has a "Zones" nav link into the catalog.
+
+**Verified end-to-end against the live backend** (not just `tsc`/`eslint`/`next build`, all of which were also run and pass clean): Playwright through `/zones` → `/zones/1` (empty sub-zone/crag states render correctly) → `/sectors/1` (the leftover dev sector "Pared de Sant Jeroni" with 3 routes: "Aresta Nord (renamed)", "Fissura Central", "Bloc del Mirador") → `/routes/1` (tag chip "classic" rendered, empty pitch state) → `/crags/1` ("Montserrat", conglomerate, screenshot-checked against the nature palette — chalk/moss/ochre, Fraunces headings, no dark-mode/neon look).
+
+- **Next action when resuming:** Phase 3 in `ROADMAP.md` — the "personal layer" (logbook, favorites, follows, route lists, ratings, comments, photos). Needs `alter_ratings_half_star.sql` applied first for the ratings UI (still pending, same ask-first boundary as `alter_auth_tokens.sql` was). `proxy.ts`'s `PROTECTED_ROUTES` needs extending to cover the new personal-layer pages (currently only `/profile`). Catalog pages still only render the leftover dev test data — real content depends on the separate OpenBeta import/grade-seeding session.
 
 ## Project context (read `ROADMAP.md` for the full plan)
 
@@ -45,7 +66,7 @@ Written so a Claude Code session whose primary working directory is `FrontendApp
 
 ## Cross-cutting constraints carried over from BackendApi
 
-- **Don't touch DB seeding/import** — a different session owns grade seeding (`seed-grades` profile) and OpenBeta import (`openbeta-import` profile). Catalog browsing (Phase 2) has no real data to render until that lands.
+- **Don't touch DB seeding/import** — a different session owns grade seeding (`seed-grades` profile) and OpenBeta import (`openbeta-import` profile). Catalog browsing (Phase 2) is built and verified against the live API, but still has no real content to render until that lands — only leftover dev test data exists today.
 - **One pending backend SQL migration remains:** `alter_ratings_half_star.sql` (the other, `alter_auth_tokens.sql`, was applied this session). Ratings UI (Phase 3) can be built against the API contract regardless, but won't be testable end-to-end against real data until it runs — same "ask the user first" boundary applies (which is how `alter_auth_tokens.sql` got applied this session: asked first, user approved, then ran it).
 - **Don't touch `spring-boot-projects/climbingWikiLoc`** — unrelated practice project, different package/stack, do not confuse with this frontend.
 

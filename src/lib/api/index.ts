@@ -1,3 +1,12 @@
 export { apiFetch } from "./client";
 export { API_BASE_URL } from "./config";
 export { ApiError, type ValidationErrors } from "./errors";
+export { toQueryString, type QueryParams, type PageParams } from "./query";
+export { listZones, getZone, type ListZonesParams } from "./zones";
+export { listCrags, getCrag, type ListCragsParams } from "./crags";
+export { listSectors, getSector, type ListSectorsParams } from "./sectors";
+export { listRoutes, getRoute, type ListRoutesParams } from "./routes";
+export { listPitches, getPitch, type ListPitchesParams } from "./pitches";
+export { listTags, getTag } from "./tags";
+export { listGradingSystems, getGradingSystem } from "./grading-systems";
+export { listGrades, getGrade, type ListGradesParams } from "./grades";

@@ -32,9 +32,14 @@ export default async function RootLayout({
     <html lang="en" className={`${fraunces.variable} ${inter.variable} h-full`}>
       <body className="min-h-full flex flex-col font-sans antialiased">
         <header className="flex items-center justify-between border-b border-border px-6 py-4 sm:px-16">
-          <Link href="/" className="font-display text-xl font-medium text-foreground">
-            ClimbingWiki
-          </Link>
+          <div className="flex items-center gap-8">
+            <Link href="/" className="font-display text-xl font-medium text-foreground">
+              ClimbingWiki
+            </Link>
+            <Link href="/zones" className="font-sans text-sm font-semibold text-moss-600 hover:text-moss-800">
+              Zones
+            </Link>
+          </div>
           <UserNav user={session} />
         </header>
         {children}
