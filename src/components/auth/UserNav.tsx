@@ -22,6 +22,18 @@ export function UserNav({ user }: Props) {
 
   return (
     <div className="flex items-center gap-4 font-sans text-sm">
+      <Link href="/favorites" className="font-medium text-stone hover:text-moss-600">
+        Favorites
+      </Link>
+      <Link href="/logbook" className="font-medium text-stone hover:text-moss-600">
+        Logbook
+      </Link>
+      <Link href="/lists" className="font-medium text-stone hover:text-moss-600">
+        Lists
+      </Link>
+      <Link href="/follows" className="font-medium text-stone hover:text-moss-600">
+        Following
+      </Link>
       <Link href="/profile" className="font-medium text-foreground hover:text-moss-600">
         {user.username}
       </Link>

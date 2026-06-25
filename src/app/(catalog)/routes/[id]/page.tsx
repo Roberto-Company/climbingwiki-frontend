@@ -1,6 +1,24 @@
 import { notFound } from "next/navigation";
-import { ApiError, getRoute, listPitches } from "@/lib/api";
+import {
+  ApiError,
+  getRoute,
+  listComments,
+  listFavorites,
+  listPhotos,
+  listPitches,
+  listRatings,
+  listRouteLists,
+} from "@/lib/api";
+import { getSession } from "@/lib/auth/session";
 import { EmptyState } from "@/components/catalog/EmptyState";
+import { FavoriteButton } from "@/components/personal/FavoriteButton";
+import { RatingWidget } from "@/components/personal/RatingWidget";
+import { AddToListButton } from "@/components/personal/AddToListButton";
+import { CommentList } from "@/components/personal/CommentList";
+import { CommentForm } from "@/components/personal/CommentForm";
+import { PhotoGallery } from "@/components/personal/PhotoGallery";
+import { PhotoForm } from "@/components/personal/PhotoForm";
+import { LogbookForm } from "@/components/personal/LogbookForm";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -20,8 +38,23 @@ export default async function RouteDetailPage({ params }: Props) {
     throw error;
   }
 
-  const pitches = await listPitches({ routeId });
+  const session = await getSession();
+
+  const [pitches, favorites, ratings, comments, photos, userLists] = await Promise.all([
+    listPitches({ routeId }),
+    listFavorites({ routeId }),
+    listRatings({ routeId }),
+    listComments({ routeId }),
+    listPhotos({ routeId }),
+    session ? listRouteLists({ userId: session.userId }) : Promise.resolve([]),
+  ]);
+
   const sortedPitches = [...pitches.content].sort((a, b) => a.orderIndex - b.orderIndex);
+  const isFavorited = session ? favorites.some((f) => f.userId === session.userId) : false;
+  const average = ratings.length
+    ? ratings.reduce((sum, rating) => sum + rating.score, 0) / ratings.length
+    : null;
+  const userScore = session ? ratings.find((r) => r.userId === session.userId)?.score ?? null : null;
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-16">
@@ -55,6 +88,20 @@ export default async function RouteDetailPage({ params }: Props) {
             ))}
           </div>
         )}
+
+        <div className="mt-5 flex flex-wrap items-center gap-4">
+          <FavoriteButton routeId={routeId} isFavorited={isFavorited} isAuthenticated={session !== null} />
+          <AddToListButton routeId={routeId} userLists={userLists} isAuthenticated={session !== null} />
+        </div>
+        <div className="mt-4">
+          <RatingWidget
+            routeId={routeId}
+            average={average}
+            count={ratings.length}
+            userScore={userScore}
+            isAuthenticated={session !== null}
+          />
+        </div>
       </div>
 
       <section className="flex flex-col gap-3">
@@ -73,6 +120,29 @@ export default async function RouteDetailPage({ params }: Props) {
               </li>
             ))}
           </ol>
+        )}
+      </section>
+
+      {session && (
+        <section className="flex flex-col gap-3">
+          <h2 className="font-display text-xl font-medium text-foreground">Log this climb</h2>
+          <LogbookForm routeId={routeId} />
+        </section>
+      )}
+
+      <section className="flex flex-col gap-3">
+        <h2 className="font-display text-xl font-medium text-foreground">Photos</h2>
+        <PhotoGallery photos={photos.content} session={session} />
+        {session && <PhotoForm routeId={routeId} />}
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="font-display text-xl font-medium text-foreground">Comments</h2>
+        <CommentList comments={comments.content} session={session} />
+        {session ? (
+          <CommentForm routeId={routeId} />
+        ) : (
+          <p className="font-sans text-sm text-stone">Sign in to leave a comment.</p>
         )}
       </section>
     </div>

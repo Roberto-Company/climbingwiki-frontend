@@ -10,3 +10,52 @@ export { listPitches, getPitch, type ListPitchesParams } from "./pitches";
 export { listTags, getTag } from "./tags";
 export { listGradingSystems, getGradingSystem } from "./grading-systems";
 export { listGrades, getGrade, type ListGradesParams } from "./grades";
+export {
+  listFavorites,
+  getFavorite,
+  upsertFavorite,
+  deleteFavorite,
+  type ListFavoritesParams,
+} from "./favorites";
+export { listFollows, getFollow, upsertFollow, deleteFollow, type ListFollowsParams } from "./follows";
+export { listRatings, getRating, upsertRating, deleteRating, type ListRatingsParams } from "./ratings";
+export {
+  listComments,
+  getComment,
+  createComment,
+  updateComment,
+  deleteComment,
+  type ListCommentsParams,
+} from "./comments";
+export {
+  listPhotos,
+  getPhoto,
+  createPhoto,
+  updatePhoto,
+  deletePhoto,
+  type ListPhotosParams,
+} from "./photos";
+export {
+  listLogbookEntries,
+  getLogbookEntry,
+  createLogbookEntry,
+  updateLogbookEntry,
+  deleteLogbookEntry,
+  type ListLogbookEntriesParams,
+} from "./logbook-entries";
+export {
+  listRouteLists,
+  getRouteList,
+  createRouteList,
+  updateRouteList,
+  deleteRouteList,
+  type ListRouteListsParams,
+} from "./route-lists";
+export {
+  listListRoutes,
+  getListRoute,
+  upsertListRoute,
+  deleteListRoute,
+  type ListListRoutesParams,
+} from "./list-routes";
+export { getUser } from "./users";
