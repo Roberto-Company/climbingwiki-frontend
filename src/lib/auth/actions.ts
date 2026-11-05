@@ -12,6 +12,7 @@ import type {
   UserResponse,
   VerifyEmailRequest,
 } from "@/lib/types";
+import { clientIpHeaders } from "./client-ip";
 import { createSession, deleteSession } from "./session";
 
 export interface FormState {
@@ -35,6 +36,7 @@ export async function loginAction(
   try {
     const data = await apiFetch<LoginResponse>("/auth/login", {
       method: "POST",
+      headers: await clientIpHeaders(),
       body: { username, password } satisfies LoginRequest,
     });
     await createSession({
