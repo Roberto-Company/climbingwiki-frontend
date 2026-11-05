@@ -13,7 +13,8 @@ export interface UserRequest {
 export interface UserResponse {
   id: number;
   username: string;
-  email: string;
+  /** Only present for the user themselves or an admin; null otherwise. */
+  email: string | null;
   fullName: string | null;
   bio: string | null;
   avatarUrl: string | null;
