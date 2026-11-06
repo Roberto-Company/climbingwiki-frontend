@@ -28,7 +28,8 @@
     "logbook": "Ascensos",
     "lists": "Listas",
     "following": "Siguiendo",
-    "logOut": "Salir"
+    "logOut": "Salir",
+    "review": "Revisión"
   },
   "LocaleSwitcher": {
     "switchTo": "Cambiar idioma a {language}",
@@ -374,5 +375,23 @@
     "catalogConflict": "Este cambio choca con datos existentes.",
     "catalogInUse": "Todavía tiene datos debajo. Bórralos primero o pide ayuda a un moderador.",
     "pitchOrderTaken": "Ese número de largo ya está en uso en esta vía."
+  },
+  "Moderation": {
+    "eyebrow": "Moderación",
+    "title": "Datos por revisar",
+    "intro": "Datos de escalada añadidos por usuarios que ningún moderador ha verificado todavía. Revisa cada uno en su página y verifícalo si es correcto.",
+    "empty": "No hay nada pendiente de revisión.",
+    "groups": {
+      "zone": "Zonas",
+      "crag": "Escuelas",
+      "sector": "Sectores",
+      "route": "Vías",
+      "pitch": "Largos"
+    },
+    "pitchName": "{route}, largo {number}",
+    "inParent": "en {name}",
+    "addedBy": "añadido por",
+    "unknownAuthor": "autor desconocido",
+    "count": "{count, plural, one {# elemento} other {# elementos}}"
   }
 }

@@ -20,6 +20,7 @@ export {
   type CatalogRequest,
   type CatalogResponse,
 } from "./catalog-writes";
+export { listUnverifiedItems } from "./moderation";
 export {
   listFavorites,
   getFavorite,

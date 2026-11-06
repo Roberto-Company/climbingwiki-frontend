@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { logoutAction } from "@/lib/auth/actions";
+import { hasMinRole } from "@/lib/auth/roles";
 import type { Role } from "@/lib/types";
 
 type Props = {
@@ -37,6 +38,11 @@ export function UserNav({ user }: Props) {
       <Link href="/follows" className="font-medium text-stone hover:text-moss-600">
         {t("following")}
       </Link>
+      {hasMinRole(user.role, "MODERATOR") && (
+        <Link href="/moderation" className="font-medium text-ochre-600 hover:text-moss-600">
+          {t("review")}
+        </Link>
+      )}
       <Link href="/profile" className="font-medium text-foreground hover:text-moss-600">
         {user.username}
       </Link>
