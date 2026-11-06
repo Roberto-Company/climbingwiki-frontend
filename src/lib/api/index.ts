@@ -11,6 +11,16 @@ export { listTags, getTag } from "./tags";
 export { listGradingSystems, getGradingSystem } from "./grading-systems";
 export { listGrades, getGrade, type ListGradesParams } from "./grades";
 export {
+  createCatalogItem,
+  updateCatalogItem,
+  deleteCatalogItem,
+  setCatalogItemVerified,
+  CATALOG_PATHS,
+  type CatalogKind,
+  type CatalogRequest,
+  type CatalogResponse,
+} from "./catalog-writes";
+export {
   listFavorites,
   getFavorite,
   upsertFavorite,

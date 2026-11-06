@@ -15,4 +15,7 @@ export interface PitchResponse {
   lengthM: number | null;
   boltsCount: number | null;
   description: string | null;
+  createdById: number | null;
+  /** False until a moderator has reviewed it (data added by regular users). */
+  verified: boolean;
 }

@@ -168,7 +168,74 @@
       "TRAD": "Trad",
       "BOULDER": "Boulder"
     },
-    "source": "Source: {source}"
+    "source": "Source: {source}",
+    "edit": {
+      "verified": "Verified",
+      "unverified": "Unverified",
+      "unverifiedHint": "Added by a climber and not yet reviewed by a moderator.",
+      "verify": "Verify",
+      "unverify": "Mark as unverified",
+      "confirmDelete": "Delete this for good?",
+      "confirmDeleteYes": "Yes, delete",
+      "deleting": "Deleting…",
+      "reviewNote": "What you add shows as unverified until a moderator reviews it. You can keep editing it until then.",
+      "kinds": {
+        "zone": "zone",
+        "crag": "crag",
+        "sector": "sector",
+        "route": "route",
+        "pitch": "pitch"
+      },
+      "add": {
+        "zone": "Add zone",
+        "subZone": "Add sub-zone",
+        "crag": "Add crag",
+        "sector": "Add sector",
+        "route": "Add route",
+        "pitch": "Add pitch"
+      },
+      "titles": {
+        "newZone": "New zone",
+        "newCrag": "New crag",
+        "newSector": "New sector",
+        "newRoute": "New route",
+        "editZone": "Edit zone",
+        "editCrag": "Edit crag",
+        "editSector": "Edit sector",
+        "editRoute": "Edit route",
+        "editPitch": "Edit pitch",
+        "in": "in {name}"
+      },
+      "fields": {
+        "name": "Name",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "coordinatesHint": "Decimal degrees, e.g. 38.0412 and -1.4915. Leave both empty if unknown.",
+        "altitudeM": "Altitude (m)",
+        "orientation": "Orientation",
+        "orientationHint": "e.g. S, SE, N",
+        "rockType": "Rock type",
+        "approachDescription": "Approach",
+        "routeType": "Type",
+        "equipmentNotes": "Equipment",
+        "firstAscentBy": "First ascent by",
+        "firstAscentDate": "First ascent date",
+        "grade": "Grade",
+        "noGrade": "No grade",
+        "lengthM": "Length (m)",
+        "boltsCount": "Bolts",
+        "orderIndex": "Pitch number",
+        "firstPitchHint": "Grade and length become pitch 1. You can add more pitches on the route page."
+      },
+      "errors": {
+        "required": "Required.",
+        "tooLong": "Too long.",
+        "invalidNumber": "Enter a valid number.",
+        "outOfRange": "Out of range.",
+        "invalidDate": "Use a valid date.",
+        "invalidChoice": "Choose one of the options."
+      }
+    }
   },
   "Search": {
     "placeholder": "Search routes, crags…",
@@ -301,6 +368,11 @@
     "listNameRequired": "List name is required.",
     "missingListData": "Missing list data.",
     "missingList": "Missing list.",
-    "missingListOrRoute": "Missing list or route."
+    "missingListOrRoute": "Missing list or route.",
+    "catalogForbidden": "You can't change this. Only moderators can edit verified data or data added by someone else.",
+    "catalogNotFound": "This item no longer exists.",
+    "catalogConflict": "This change conflicts with existing data.",
+    "catalogInUse": "This still has data under it. Delete that first, or ask a moderator.",
+    "pitchOrderTaken": "That pitch number is already used on this route."
   }
 }

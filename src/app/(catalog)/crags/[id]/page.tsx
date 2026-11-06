@@ -3,6 +3,10 @@ import { SourceNote } from "@/components/catalog/SourceNote";
 import { splitAttribution } from "@/lib/catalog/attribution";
 
 import { getTranslations } from "next-intl/server";
+import { getSession } from "@/lib/auth/session";
+import { VerificationBadge } from "@/components/catalog/VerificationBadge";
+import { CatalogItemToolbar } from "@/components/catalog/edit/CatalogItemToolbar";
+import { AddLink } from "@/components/catalog/edit/AddLink";
 import { notFound } from "next/navigation";
 import { ApiError, getCrag, listSectors } from "@/lib/api";
 import { CatalogCard } from "@/components/catalog/CatalogCard";
@@ -26,7 +30,7 @@ export default async function CragDetailPage({ params }: Props) {
     throw error;
   }
 
-  const [sectors, t] = await Promise.all([listSectors({ cragId }), getTranslations()]);
+  const [sectors, t, session] = await Promise.all([listSectors({ cragId }), getTranslations(), getSession()]);
   const cragText = splitAttribution(crag.description);
   const sectorTexts = new Map(sectors.content.map((sector) => [sector.id, splitAttribution(sector.description)]));
 
@@ -35,6 +39,17 @@ export default async function CragDetailPage({ params }: Props) {
       <div>
         <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Catalog.crag.eyebrow")}</p>
         <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{crag.name}</h1>
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <VerificationBadge verified={crag.verified} showVerified />
+          <CatalogItemToolbar
+            kind="crag"
+            item={crag}
+            session={session}
+            editHref={`/crags/${crag.id}/edit`}
+            afterDeletePath={crag.zoneId ? `/zones/${crag.zoneId}` : "/zones"}
+            pagePath={`/crags/${crag.id}`}
+          />
+        </div>
         <div className="mt-3 flex flex-wrap gap-3 font-sans text-xs font-semibold uppercase tracking-wide text-moss-600">
           {crag.rockType && <span>{crag.rockType}</span>}
           {crag.orientation && <span>{crag.orientation}</span>}
@@ -61,10 +76,12 @@ export default async function CragDetailPage({ params }: Props) {
                 href={`/sectors/${sector.id}`}
                 title={sector.name}
                 description={sectorTexts.get(sector.id)?.body}
+                badges={<VerificationBadge verified={sector.verified} />}
               />
             ))}
           </div>
         )}
+        {session && <AddLink href={`/sectors/new?cragId=${crag.id}`} label={t("Catalog.edit.add.sector")} />}
       </section>
 
       <SourceNote sources={[cragText.source, ...[...sectorTexts.values()].map((text) => text.source)]} />

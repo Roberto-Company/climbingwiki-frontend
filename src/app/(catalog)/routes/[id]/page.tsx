@@ -3,6 +3,11 @@ import { SourceNote } from "@/components/catalog/SourceNote";
 import { splitAttribution } from "@/lib/catalog/attribution";
 
 import { getTranslations } from "next-intl/server";
+import { getSession } from "@/lib/auth/session";
+import { VerificationBadge } from "@/components/catalog/VerificationBadge";
+import { CatalogItemToolbar } from "@/components/catalog/edit/CatalogItemToolbar";
+import { PitchForm } from "@/components/catalog/edit/PitchForm";
+import { loadGradeGroups, needsReview } from "@/lib/catalog/page-data";
 import { notFound } from "next/navigation";
 import {
   ApiError,
@@ -15,7 +20,6 @@ import {
   listRatings,
   listRouteLists,
 } from "@/lib/api";
-import { getSession } from "@/lib/auth/session";
 import { buildGradeLookup, hardestGrade, totalLength } from "@/lib/catalog/route-summary";
 import { EmptyState } from "@/components/catalog/EmptyState";
 import { GradeBadge, RouteTypeBadge } from "@/components/catalog/RouteBadges";
@@ -48,7 +52,7 @@ export default async function RouteDetailPage({ params }: Props) {
 
   const [session, t] = await Promise.all([getSession(), getTranslations()]);
 
-  const [pitches, grades, favorites, ratings, comments, photos, userLists] = await Promise.all([
+  const [pitches, grades, favorites, ratings, comments, photos, userLists, gradeGroups] = await Promise.all([
     listPitches({ routeId }),
     listGrades(),
     listFavorites({ routeId }),
@@ -56,6 +60,7 @@ export default async function RouteDetailPage({ params }: Props) {
     listComments({ routeId }),
     listPhotos({ routeId }),
     session ? listRouteLists({ userId: session.userId }) : Promise.resolve([]),
+    session ? loadGradeGroups() : Promise.resolve([]),
   ]);
 
   const sortedPitches = [...pitches.content].sort((a, b) => a.orderIndex - b.orderIndex);
@@ -74,6 +79,17 @@ export default async function RouteDetailPage({ params }: Props) {
       <div>
         <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Catalog.route.eyebrow")}</p>
         <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{route.name}</h1>
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <VerificationBadge verified={route.verified} showVerified />
+          <CatalogItemToolbar
+            kind="route"
+            item={route}
+            session={session}
+            editHref={`/routes/${route.id}/edit`}
+            afterDeletePath={`/sectors/${route.sectorId}`}
+            pagePath={`/routes/${route.id}`}
+          />
+        </div>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <RouteTypeBadge routeType={route.routeType} />
           <GradeBadge grade={routeGrade} />
@@ -133,14 +149,42 @@ export default async function RouteDetailPage({ params }: Props) {
                     {t("Catalog.route.pitch", { number: pitch.orderIndex })}
                   </h3>
                   <div className="flex items-center gap-2">
+                    <VerificationBadge verified={pitch.verified} />
                     {pitch.lengthM !== null && <span className="font-sans text-xs text-stone">{t("Common.meters", { value: pitch.lengthM })}</span>}
                     <GradeBadge grade={pitch.gradeId !== null ? gradeLookup.get(pitch.gradeId) ?? null : null} />
                   </div>
                 </div>
                 {pitch.description && <p className="mt-1 font-sans text-sm text-stone">{pitch.description}</p>}
+                <div className="mt-2">
+                  <CatalogItemToolbar
+                    kind="pitch"
+                    item={pitch}
+                    session={session}
+                    editHref={`/pitches/${pitch.id}/edit`}
+                    afterDeletePath={`/routes/${route.id}`}
+                    pagePath={`/routes/${route.id}`}
+                  />
+                </div>
               </li>
             ))}
           </ol>
+        )}
+        {session && (
+          <details className="group rounded-lg border border-dashed border-moss-400 px-4 py-3 open:border-solid open:border-border open:bg-surface">
+            <summary className="cursor-pointer list-none font-sans text-sm font-semibold text-moss-600">
+              <span aria-hidden="true">+ </span>
+              {t("Catalog.edit.add.pitch")}
+            </summary>
+            <div className="mt-4">
+              <PitchForm
+                routeId={route.id}
+                nextOrderIndex={(sortedPitches.at(-1)?.orderIndex ?? 0) + 1}
+                gradeGroups={gradeGroups}
+                cancelHref={`/routes/${route.id}`}
+                showReviewNote={needsReview(session)}
+              />
+            </div>
+          </details>
         )}
       </section>
 
