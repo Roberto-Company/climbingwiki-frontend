@@ -1,3 +1,7 @@
+import { SourceNote } from "@/components/catalog/SourceNote";
+
+import { splitAttribution } from "@/lib/catalog/attribution";
+
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ApiError, getZone, listCrags, listZones } from "@/lib/api";
@@ -27,6 +31,7 @@ export default async function ZoneDetailPage({ params }: Props) {
     listCrags({ zoneId }),
     getTranslations("Catalog.zone"),
   ]);
+  const cragTexts = new Map(crags.content.map((crag) => [crag.id, splitAttribution(crag.description)]));
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-16">
@@ -61,12 +66,14 @@ export default async function ZoneDetailPage({ params }: Props) {
                 href={`/crags/${crag.id}`}
                 title={crag.name}
                 subtitle={crag.rockType ?? undefined}
-                description={crag.description}
+                description={cragTexts.get(crag.id)?.body}
               />
             ))}
           </div>
         )}
       </section>
+
+      <SourceNote sources={[...cragTexts.values()].map((text) => text.source)} />
     </div>
   );
 }

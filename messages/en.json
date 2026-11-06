@@ -167,7 +167,8 @@
       "SPORT": "Sport",
       "TRAD": "Trad",
       "BOULDER": "Boulder"
-    }
+    },
+    "source": "Source: {source}"
   },
   "Search": {
     "placeholder": "Search routes, crags…",

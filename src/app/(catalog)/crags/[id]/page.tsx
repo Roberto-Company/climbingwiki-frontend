@@ -1,3 +1,7 @@
+import { SourceNote } from "@/components/catalog/SourceNote";
+
+import { splitAttribution } from "@/lib/catalog/attribution";
+
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ApiError, getCrag, listSectors } from "@/lib/api";
@@ -23,6 +27,8 @@ export default async function CragDetailPage({ params }: Props) {
   }
 
   const [sectors, t] = await Promise.all([listSectors({ cragId }), getTranslations()]);
+  const cragText = splitAttribution(crag.description);
+  const sectorTexts = new Map(sectors.content.map((sector) => [sector.id, splitAttribution(sector.description)]));
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-16">
@@ -34,7 +40,7 @@ export default async function CragDetailPage({ params }: Props) {
           {crag.orientation && <span>{crag.orientation}</span>}
           {crag.altitudeM !== null && <span>{t("Common.meters", { value: crag.altitudeM })}</span>}
         </div>
-        {crag.description && <p className="mt-3 max-w-xl font-sans text-base text-stone">{crag.description}</p>}
+        {cragText.body && <p className="mt-3 max-w-xl font-sans text-base text-stone">{cragText.body}</p>}
         {crag.approachDescription && (
           <p className="mt-3 max-w-xl font-sans text-sm text-stone">
             <span className="font-semibold text-foreground">{t("Catalog.crag.approach")} </span>
@@ -50,11 +56,18 @@ export default async function CragDetailPage({ params }: Props) {
         ) : (
           <div className="flex flex-col gap-3">
             {sectors.content.map((sector) => (
-              <CatalogCard key={sector.id} href={`/sectors/${sector.id}`} title={sector.name} description={sector.description} />
+              <CatalogCard
+                key={sector.id}
+                href={`/sectors/${sector.id}`}
+                title={sector.name}
+                description={sectorTexts.get(sector.id)?.body}
+              />
             ))}
           </div>
         )}
       </section>
+
+      <SourceNote sources={[cragText.source, ...[...sectorTexts.values()].map((text) => text.source)]} />
     </div>
   );
 }
