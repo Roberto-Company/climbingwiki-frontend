@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState, useEffect } from "react";
+import { useActionState, useState } from "react";
 import {
   updateRouteListAction,
   deleteRouteListAction,
@@ -19,14 +19,17 @@ type Props = {
 
 export function RouteListEditForm({ list }: Props) {
   const [isEditing, setIsEditing] = useState(false);
-  const [updateState, updateAction, updatePending] = useActionState(updateRouteListAction, initialState);
+  const [updateState, updateAction, updatePending] = useActionState(
+    async (prevState: PersonalFormState, formData: FormData) => {
+      const result = await updateRouteListAction(prevState, formData);
+      if (result.success) {
+        setIsEditing(false);
+      }
+      return result;
+    },
+    initialState,
+  );
   const [deleteState, deleteAction, deletePending] = useActionState(deleteRouteListAction, initialState);
-
-  useEffect(() => {
-    if (updateState.success) {
-      setIsEditing(false);
-    }
-  }, [updateState.success]);
 
   if (!isEditing) {
     return (
