@@ -2,7 +2,6 @@ export type RouteType = "SPORT" | "BOULDER" | "TRAD";
 
 export interface RouteRequest {
   sectorId: number;
-  createdById: number | null;
   name: string;
   routeType: RouteType;
   description: string | null;
@@ -33,4 +32,6 @@ export interface RouteResponse {
   hardestGradeId: number | null;
   /** Sum of pitch lengths in metres; null when no pitch has a length. */
   totalLengthM: number | null;
+  /** False until a moderator has reviewed it (data added by regular users). */
+  verified: boolean;
 }

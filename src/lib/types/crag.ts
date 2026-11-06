@@ -1,6 +1,5 @@
 export interface CragRequest {
   zoneId: number | null;
-  createdById: number | null;
   name: string;
   description: string | null;
   latitude: number | null;
@@ -24,4 +23,6 @@ export interface CragResponse {
   rockType: string | null;
   approachDescription: string | null;
   createdAt: string;
+  /** False until a moderator has reviewed it (data added by regular users). */
+  verified: boolean;
 }

@@ -168,7 +168,74 @@
       "TRAD": "Clásica",
       "BOULDER": "Bloque"
     },
-    "source": "Fuente: {source}"
+    "source": "Fuente: {source}",
+    "edit": {
+      "verified": "Verificado",
+      "unverified": "Sin verificar",
+      "unverifiedHint": "Añadido por un escalador y aún sin revisar por un moderador.",
+      "verify": "Verificar",
+      "unverify": "Marcar sin verificar",
+      "confirmDelete": "¿Borrar definitivamente?",
+      "confirmDeleteYes": "Sí, borrar",
+      "deleting": "Borrando…",
+      "reviewNote": "Lo que añadas aparecerá sin verificar hasta que lo revise un moderador. Hasta entonces puedes seguir editándolo.",
+      "kinds": {
+        "zone": "zona",
+        "crag": "escuela",
+        "sector": "sector",
+        "route": "vía",
+        "pitch": "largo"
+      },
+      "add": {
+        "zone": "Añadir zona",
+        "subZone": "Añadir subzona",
+        "crag": "Añadir escuela",
+        "sector": "Añadir sector",
+        "route": "Añadir vía",
+        "pitch": "Añadir largo"
+      },
+      "titles": {
+        "newZone": "Nueva zona",
+        "newCrag": "Nueva escuela",
+        "newSector": "Nuevo sector",
+        "newRoute": "Nueva vía",
+        "editZone": "Editar zona",
+        "editCrag": "Editar escuela",
+        "editSector": "Editar sector",
+        "editRoute": "Editar vía",
+        "editPitch": "Editar largo",
+        "in": "en {name}"
+      },
+      "fields": {
+        "name": "Nombre",
+        "latitude": "Latitud",
+        "longitude": "Longitud",
+        "coordinatesHint": "Grados decimales, p. ej. 38.0412 y -1.4915. Déjalos vacíos si no los sabes.",
+        "altitudeM": "Altitud (m)",
+        "orientation": "Orientación",
+        "orientationHint": "p. ej. S, SE, N",
+        "rockType": "Tipo de roca",
+        "approachDescription": "Aproximación",
+        "routeType": "Tipo",
+        "equipmentNotes": "Equipamiento",
+        "firstAscentBy": "Primera ascensión",
+        "firstAscentDate": "Fecha de la primera ascensión",
+        "grade": "Grado",
+        "noGrade": "Sin grado",
+        "lengthM": "Longitud (m)",
+        "boltsCount": "Chapas",
+        "orderIndex": "Número de largo",
+        "firstPitchHint": "El grado y la longitud se guardan como largo 1. Puedes añadir más largos en la página de la vía."
+      },
+      "errors": {
+        "required": "Obligatorio.",
+        "tooLong": "Demasiado largo.",
+        "invalidNumber": "Introduce un número válido.",
+        "outOfRange": "Fuera de rango.",
+        "invalidDate": "Usa una fecha válida.",
+        "invalidChoice": "Elige una de las opciones."
+      }
+    }
   },
   "Search": {
     "placeholder": "Busca vías, escuelas…",
@@ -301,6 +368,11 @@
     "listNameRequired": "El nombre de la lista es obligatorio.",
     "missingListData": "Faltan datos de la lista.",
     "missingList": "Falta la lista.",
-    "missingListOrRoute": "Falta la lista o la vía."
+    "missingListOrRoute": "Falta la lista o la vía.",
+    "catalogForbidden": "No puedes cambiar esto. Solo los moderadores pueden editar datos verificados o añadidos por otra persona.",
+    "catalogNotFound": "Este elemento ya no existe.",
+    "catalogConflict": "Este cambio choca con datos existentes.",
+    "catalogInUse": "Todavía tiene datos debajo. Bórralos primero o pide ayuda a un moderador.",
+    "pitchOrderTaken": "Ese número de largo ya está en uso en esta vía."
   }
 }

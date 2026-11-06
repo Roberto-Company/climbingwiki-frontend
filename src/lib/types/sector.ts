@@ -16,4 +16,7 @@ export interface SectorResponse {
   latitude: number | null;
   longitude: number | null;
   routeTypes: RouteType[];
+  createdById: number | null;
+  /** False until a moderator has reviewed it (data added by regular users). */
+  verified: boolean;
 }

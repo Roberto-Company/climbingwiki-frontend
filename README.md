@@ -14,6 +14,7 @@ Web client for **ClimbingWiki**, a community wiki and logbook for rock climbing:
 ## Features
 
 - Browse the catalog from zone to pitch, with route type, grade and length badges
+- Add and edit climbing data: new additions are marked **unverified** until a moderator verifies them
 - Search routes, crags and zones
 - Accounts: register, log in, email verification and password reset (demo mode, no email is sent)
 - Personal layer: favorites, half-star ratings, threaded comments, photos, route lists, logbook, following other climbers, public profiles

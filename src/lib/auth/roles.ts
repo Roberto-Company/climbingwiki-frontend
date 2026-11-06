@@ -25,3 +25,26 @@ export function canModify(session: SessionLike | null, ownerId: number): boolean
   }
   return session.userId === ownerId || hasMinRole(session.role, "MODERATOR");
 }
+
+interface CatalogItemLike {
+  createdById: number | null;
+  verified: boolean;
+}
+
+/**
+ * Mirrors the backend's `CatalogAccess`: moderators and admins can change any climbing data;
+ * regular users only their own items that haven't been verified yet.
+ */
+export function canEditCatalogItem(session: SessionLike | null, item: CatalogItemLike): boolean {
+  if (!session) {
+    return false;
+  }
+  if (hasMinRole(session.role, "MODERATOR")) {
+    return true;
+  }
+  return !item.verified && item.createdById === session.userId;
+}
+
+export function canVerifyCatalogItems(session: SessionLike | null): boolean {
+  return session !== null && hasMinRole(session.role, "MODERATOR");
+}
