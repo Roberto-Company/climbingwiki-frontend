@@ -15,19 +15,23 @@ Why things are built the way they are: [`DECISIONS.md`](./DECISIONS.md).
 - **Moderation:** `/moderation` (moderators and admins, linked as "Review" in the header) lists unverified data grouped by kind, with where it sits and who added it, and a verify button on each row. Moderators can delete any comment or photo.
 - **Search** across routes, crags and zones; **public user profiles**.
 - **Languages:** Spanish and English with a header toggle (next-intl, cookie mode, no locale in URLs). First visit follows the browser language, default Spanish.
-- **Home page** with live catalog counts and featured zones; **loading, error and 404 pages**; footer with data attribution. Source sentences in imported descriptions are shown once per page as a footnote.
+- **Visual design:** photo hero and photo cards for the areas (real Wikimedia Commons photos of each place, credited on the photo and on `/credits`), topographic contour texture, page banners with breadcrumbs, routes-by-grade charts, difficulty bars per sector, a guidebook-style route table, CSS-only motion (entrance, scroll reveal, hover) that switches off with `prefers-reduced-motion`.
+- **Maps:** Leaflet with muted OpenTopoMap tiles on the home page (every crag), zone pages (crags) and crag/sector pages (sectors).
+- **Home page** with live catalog counts, the region's areas and a map; **loading, error and 404 pages**; footer with data attribution. Source sentences in imported descriptions are shown once per page as a footnote.
 - **Tests:** Vitest unit tests for the pure helpers (`npm test`).
 
 ## Next
 
 1. **Going online safely:** password reset that doesn't show its token, a "waking up the server…" message while the free backend starts, demo accounts.
-2. **Map** of crags and sectors (Leaflet + OpenStreetMap).
-3. **Deploy** (Vercel free plan), then **CI** (GitHub Actions: type-check, lint, tests, build) and a **README** with the live link and screenshots.
-4. **Accessibility and mobile pass** (keyboard navigation, contrast, small screens).
-5. Nice-to-haves: grade filters and sorting, logbook stats, tags, a few Playwright end-to-end flows.
+2. **Deploy** (Vercel free plan), then **CI** (GitHub Actions: type-check, lint, tests, build) and a **README** with the live link and screenshots.
+3. **Accessibility and mobile pass** (keyboard navigation, contrast, small screens).
+4. Nice-to-haves: grade filters and sorting, logbook stats, tags, a few Playwright end-to-end flows.
 
 ## Known limitations
 
 - Error messages that come from the backend API are in English only.
 - Password reset and email verification are demo flows (no email delivery).
+- **Next.js 16.2.9 has published security advisories** (fixed in 16.4+); upgrade before deploying.
+- The header has no mobile menu yet: on phones the links wrap onto a second line and the header search is hidden (the home page has its own).
+- Crag pages load routes with one request per sector (the API filters routes by sector only).
 - Some account pages fetch each route separately (favorites, logbook, lists). Fine at portfolio scale.

@@ -40,27 +40,48 @@ export default async function RootLayout({
     <html lang={locale} className={`${fraunces.variable} ${inter.variable} h-full`}>
       <body className="min-h-full flex flex-col font-sans antialiased">
         <NextIntlClientProvider>
-          <header className="flex items-center justify-between gap-6 border-b border-border px-6 py-4 sm:px-16">
-            <div className="flex items-center gap-8">
+          <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-border px-6 py-4 sm:px-16">
+            <div className="flex items-center gap-6 sm:gap-8">
               <Link href="/" className="font-display text-xl font-medium text-foreground">
                 {t("Nav.home")}
               </Link>
               <Link href="/zones" className="font-sans text-sm font-semibold text-moss-600 hover:text-moss-800">
                 {t("Nav.zones")}
               </Link>
-              <Suspense>
-                <SearchBar />
-              </Suspense>
+              <div className="hidden md:block">
+                <Suspense>
+                  <SearchBar />
+                </Suspense>
+              </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
               <UserNav user={session} />
               <LocaleSwitcher />
             </div>
           </header>
           {children}
-          <footer className="border-t border-border px-6 py-6 font-sans text-xs text-stone sm:px-16">
-            <p>{t("Footer.about")}</p>
-            <p className="mt-1">{t("Footer.attribution")}</p>
+          <footer className="relative isolate overflow-hidden bg-night px-6 py-12 font-sans text-sm text-white/70 sm:px-16">
+            <div className="contours absolute inset-0 -z-10 text-white/[0.07]" />
+            <div className="flex flex-wrap items-start justify-between gap-8">
+              <div className="max-w-sm">
+                <Link href="/" className="font-display text-xl font-medium text-white">
+                  {t("Nav.home")}
+                </Link>
+                <p className="mt-2">{t("Footer.about")}</p>
+              </div>
+              <nav aria-label={t("Footer.links")} className="flex flex-col gap-2">
+                <Link href="/zones" className="hover:text-white">
+                  {t("Footer.zones")}
+                </Link>
+                <Link href="/search" className="hover:text-white">
+                  {t("Footer.search")}
+                </Link>
+                <Link href="/credits" className="hover:text-white">
+                  {t("Footer.credits")}
+                </Link>
+              </nav>
+            </div>
+            <p className="mt-10 border-t border-white/15 pt-4 text-xs text-white/55">{t("Footer.attribution")}</p>
           </footer>
         </NextIntlClientProvider>
       </body>

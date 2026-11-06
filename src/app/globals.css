@@ -22,6 +22,17 @@
   --color-ochre-600: #b9802a;
 
   --color-border: #cfc4a6;
+
+  /* Grade bands, after the green / blue / red / black convention of guidebooks */
+  --color-grade-beginner: #4f7d43;
+  --color-grade-intermediate: #35607e;
+  --color-grade-advanced: #b4532a;
+  --color-grade-expert: #2a2722;
+
+  /* Night rock, for the footer and photo overlays */
+  --color-night: #1f2a1d;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 @theme inline {
@@ -44,6 +55,12 @@
   --color-stone: var(--color-stone);
   --color-border: var(--color-border);
 
+  --color-grade-beginner: var(--color-grade-beginner);
+  --color-grade-intermediate: var(--color-grade-intermediate);
+  --color-grade-advanced: var(--color-grade-advanced);
+  --color-grade-expert: var(--color-grade-expert);
+  --color-night: var(--color-night);
+
   --font-sans: var(--font-inter);
   --font-display: var(--font-fraunces);
 }
@@ -51,4 +68,123 @@
 body {
   background: var(--color-background);
   color: var(--color-foreground);
+}
+
+/* Topographic contour lines (public/textures/contours.svg) tinted with the current text colour. */
+.contours {
+  background-color: currentColor;
+  mask-image: url("/textures/contours.svg");
+  mask-size: cover;
+  mask-position: center;
+  pointer-events: none;
+}
+
+/* ---- Motion ------------------------------------------------------------- */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes grow-up {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Page-load entrance for hero text; stagger with --delay. */
+.rise-in {
+  animation: rise-in 700ms var(--ease-out-quart) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* Hero photos ease back from a slight zoom while the page loads. */
+.settle {
+  animation: settle 1800ms var(--ease-out-quart) both;
+}
+
+/* Sections fade up as they scroll into view, where scroll-driven animations exist. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+  .grow-on-view {
+    transform-origin: bottom;
+    animation: grow-up linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 35%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise-in,
+  .settle,
+  .reveal,
+  .grow-on-view {
+    animation: none;
+  }
+}
+
+/* ---- Map ---------------------------------------------------------------- */
+
+.map-marker__dot {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--color-chalk);
+  border-radius: 9999px;
+  background: var(--color-moss-600);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+  transition: transform 150ms var(--ease-out-quart), background-color 150ms;
+}
+
+.map-marker:hover .map-marker__dot,
+.map-marker:focus-visible .map-marker__dot {
+  transform: scale(1.2);
+  background: var(--color-ochre-600);
+}
+
+.leaflet-container {
+  font-family: var(--font-inter), sans-serif;
+  background: var(--color-sand);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0.5rem;
+  background: var(--color-chalk);
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
+}
+
+.leaflet-popup-tip {
+  background: var(--color-chalk);
+}
+
+.leaflet-popup-content {
+  margin: 10px 14px;
+}
+
+/* Muted basemap so the markers carry the colour. */
+.leaflet-tile-pane {
+  filter: saturate(0.55) sepia(0.12) brightness(1.03);
 }

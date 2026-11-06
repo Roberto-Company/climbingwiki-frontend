@@ -40,7 +40,11 @@
   },
   "Footer": {
     "about": "ClimbingWiki is a portfolio project, not a production service.",
-    "attribution": "Map data © OpenStreetMap contributors (ODbL). Route data from theCrag contributors (CC BY-NC-SA)."
+    "attribution": "Map data © OpenStreetMap contributors (ODbL). Route data from theCrag contributors (CC BY-NC-SA).",
+    "credits": "Photo credits",
+    "zones": "Areas",
+    "search": "Search",
+    "links": "Footer links"
   },
   "Home": {
     "eyebrow": "Field guide & logbook",
@@ -53,15 +57,22 @@
       "crags": "{count, plural, one {crag} other {crags}}",
       "routes": "{count, plural, one {route} other {routes}}"
     },
-    "startExploring": "Start exploring",
     "allZones": "All zones →",
-    "features": {
-      "title": "What you can do",
-      "guide": "Browse the guide from zone to crag, sector, and route, with grades and pitch lengths.",
-      "log": "Keep a logbook of your ascents, rate routes, and save them to lists.",
-      "community": "Follow other climbers and share photos, topos, and comments."
+    "unavailable": "The catalog is unavailable right now. Try again in a moment.",
+    "heroTitle": "Climbing in the Region of Murcia",
+    "heroSearchLabel": "Search the guide",
+    "zonesTitle": "Climbing areas",
+    "zonesIntro": "From the Leiva walls in Sierra Espuña to the Mula limestone by the La Cierva reservoir.",
+    "mapTitle": "Every crag on the map",
+    "mapIntro": "Tap a dot to open the crag.",
+    "logbook": {
+      "eyebrow": "Your logbook",
+      "title": "Every climb, logged",
+      "body": "Save your ascents with date and style, rate routes, keep lists of projects and follow what your partners are climbing.",
+      "cta": "Create an account",
+      "ctaSignedIn": "Go to your logbook"
     },
-    "unavailable": "The catalog is unavailable right now. Try again in a moment."
+    "heroSearchButton": "Search"
   },
   "Status": {
     "loading": "Loading…",
@@ -236,6 +247,37 @@
         "invalidDate": "Use a valid date.",
         "invalidChoice": "Choose one of the options."
       }
+    },
+    "histogram": {
+      "title": "Routes by grade",
+      "total": "{count, plural, one {# graded route} other {# graded routes}}",
+      "bar": "{count, plural, one {# route} other {# routes}} at {grade}",
+      "bands": {
+        "beginner": "Beginner (up to 5+)",
+        "intermediate": "Intermediate (6a–6b+)",
+        "advanced": "Advanced (6c–7a+)",
+        "expert": "Expert (7b and up)"
+      }
+    },
+    "counts": {
+      "zones": "{count, plural, =0 {No sub-areas} one {# sub-area} other {# sub-areas}}",
+      "crags": "{count, plural, =0 {No crags} one {# crag} other {# crags}}",
+      "sectors": "{count, plural, =0 {No sectors} one {# sector} other {# sectors}}",
+      "routes": "{count, plural, =0 {No routes} one {# route} other {# routes}}",
+      "gradeRange": "{from} to {to}"
+    },
+    "map": {
+      "title": "Location",
+      "crags": "Map of the crags in {name}",
+      "sectors": "Map of the sectors at {name}",
+      "all": "Map of every crag in the guide",
+      "noLocation": "No coordinates yet to place it on the map."
+    },
+    "routeTable": {
+      "number": "No.",
+      "name": "Route",
+      "length": "Length",
+      "grade": "Grade"
     }
   },
   "Search": {
@@ -393,5 +435,17 @@
     "addedBy": "added by",
     "unknownAuthor": "unknown author",
     "count": "{count, plural, one {# item} other {# items}}"
+  },
+  "Media": {
+    "credit": "{place} · Photo: {author}"
+  },
+  "Credits": {
+    "eyebrow": "Credits",
+    "title": "Photos in the guide",
+    "intro": "Every photo comes from Wikimedia Commons and is used under its licence. They have only been resized; click any of them to see the original.",
+    "place": "Place",
+    "author": "Author",
+    "license": "Licence",
+    "maps": "Maps use OpenStreetMap data (ODbL) and OpenTopoMap tiles (CC-BY-SA)."
   }
 }

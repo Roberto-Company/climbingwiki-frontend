@@ -1,27 +1,15 @@
 import { useTranslations } from "next-intl";
+import { gradeBand, type GradeBand } from "@/lib/catalog/grade-bands";
 import type { GradeResponse, RouteType } from "@/lib/types";
 
-const BADGE_BASE = "inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-xs font-semibold";
-
-type GradeBand = "easy" | "medium" | "hard";
+const BADGE_BASE = "inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 font-sans text-xs font-semibold tabular-nums";
 
 const GRADE_BAND_CLASSES: Record<GradeBand, string> = {
-  easy: "bg-moss-200 text-moss-800",
-  medium: "bg-ochre-200 text-foreground",
-  hard: "bg-foreground text-background",
+  beginner: "bg-grade-beginner text-white",
+  intermediate: "bg-grade-intermediate text-white",
+  advanced: "bg-grade-advanced text-white",
+  expert: "bg-grade-expert text-white",
 };
-
-/** French-scale bands: up to 5c, 6a–6c+, 7a and harder. Other systems fall back to "medium". */
-function gradeBand(label: string): GradeBand {
-  const level = Number.parseInt(label, 10);
-  if (Number.isNaN(level)) {
-    return "medium";
-  }
-  if (level <= 5) {
-    return "easy";
-  }
-  return level === 6 ? "medium" : "hard";
-}
 
 export function RouteTypeBadge({ routeType }: { routeType: RouteType }) {
   const t = useTranslations("Catalog.routeTypes");
@@ -38,7 +26,7 @@ export function GradeBadge({ grade }: { grade: GradeResponse | null }) {
     return <span className={`${BADGE_BASE} border border-dashed border-border text-stone`}>{t("noGrade")}</span>;
   }
   return (
-    <span className={`${BADGE_BASE} ${GRADE_BAND_CLASSES[gradeBand(grade.label)]}`} title={t("grade")}>
+    <span className={`${BADGE_BASE} ${GRADE_BAND_CLASSES[gradeBand(grade)]}`} title={t("grade")}>
       {grade.label}
     </span>
   );
