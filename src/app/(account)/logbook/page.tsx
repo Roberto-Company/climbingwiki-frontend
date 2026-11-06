@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { verifySession } from "@/lib/auth/dal";
 import { getRoute, listLogbookEntries } from "@/lib/api";
@@ -11,7 +12,7 @@ type Props = {
 };
 
 export default async function LogbookPage({ searchParams }: Props) {
-  const session = await verifySession();
+  const [session, t] = await Promise.all([verifySession(), getTranslations()]);
   const { page: pageParam } = await searchParams;
   const page = Number(pageParam) || 0;
 
@@ -21,12 +22,12 @@ export default async function LogbookPage({ searchParams }: Props) {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-16">
       <div>
-        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">Your account</p>
-        <h1 className="mt-2 font-display text-3xl font-medium text-foreground">Logbook</h1>
+        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Common.yourAccount")}</p>
+        <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{t("Account.logbook.title")}</h1>
       </div>
 
       {entries.content.length === 0 ? (
-        <EmptyState message="No logged ascents yet." />
+        <EmptyState message={t("Account.logbook.empty")} />
       ) : (
         <div className="flex flex-col gap-3">
           {entries.content.map((entry, i) => (
@@ -36,7 +37,7 @@ export default async function LogbookPage({ searchParams }: Props) {
                   {routes[i].name}
                 </Link>
                 <span className="font-sans text-xs font-semibold uppercase tracking-wide text-moss-600">
-                  {entry.result.replace("_", " ")}
+                  {t(`LogbookResults.${entry.result}`)}
                 </span>
               </div>
               <p className="mt-1 font-sans text-xs text-stone">{entry.attemptDate}</p>
@@ -51,7 +52,7 @@ export default async function LogbookPage({ searchParams }: Props) {
       <Pagination basePath="/logbook" page={entries.page} totalPages={entries.totalPages} />
 
       <section className="flex flex-col gap-3 border-t border-border pt-6">
-        <h2 className="font-display text-xl font-medium text-foreground">Log an ascent</h2>
+        <h2 className="font-display text-xl font-medium text-foreground">{t("Account.logbook.logAscent")}</h2>
         <LogbookForm />
       </section>
     </div>

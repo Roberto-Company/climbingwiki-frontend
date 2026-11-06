@@ -1,0 +1,305 @@
+{
+  "Metadata": {
+    "title": "ClimbingWiki",
+    "description": "A community wiki for climbing zones, crags, sectors, and routes."
+  },
+  "Common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "remove": "Remove",
+    "add": "Add",
+    "adding": "Adding…",
+    "saving": "Saving…",
+    "description": "Description",
+    "routeId": "Route ID",
+    "meters": "{value} m",
+    "yourAccount": "Your account",
+    "catalog": "Catalog",
+    "public": "Public"
+  },
+  "Nav": {
+    "home": "ClimbingWiki",
+    "zones": "Zones",
+    "signIn": "Sign in",
+    "register": "Register",
+    "favorites": "Favorites",
+    "logbook": "Logbook",
+    "lists": "Lists",
+    "following": "Following",
+    "logOut": "Log out"
+  },
+  "LocaleSwitcher": {
+    "switchTo": "Switch language to {language}",
+    "names": {
+      "es": "Spanish",
+      "en": "English"
+    }
+  },
+  "Footer": {
+    "about": "ClimbingWiki is a portfolio project, not a production service.",
+    "attribution": "Map data © OpenStreetMap contributors (ODbL). Route data from theCrag contributors (CC BY-NC-SA)."
+  },
+  "Home": {
+    "eyebrow": "Field guide & logbook",
+    "tagline": "Zones, crags, sectors, and routes — documented by the people who climb them.",
+    "browseZones": "Browse zones",
+    "createAccount": "Create an account",
+    "statsLabel": "In the guide",
+    "stats": {
+      "zones": "{count, plural, one {zone} other {zones}}",
+      "crags": "{count, plural, one {crag} other {crags}}",
+      "routes": "{count, plural, one {route} other {routes}}"
+    },
+    "startExploring": "Start exploring",
+    "allZones": "All zones →",
+    "features": {
+      "title": "What you can do",
+      "guide": "Browse the guide from zone to crag, sector, and route, with grades and pitch lengths.",
+      "log": "Keep a logbook of your ascents, rate routes, and save them to lists.",
+      "community": "Follow other climbers and share photos, topos, and comments."
+    },
+    "unavailable": "The catalog is unavailable right now. Try again in a moment."
+  },
+  "Status": {
+    "loading": "Loading…",
+    "errorEyebrow": "Something went wrong",
+    "errorTitle": "We couldn't load this page",
+    "errorBody": "The server may be down or slow. Try again, or come back in a moment.",
+    "retry": "Try again",
+    "notFoundEyebrow": "404",
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The page you're looking for doesn't exist or was removed.",
+    "backHome": "Back to home"
+  },
+  "Auth": {
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "fullNameOptional": "Full name (optional)",
+    "login": {
+      "eyebrow": "Welcome back",
+      "title": "Sign in",
+      "submit": "Sign in",
+      "pending": "Signing in…",
+      "forgot": "Forgot password?",
+      "createAccount": "Create an account",
+      "registered": "Account created. Sign in to continue.",
+      "reset": "Password reset. Sign in with your new password."
+    },
+    "register": {
+      "eyebrow": "Join the wiki",
+      "title": "Create an account",
+      "submit": "Create account",
+      "pending": "Creating account…",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "forgot": {
+      "eyebrow": "Locked out?",
+      "title": "Reset your password",
+      "submit": "Send reset token",
+      "pending": "Sending…",
+      "devToken": "Demo mode — no email is sent. Reset token:",
+      "continue": "Continue to reset password"
+    },
+    "reset": {
+      "eyebrow": "Almost there",
+      "title": "Set a new password",
+      "token": "Reset token",
+      "newPassword": "New password",
+      "submit": "Reset password",
+      "pending": "Resetting…"
+    },
+    "verify": {
+      "eyebrow": "One more step",
+      "title": "Verify your email",
+      "token": "Verification token",
+      "submit": "Verify email",
+      "pending": "Verifying…",
+      "done": "Your email is verified."
+    }
+  },
+  "Catalog": {
+    "zones": {
+      "title": "Zones",
+      "empty": "No zones have been documented yet."
+    },
+    "zone": {
+      "eyebrow": "Zone",
+      "subZones": "Sub-zones",
+      "noSubZones": "No sub-zones documented yet.",
+      "crags": "Crags",
+      "noCrags": "No crags documented yet in this zone."
+    },
+    "crag": {
+      "eyebrow": "Crag",
+      "approach": "Approach:",
+      "sectors": "Sectors",
+      "noSectors": "No sectors documented yet in this crag."
+    },
+    "sector": {
+      "eyebrow": "Sector",
+      "routes": "Routes",
+      "noRoutes": "No routes documented yet in this sector."
+    },
+    "route": {
+      "eyebrow": "Route",
+      "firstAscent": "First ascent: {name}",
+      "equipment": "Equipment:",
+      "pitches": "Pitches",
+      "noPitches": "No pitch breakdown documented yet.",
+      "pitch": "Pitch {number}",
+      "logThisClimb": "Log this climb",
+      "photos": "Photos",
+      "comments": "Comments",
+      "signInToComment": "Sign in to leave a comment."
+    },
+    "pagination": {
+      "previous": "← Previous",
+      "next": "Next →",
+      "pageOf": "Page {page} of {total}"
+    },
+    "noGrade": "No grade",
+    "grade": "Grade",
+    "routeTypes": {
+      "SPORT": "Sport",
+      "TRAD": "Trad",
+      "BOULDER": "Boulder"
+    }
+  },
+  "Search": {
+    "placeholder": "Search routes, crags…",
+    "submit": "Search",
+    "title": "Search",
+    "hint": "Type a name in the search bar to find routes, crags, or zones.",
+    "resultsEyebrow": "Search results",
+    "count": "{count, plural, =0 {No results found.} one {# result} other {# results}}",
+    "routes": "Routes ({count})",
+    "crags": "Crags ({count})",
+    "zones": "Zones ({count})",
+    "tryAgain": "Try a different search term, or <link>browse all zones</link>."
+  },
+  "Users": {
+    "followers": "<strong>{count}</strong> {count, plural, one {follower} other {followers}}",
+    "following": "<strong>{count}</strong> following",
+    "since": "Since {year}",
+    "editProfile": "Edit profile",
+    "recentAscents": "Recent ascents",
+    "publicLists": "Public lists",
+    "noActivity": "No public activity yet."
+  },
+  "Account": {
+    "favorites": {
+      "title": "Favorites",
+      "empty": "You haven't favorited any routes yet."
+    },
+    "follows": {
+      "title": "Following",
+      "empty": "You aren't following anyone yet."
+    },
+    "lists": {
+      "title": "Your lists",
+      "empty": "You haven't created any route lists yet.",
+      "create": "Create a list"
+    },
+    "list": {
+      "eyebrow": "Route list",
+      "empty": "No routes in this list yet.",
+      "addById": "Add a route by ID"
+    },
+    "logbook": {
+      "title": "Logbook",
+      "empty": "No logged ascents yet.",
+      "logAscent": "Log an ascent"
+    },
+    "profile": {
+      "logOut": "Log out"
+    }
+  },
+  "Personal": {
+    "favorite": {
+      "signIn": "Sign in to favorite",
+      "favorited": "★ Favorited",
+      "add": "☆ Favorite"
+    },
+    "follow": {
+      "signIn": "Sign in to follow",
+      "following": "Following",
+      "follow": "Follow"
+    },
+    "rating": {
+      "none": "No ratings yet",
+      "clear": "Clear my rating",
+      "signIn": "Sign in to rate",
+      "stars": "{score} out of 5 stars"
+    },
+    "lists": {
+      "createToSave": "Create a list to save this route",
+      "addToList": "Add to list…",
+      "addRoute": "Add route",
+      "name": "List name",
+      "public": "Public list",
+      "makePublic": "Make this list public",
+      "create": "Create list",
+      "creating": "Creating…",
+      "deleteList": "Delete list"
+    },
+    "comments": {
+      "empty": "No comments yet.",
+      "placeholder": "Share your experience…",
+      "post": "Post comment",
+      "posting": "Posting…"
+    },
+    "photos": {
+      "empty": "No photos yet.",
+      "url": "Photo URL",
+      "caption": "Caption",
+      "isTopo": "This is a topo",
+      "topo": "Topo",
+      "add": "Add photo",
+      "alt": "Route photo"
+    },
+    "logbook": {
+      "date": "Date",
+      "result": "Result",
+      "notes": "Notes",
+      "submit": "Log ascent"
+    }
+  },
+  "LogbookResults": {
+    "ATTEMPT": "Attempt",
+    "TOP_ROPE": "Top rope",
+    "REDPOINT": "Redpoint",
+    "FLASH": "Flash",
+    "ONSIGHT": "Onsight"
+  },
+  "Roles": {
+    "USER": "User",
+    "MODERATOR": "Moderator",
+    "ADMIN": "Admin"
+  },
+  "Errors": {
+    "loginRequired": "Username and password are required.",
+    "registerRequired": "Username, email, and password are required.",
+    "verifyTokenRequired": "Verification token is required.",
+    "emailRequired": "Email is required.",
+    "resetRequired": "Token and new password are required.",
+    "missingRoute": "Missing route.",
+    "missingUser": "Missing user.",
+    "missingRouteOrScore": "Missing route or score.",
+    "commentRequired": "Comment body is required.",
+    "missingComment": "Missing comment.",
+    "missingCommentData": "Missing comment data.",
+    "invalidPhotoUrl": "Photo URL must be a valid http(s) link.",
+    "missingPhoto": "Missing photo.",
+    "logbookRequired": "Route, date, and result are required.",
+    "missingLogbookData": "Missing logbook entry data.",
+    "missingLogbookEntry": "Missing logbook entry.",
+    "listNameRequired": "List name is required.",
+    "missingListData": "Missing list data.",
+    "missingList": "Missing list.",
+    "missingListOrRoute": "Missing list or route."
+  }
+}

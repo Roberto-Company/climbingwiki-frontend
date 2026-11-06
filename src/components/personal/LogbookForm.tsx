@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState, useEffect, useRef } from "react";
 import { createLogbookEntryAction, type PersonalFormState } from "@/lib/personal/actions";
 import type { LogbookEntryResult } from "@/lib/types";
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export function LogbookForm({ routeId }: Props) {
+  const t = useTranslations();
   const [state, action, pending] = useActionState(createLogbookEntryAction, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -30,12 +32,12 @@ export function LogbookForm({ routeId }: Props) {
       {routeId !== undefined ? (
         <input type="hidden" name="routeId" value={routeId} />
       ) : (
-        <TextField label="Route ID" name="routeId" type="number" required error={state.fieldErrors?.routeId} />
+        <TextField label={t("Common.routeId")} name="routeId" type="number" required error={state.fieldErrors?.routeId} />
       )}
-      <TextField label="Date" name="attemptDate" type="date" required error={state.fieldErrors?.attemptDate} />
+      <TextField label={t("Personal.logbook.date")} name="attemptDate" type="date" required error={state.fieldErrors?.attemptDate} />
       <div className="flex flex-col gap-1.5">
         <label htmlFor="result" className="font-sans text-sm font-medium text-foreground">
-          Result
+          {t("Personal.logbook.result")}
         </label>
         <select
           id="result"
@@ -46,15 +48,15 @@ export function LogbookForm({ routeId }: Props) {
         >
           {RESULTS.map((result) => (
             <option key={result} value={result}>
-              {result.replace("_", " ")}
+              {t(`LogbookResults.${result}`)}
             </option>
           ))}
         </select>
       </div>
-      <TextField label="Notes" name="notes" />
+      <TextField label={t("Personal.logbook.notes")} name="notes" />
       {state.error && <FormMessage variant="error">{state.error}</FormMessage>}
       <Button type="submit" disabled={pending} className="self-start">
-        {pending ? "Saving…" : "Log ascent"}
+        {pending ? t("Common.saving") : t("Personal.logbook.submit")}
       </Button>
     </form>
   );

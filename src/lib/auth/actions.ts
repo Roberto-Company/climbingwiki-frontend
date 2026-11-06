@@ -1,5 +1,6 @@
 "use server";
 
+import { validationError } from "@/i18n/validation-error";
 import { redirect } from "next/navigation";
 import { apiFetch, ApiError, type ValidationErrors } from "@/lib/api";
 import type {
@@ -30,7 +31,7 @@ export async function loginAction(
   const password = String(formData.get("password") ?? "");
 
   if (!username || !password) {
-    return { error: "Username and password are required." };
+    return validationError("loginRequired");
   }
 
   try {
@@ -65,7 +66,7 @@ export async function registerAction(
   const fullName = String(formData.get("fullName") ?? "").trim();
 
   if (!username || !email || !password) {
-    return { error: "Username, email, and password are required." };
+    return validationError("registerRequired");
   }
 
   try {
@@ -103,7 +104,7 @@ export async function verifyEmailAction(
   const token = String(formData.get("token") ?? "").trim();
 
   if (!token) {
-    return { error: "Verification token is required." };
+    return validationError("verifyTokenRequired");
   }
 
   try {
@@ -128,7 +129,7 @@ export async function forgotPasswordAction(
   const email = String(formData.get("email") ?? "").trim();
 
   if (!email) {
-    return { error: "Email is required." };
+    return validationError("emailRequired");
   }
 
   try {
@@ -153,7 +154,7 @@ export async function resetPasswordAction(
   const newPassword = String(formData.get("newPassword") ?? "");
 
   if (!token || !newPassword) {
-    return { error: "Token and new password are required." };
+    return validationError("resetRequired");
   }
 
   try {

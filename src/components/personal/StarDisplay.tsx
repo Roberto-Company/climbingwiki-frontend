@@ -1,16 +1,19 @@
+import { useTranslations } from "next-intl";
+
 type Props = {
   score: number;
   size?: "sm" | "md";
 };
 
 export function StarDisplay({ score, size = "sm" }: Props) {
+  const t = useTranslations("Personal.rating");
   const sizeClass = size === "sm" ? "text-sm" : "text-lg";
   const fills = Array.from({ length: 5 }, (_, i) => Math.min(Math.max(score - i, 0), 1));
 
   return (
     <span
       className={`inline-flex items-center gap-0.5 font-sans ${sizeClass} text-ochre-600`}
-      aria-label={`${score} out of 5 stars`}
+      aria-label={t("stars", { score })}
     >
       {fills.map((fill, i) => (
         <span key={i} className="relative inline-block leading-none" aria-hidden>

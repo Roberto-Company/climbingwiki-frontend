@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { FormMessage } from "@/components/ui/FormMessage";
 
@@ -6,21 +7,21 @@ type Props = {
 };
 
 export default async function LoginPage({ searchParams }: Props) {
-  const { registered, reset } = await searchParams;
+  const [{ registered, reset }, t] = await Promise.all([searchParams, getTranslations("Auth.login")]);
 
   return (
     <div className="flex flex-col gap-6">
       <div>
         <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">
-          Welcome back
+          {t("eyebrow")}
         </p>
-        <h1 className="mt-2 font-display text-3xl font-medium text-foreground">Sign in</h1>
+        <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{t("title")}</h1>
       </div>
       {registered && (
-        <FormMessage variant="success">Account created. Sign in to continue.</FormMessage>
+        <FormMessage variant="success">{t("registered")}</FormMessage>
       )}
       {reset && (
-        <FormMessage variant="success">Password reset. Sign in with your new password.</FormMessage>
+        <FormMessage variant="success">{t("reset")}</FormMessage>
       )}
       <LoginForm />
     </div>

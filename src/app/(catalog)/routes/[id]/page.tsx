@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import {
   ApiError,
@@ -41,7 +42,7 @@ export default async function RouteDetailPage({ params }: Props) {
     throw error;
   }
 
-  const session = await getSession();
+  const [session, t] = await Promise.all([getSession(), getTranslations()]);
 
   const [pitches, grades, favorites, ratings, comments, photos, userLists] = await Promise.all([
     listPitches({ routeId }),
@@ -66,23 +67,23 @@ export default async function RouteDetailPage({ params }: Props) {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-16">
       <div>
-        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">Route</p>
+        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Catalog.route.eyebrow")}</p>
         <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{route.name}</h1>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <RouteTypeBadge routeType={route.routeType} />
           <GradeBadge grade={routeGrade} />
-          {routeLength !== null && <span className="font-sans text-sm text-stone">{routeLength} m</span>}
+          {routeLength !== null && <span className="font-sans text-sm text-stone">{t("Common.meters", { value: routeLength })}</span>}
         </div>
         {route.firstAscentBy && (
           <p className="mt-2 font-sans text-sm text-stone">
-            First ascent: {route.firstAscentBy}
+            {t("Catalog.route.firstAscent", { name: route.firstAscentBy })}
             {route.firstAscentDate && ` (${route.firstAscentDate})`}
           </p>
         )}
         {route.description && <p className="mt-3 max-w-xl font-sans text-base text-stone">{route.description}</p>}
         {route.equipmentNotes && (
           <p className="mt-3 max-w-xl font-sans text-sm text-stone">
-            <span className="font-semibold text-foreground">Equipment: </span>
+            <span className="font-semibold text-foreground">{t("Catalog.route.equipment")} </span>
             {route.equipmentNotes}
           </p>
         )}
@@ -115,17 +116,19 @@ export default async function RouteDetailPage({ params }: Props) {
       </div>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-display text-xl font-medium text-foreground">Pitches</h2>
+        <h2 className="font-display text-xl font-medium text-foreground">{t("Catalog.route.pitches")}</h2>
         {sortedPitches.length === 0 ? (
-          <EmptyState message="No pitch breakdown documented yet." />
+          <EmptyState message={t("Catalog.route.noPitches")} />
         ) : (
           <ol className="flex flex-col gap-3">
             {sortedPitches.map((pitch) => (
               <li key={pitch.id} className="rounded-lg border border-border bg-surface px-5 py-4">
                 <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="font-display text-base font-medium text-foreground">Pitch {pitch.orderIndex}</h3>
+                  <h3 className="font-display text-base font-medium text-foreground">
+                    {t("Catalog.route.pitch", { number: pitch.orderIndex })}
+                  </h3>
                   <div className="flex items-center gap-2">
-                    {pitch.lengthM !== null && <span className="font-sans text-xs text-stone">{pitch.lengthM} m</span>}
+                    {pitch.lengthM !== null && <span className="font-sans text-xs text-stone">{t("Common.meters", { value: pitch.lengthM })}</span>}
                     <GradeBadge grade={pitch.gradeId !== null ? gradeLookup.get(pitch.gradeId) ?? null : null} />
                   </div>
                 </div>
@@ -138,24 +141,24 @@ export default async function RouteDetailPage({ params }: Props) {
 
       {session && (
         <section className="flex flex-col gap-3">
-          <h2 className="font-display text-xl font-medium text-foreground">Log this climb</h2>
+          <h2 className="font-display text-xl font-medium text-foreground">{t("Catalog.route.logThisClimb")}</h2>
           <LogbookForm routeId={routeId} />
         </section>
       )}
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-display text-xl font-medium text-foreground">Photos</h2>
+        <h2 className="font-display text-xl font-medium text-foreground">{t("Catalog.route.photos")}</h2>
         <PhotoGallery photos={photos.content} session={session} />
         {session && <PhotoForm routeId={routeId} />}
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="font-display text-xl font-medium text-foreground">Comments</h2>
+        <h2 className="font-display text-xl font-medium text-foreground">{t("Catalog.route.comments")}</h2>
         <CommentList comments={comments.content} session={session} />
         {session ? (
           <CommentForm routeId={routeId} />
         ) : (
-          <p className="font-sans text-sm text-stone">Sign in to leave a comment.</p>
+          <p className="font-sans text-sm text-stone">{t("Catalog.route.signInToComment")}</p>
         )}
       </section>
     </div>

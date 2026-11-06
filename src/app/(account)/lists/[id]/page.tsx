@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ApiError, getRoute, getRouteList, listListRoutes } from "@/lib/api";
@@ -15,7 +16,7 @@ type Props = {
 export default async function RouteListDetailPage({ params }: Props) {
   const { id } = await params;
   const listId = Number(id);
-  const session = await verifySession();
+  const [session, t] = await Promise.all([verifySession(), getTranslations()]);
 
   let list;
   try {
@@ -38,7 +39,7 @@ export default async function RouteListDetailPage({ params }: Props) {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-16">
       <div>
-        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">Route list</p>
+        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Account.list.eyebrow")}</p>
         <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{list.name}</h1>
         {list.description && <p className="mt-2 font-sans text-base text-stone">{list.description}</p>}
       </div>
@@ -50,7 +51,7 @@ export default async function RouteListDetailPage({ params }: Props) {
       )}
 
       {routes.length === 0 ? (
-        <EmptyState message="No routes in this list yet." />
+        <EmptyState message={t("Account.list.empty")} />
       ) : (
         <div className="flex flex-col gap-3">
           {routes.map((route) => (
@@ -61,7 +62,7 @@ export default async function RouteListDetailPage({ params }: Props) {
               <Link href={`/routes/${route.id}`} className="flex-1">
                 <h3 className="font-display text-lg font-medium text-foreground">{route.name}</h3>
                 <p className="font-sans text-xs font-semibold uppercase tracking-wide text-moss-600">
-                  {route.routeType}
+                  {t(`Catalog.routeTypes.${route.routeType}`)}
                 </p>
               </Link>
               {isOwner && <RemoveFromListButton listId={listId} routeId={route.id} />}
@@ -72,7 +73,7 @@ export default async function RouteListDetailPage({ params }: Props) {
 
       {isOwner && (
         <section className="flex flex-col gap-3 border-t border-border pt-6">
-          <h2 className="font-display text-xl font-medium text-foreground">Add a route by ID</h2>
+          <h2 className="font-display text-xl font-medium text-foreground">{t("Account.list.addById")}</h2>
           <AddRouteToListByIdForm listId={listId} />
         </section>
       )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useActionState } from "react";
 import { toggleFavoriteAction, type PersonalFormState } from "@/lib/personal/actions";
@@ -14,12 +15,13 @@ type Props = {
 };
 
 export function FavoriteButton({ routeId, isFavorited, isAuthenticated }: Props) {
+  const t = useTranslations("Personal.favorite");
   const [state, action, pending] = useActionState(toggleFavoriteAction, initialState);
 
   if (!isAuthenticated) {
     return (
       <Link href="/login" className="font-sans text-sm font-semibold text-moss-600 hover:text-moss-800">
-        Sign in to favorite
+        {t("signIn")}
       </Link>
     );
   }
@@ -29,7 +31,7 @@ export function FavoriteButton({ routeId, isFavorited, isAuthenticated }: Props)
       <input type="hidden" name="routeId" value={routeId} />
       <input type="hidden" name="intent" value={isFavorited ? "remove" : "add"} />
       <Button type="submit" variant={isFavorited ? "primary" : "ghost"} disabled={pending}>
-        {isFavorited ? "★ Favorited" : "☆ Favorite"}
+        {isFavorited ? t("favorited") : t("add")}
       </Button>
       {state.error && <p className="mt-1 font-sans text-xs text-red-700">{state.error}</p>}
     </form>

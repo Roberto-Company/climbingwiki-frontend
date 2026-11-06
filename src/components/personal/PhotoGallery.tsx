@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import type { PhotoResponse } from "@/lib/types";
 import type { Session } from "@/lib/auth/session";
 import { canModify } from "@/lib/auth/roles";
@@ -11,8 +12,10 @@ type Props = {
 };
 
 export function PhotoGallery({ photos, session }: Props) {
+  const t = useTranslations("Personal.photos");
+
   if (photos.length === 0) {
-    return <EmptyState message="No photos yet." />;
+    return <EmptyState message={t("empty")} />;
   }
 
   return (
@@ -23,7 +26,7 @@ export function PhotoGallery({ photos, session }: Props) {
             // eslint-disable-next-line @next/next/no-img-element -- arbitrary user-supplied URLs, no upload/optimization pipeline (D29)
             <img
               src={photo.url}
-              alt={photo.caption ?? "Route photo"}
+              alt={photo.caption ?? t("alt")}
               width={400}
               height={300}
               loading="lazy"
@@ -32,7 +35,7 @@ export function PhotoGallery({ photos, session }: Props) {
           )}
           {photo.isTopo && (
             <span className="self-start rounded-full bg-ochre-50 px-2 py-0.5 font-sans text-xs font-semibold uppercase tracking-wide text-ochre-600">
-              Topo
+              {t("topo")}
             </span>
           )}
           {photo.caption && <figcaption className="font-sans text-xs text-stone">{photo.caption}</figcaption>}

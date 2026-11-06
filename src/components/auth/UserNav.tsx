@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { logoutAction } from "@/lib/auth/actions";
 import type { Role } from "@/lib/types";
@@ -7,14 +8,16 @@ type Props = {
 };
 
 export function UserNav({ user }: Props) {
+  const t = useTranslations("Nav");
+
   if (!user) {
     return (
       <div className="flex items-center gap-4 font-sans text-sm">
         <Link href="/login" className="font-medium text-moss-600 hover:text-moss-800">
-          Sign in
+          {t("signIn")}
         </Link>
         <Link href="/register" className="font-medium text-moss-600 hover:text-moss-800">
-          Register
+          {t("register")}
         </Link>
       </div>
     );
@@ -23,23 +26,23 @@ export function UserNav({ user }: Props) {
   return (
     <div className="flex items-center gap-4 font-sans text-sm">
       <Link href="/favorites" className="font-medium text-stone hover:text-moss-600">
-        Favorites
+        {t("favorites")}
       </Link>
       <Link href="/logbook" className="font-medium text-stone hover:text-moss-600">
-        Logbook
+        {t("logbook")}
       </Link>
       <Link href="/lists" className="font-medium text-stone hover:text-moss-600">
-        Lists
+        {t("lists")}
       </Link>
       <Link href="/follows" className="font-medium text-stone hover:text-moss-600">
-        Following
+        {t("following")}
       </Link>
       <Link href="/profile" className="font-medium text-foreground hover:text-moss-600">
         {user.username}
       </Link>
       <form action={logoutAction}>
         <button type="submit" className="font-medium text-stone hover:text-moss-600">
-          Log out
+          {t("logOut")}
         </button>
       </form>
     </div>

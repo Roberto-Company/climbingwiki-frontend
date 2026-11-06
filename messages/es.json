@@ -1,0 +1,305 @@
+{
+  "Metadata": {
+    "title": "ClimbingWiki",
+    "description": "Una wiki colaborativa de zonas, escuelas, sectores y vías de escalada."
+  },
+  "Common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "remove": "Quitar",
+    "add": "Añadir",
+    "adding": "Añadiendo…",
+    "saving": "Guardando…",
+    "description": "Descripción",
+    "routeId": "ID de la vía",
+    "meters": "{value} m",
+    "yourAccount": "Tu cuenta",
+    "catalog": "Catálogo",
+    "public": "Pública"
+  },
+  "Nav": {
+    "home": "ClimbingWiki",
+    "zones": "Zonas",
+    "signIn": "Entrar",
+    "register": "Registrarse",
+    "favorites": "Favoritas",
+    "logbook": "Ascensos",
+    "lists": "Listas",
+    "following": "Siguiendo",
+    "logOut": "Salir"
+  },
+  "LocaleSwitcher": {
+    "switchTo": "Cambiar idioma a {language}",
+    "names": {
+      "es": "español",
+      "en": "inglés"
+    }
+  },
+  "Footer": {
+    "about": "ClimbingWiki es un proyecto de portfolio, no un servicio en producción.",
+    "attribution": "Datos de mapa © colaboradores de OpenStreetMap (ODbL). Datos de vías de los colaboradores de theCrag (CC BY-NC-SA)."
+  },
+  "Home": {
+    "eyebrow": "Guía de escalada y libreta de ascensos",
+    "tagline": "Zonas, escuelas, sectores y vías, documentadas por quienes las escalan.",
+    "browseZones": "Explorar zonas",
+    "createAccount": "Crear una cuenta",
+    "statsLabel": "En la guía",
+    "stats": {
+      "zones": "{count, plural, one {zona} other {zonas}}",
+      "crags": "{count, plural, one {escuela} other {escuelas}}",
+      "routes": "{count, plural, one {vía} other {vías}}"
+    },
+    "startExploring": "Empieza a explorar",
+    "allZones": "Todas las zonas →",
+    "features": {
+      "title": "Qué puedes hacer",
+      "guide": "Recorre la guía de zona a escuela, sector y vía, con grados y longitud de cada largo.",
+      "log": "Apunta tus ascensos, valora vías y guárdalas en listas.",
+      "community": "Sigue a otros escaladores y comparte fotos, croquis y comentarios."
+    },
+    "unavailable": "El catálogo no está disponible ahora mismo. Inténtalo de nuevo en un momento."
+  },
+  "Status": {
+    "loading": "Cargando…",
+    "errorEyebrow": "Algo ha fallado",
+    "errorTitle": "No hemos podido cargar esta página",
+    "errorBody": "Puede que el servidor esté caído o vaya lento. Inténtalo de nuevo o vuelve en un momento.",
+    "retry": "Reintentar",
+    "notFoundEyebrow": "404",
+    "notFoundTitle": "Página no encontrada",
+    "notFoundBody": "La página que buscas no existe o se ha eliminado.",
+    "backHome": "Volver al inicio"
+  },
+  "Auth": {
+    "username": "Usuario",
+    "password": "Contraseña",
+    "email": "Correo electrónico",
+    "fullNameOptional": "Nombre completo (opcional)",
+    "login": {
+      "eyebrow": "Hola de nuevo",
+      "title": "Entrar",
+      "submit": "Entrar",
+      "pending": "Entrando…",
+      "forgot": "¿Has olvidado la contraseña?",
+      "createAccount": "Crear una cuenta",
+      "registered": "Cuenta creada. Entra para continuar.",
+      "reset": "Contraseña cambiada. Entra con tu nueva contraseña."
+    },
+    "register": {
+      "eyebrow": "Únete a la wiki",
+      "title": "Crear una cuenta",
+      "submit": "Crear cuenta",
+      "pending": "Creando cuenta…",
+      "haveAccount": "¿Ya tienes cuenta?",
+      "signIn": "Entrar"
+    },
+    "forgot": {
+      "eyebrow": "¿No puedes entrar?",
+      "title": "Recupera tu contraseña",
+      "submit": "Enviar código",
+      "pending": "Enviando…",
+      "devToken": "Modo demo: no se envía ningún correo. Código de recuperación:",
+      "continue": "Continuar para cambiar la contraseña"
+    },
+    "reset": {
+      "eyebrow": "Ya casi está",
+      "title": "Elige una nueva contraseña",
+      "token": "Código de recuperación",
+      "newPassword": "Nueva contraseña",
+      "submit": "Cambiar contraseña",
+      "pending": "Cambiando…"
+    },
+    "verify": {
+      "eyebrow": "Un último paso",
+      "title": "Verifica tu correo",
+      "token": "Código de verificación",
+      "submit": "Verificar correo",
+      "pending": "Verificando…",
+      "done": "Tu correo está verificado."
+    }
+  },
+  "Catalog": {
+    "zones": {
+      "title": "Zonas",
+      "empty": "Todavía no hay zonas documentadas."
+    },
+    "zone": {
+      "eyebrow": "Zona",
+      "subZones": "Subzonas",
+      "noSubZones": "Todavía no hay subzonas documentadas.",
+      "crags": "Escuelas",
+      "noCrags": "Todavía no hay escuelas documentadas en esta zona."
+    },
+    "crag": {
+      "eyebrow": "Escuela",
+      "approach": "Aproximación:",
+      "sectors": "Sectores",
+      "noSectors": "Todavía no hay sectores documentados en esta escuela."
+    },
+    "sector": {
+      "eyebrow": "Sector",
+      "routes": "Vías",
+      "noRoutes": "Todavía no hay vías documentadas en este sector."
+    },
+    "route": {
+      "eyebrow": "Vía",
+      "firstAscent": "Primera ascensión: {name}",
+      "equipment": "Equipamiento:",
+      "pitches": "Largos",
+      "noPitches": "Todavía no se han documentado los largos.",
+      "pitch": "Largo {number}",
+      "logThisClimb": "Apunta este ascenso",
+      "photos": "Fotos",
+      "comments": "Comentarios",
+      "signInToComment": "Entra para dejar un comentario."
+    },
+    "pagination": {
+      "previous": "← Anterior",
+      "next": "Siguiente →",
+      "pageOf": "Página {page} de {total}"
+    },
+    "noGrade": "Sin grado",
+    "grade": "Grado",
+    "routeTypes": {
+      "SPORT": "Deportiva",
+      "TRAD": "Clásica",
+      "BOULDER": "Bloque"
+    }
+  },
+  "Search": {
+    "placeholder": "Busca vías, escuelas…",
+    "submit": "Buscar",
+    "title": "Buscar",
+    "hint": "Escribe un nombre en la barra de búsqueda para encontrar vías, escuelas o zonas.",
+    "resultsEyebrow": "Resultados",
+    "count": "{count, plural, =0 {No hay resultados.} one {# resultado} other {# resultados}}",
+    "routes": "Vías ({count})",
+    "crags": "Escuelas ({count})",
+    "zones": "Zonas ({count})",
+    "tryAgain": "Prueba con otra búsqueda o <link>explora todas las zonas</link>."
+  },
+  "Users": {
+    "followers": "<strong>{count}</strong> {count, plural, one {seguidor} other {seguidores}}",
+    "following": "<strong>{count}</strong> siguiendo",
+    "since": "Desde {year}",
+    "editProfile": "Editar perfil",
+    "recentAscents": "Ascensos recientes",
+    "publicLists": "Listas públicas",
+    "noActivity": "Todavía no hay actividad pública."
+  },
+  "Account": {
+    "favorites": {
+      "title": "Favoritas",
+      "empty": "Todavía no has marcado ninguna vía como favorita."
+    },
+    "follows": {
+      "title": "Siguiendo",
+      "empty": "Todavía no sigues a nadie."
+    },
+    "lists": {
+      "title": "Tus listas",
+      "empty": "Todavía no has creado ninguna lista de vías.",
+      "create": "Crear una lista"
+    },
+    "list": {
+      "eyebrow": "Lista de vías",
+      "empty": "Todavía no hay vías en esta lista.",
+      "addById": "Añadir una vía por su ID"
+    },
+    "logbook": {
+      "title": "Ascensos",
+      "empty": "Todavía no has apuntado ningún ascenso.",
+      "logAscent": "Apuntar un ascenso"
+    },
+    "profile": {
+      "logOut": "Salir"
+    }
+  },
+  "Personal": {
+    "favorite": {
+      "signIn": "Entra para guardarla en favoritas",
+      "favorited": "★ Favorita",
+      "add": "☆ Favorita"
+    },
+    "follow": {
+      "signIn": "Entra para seguir",
+      "following": "Siguiendo",
+      "follow": "Seguir"
+    },
+    "rating": {
+      "none": "Todavía sin valoraciones",
+      "clear": "Borrar mi valoración",
+      "signIn": "Entra para valorar",
+      "stars": "{score} de 5 estrellas"
+    },
+    "lists": {
+      "createToSave": "Crea una lista para guardar esta vía",
+      "addToList": "Añadir a una lista…",
+      "addRoute": "Añadir vía",
+      "name": "Nombre de la lista",
+      "public": "Lista pública",
+      "makePublic": "Hacer pública esta lista",
+      "create": "Crear lista",
+      "creating": "Creando…",
+      "deleteList": "Eliminar lista"
+    },
+    "comments": {
+      "empty": "Todavía no hay comentarios.",
+      "placeholder": "Cuenta tu experiencia…",
+      "post": "Publicar comentario",
+      "posting": "Publicando…"
+    },
+    "photos": {
+      "empty": "Todavía no hay fotos.",
+      "url": "URL de la foto",
+      "caption": "Pie de foto",
+      "isTopo": "Es un croquis",
+      "topo": "Croquis",
+      "add": "Añadir foto",
+      "alt": "Foto de la vía"
+    },
+    "logbook": {
+      "date": "Fecha",
+      "result": "Resultado",
+      "notes": "Notas",
+      "submit": "Apuntar ascenso"
+    }
+  },
+  "LogbookResults": {
+    "ATTEMPT": "Intento",
+    "TOP_ROPE": "Top rope",
+    "REDPOINT": "Encadenada",
+    "FLASH": "Flash",
+    "ONSIGHT": "A vista"
+  },
+  "Roles": {
+    "USER": "Usuario",
+    "MODERATOR": "Moderador",
+    "ADMIN": "Administrador"
+  },
+  "Errors": {
+    "loginRequired": "El usuario y la contraseña son obligatorios.",
+    "registerRequired": "El usuario, el correo y la contraseña son obligatorios.",
+    "verifyTokenRequired": "El código de verificación es obligatorio.",
+    "emailRequired": "El correo es obligatorio.",
+    "resetRequired": "El código y la nueva contraseña son obligatorios.",
+    "missingRoute": "Falta la vía.",
+    "missingUser": "Falta el usuario.",
+    "missingRouteOrScore": "Falta la vía o la puntuación.",
+    "commentRequired": "El comentario no puede estar vacío.",
+    "missingComment": "Falta el comentario.",
+    "missingCommentData": "Faltan datos del comentario.",
+    "invalidPhotoUrl": "La URL de la foto debe ser un enlace http(s) válido.",
+    "missingPhoto": "Falta la foto.",
+    "logbookRequired": "La vía, la fecha y el resultado son obligatorios.",
+    "missingLogbookData": "Faltan datos del ascenso.",
+    "missingLogbookEntry": "Falta el ascenso.",
+    "listNameRequired": "El nombre de la lista es obligatorio.",
+    "missingListData": "Faltan datos de la lista.",
+    "missingList": "Falta la lista.",
+    "missingListOrRoute": "Falta la lista o la vía."
+  }
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import { deleteLogbookEntryAction, type PersonalFormState } from "@/lib/personal/actions";
 
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export function LogbookEntryDeleteButton({ id }: Props) {
+  const t = useTranslations("Common");
   const [state, action, pending] = useActionState(deleteLogbookEntryAction, initialState);
 
   return (
@@ -20,7 +22,7 @@ export function LogbookEntryDeleteButton({ id }: Props) {
         disabled={pending}
         className="font-sans text-xs font-medium text-stone hover:text-red-700"
       >
-        Delete
+        {t("delete")}
       </button>
       {state.error && <p className="font-sans text-xs text-red-700">{state.error}</p>}
     </form>
