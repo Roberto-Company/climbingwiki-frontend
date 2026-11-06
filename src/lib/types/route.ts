@@ -29,4 +29,8 @@ export interface RouteResponse {
   createdAt: string;
   updatedAt: string;
   tags: string[];
+  /** Grade of the hardest pitch; null when no pitch is graded. */
+  hardestGradeId: number | null;
+  /** Sum of pitch lengths in metres; null when no pitch has a length. */
+  totalLengthM: number | null;
 }

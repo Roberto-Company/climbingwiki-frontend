@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { ApiError, getSector, listGrades, listPitches, listRoutes } from "@/lib/api";
-import { buildGradeLookup, hardestGrade, totalLength } from "@/lib/catalog/route-summary";
+import { ApiError, getSector, listGrades, listRoutes } from "@/lib/api";
+import { buildGradeLookup } from "@/lib/catalog/route-summary";
 import { CatalogCard } from "@/components/catalog/CatalogCard";
 import { EmptyState } from "@/components/catalog/EmptyState";
 import { Pagination } from "@/components/catalog/Pagination";
@@ -29,8 +29,6 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
 
   const [routes, grades] = await Promise.all([listRoutes({ sectorId, page }), listGrades()]);
   const gradeLookup = buildGradeLookup(grades);
-  // One request per listed route (max one page). Replace with a batched endpoint if pages grow.
-  const pitchPages = await Promise.all(routes.content.map((route) => listPitches({ routeId: route.id })));
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-16">
@@ -51,9 +49,9 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
           <EmptyState message="No routes documented yet in this sector." />
         ) : (
           <div className="flex flex-col gap-3">
-            {routes.content.map((route, index) => {
-              const pitches = pitchPages[index].content;
-              const length = totalLength(pitches);
+            {routes.content.map((route) => {
+              const length = route.totalLengthM;
+              const grade = route.hardestGradeId !== null ? (gradeLookup.get(route.hardestGradeId) ?? null) : null;
               return (
                 <CatalogCard
                   key={route.id}
@@ -64,7 +62,7 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
                     <>
                       {length !== null && <span className="font-sans text-xs text-stone">{length} m</span>}
                       <RouteTypeBadge routeType={route.routeType} />
-                      <GradeBadge grade={hardestGrade(pitches, gradeLookup)} />
+                      <GradeBadge grade={grade} />
                     </>
                   }
                 />
