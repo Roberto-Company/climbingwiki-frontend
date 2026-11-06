@@ -19,7 +19,8 @@ export type PhotoKey =
   | "fontainebleau-boulders"
   | "hanshelleren-cave"
   | "el-capitan"
-  | "midnight-lightning";
+  | "midnight-lightning"
+  | "pottensteiner-wand";
 
 /**
  * Cover photos of zones and crags, by normalised name. Each photo was taken in or right next to the
@@ -41,6 +42,8 @@ const PLACE_PHOTOS: Readonly<Record<string, PhotoKey>> = {
   francia: "ceuse-biographie",
   "provenza-alpes-costa azul": "verdon-wall",
   fontainebleau: "fontainebleau-boulders",
+  alemania: "pottensteiner-wand",
+  frankenjura: "pottensteiner-wand",
   noruega: "hanshelleren-cave",
   flatanger: "hanshelleren-cave",
   "estados unidos": "el-capitan",
