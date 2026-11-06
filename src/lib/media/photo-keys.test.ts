@@ -12,11 +12,11 @@ describe("photoKeyForPlace", () => {
   it("matches crag names too", () => {
     expect(photoKeyForPlace("Céüse")).toBe("ceuse-biographie");
     expect(photoKeyForPlace("Camp 4")).toBe("midnight-lightning");
+    expect(photoKeyForPlace("Alemania")).toBe("pottensteiner-wand");
   });
 
   it("returns null for places without a photo of their own", () => {
     expect(photoKeyForPlace("Cartagena")).toBeNull();
-    expect(photoKeyForPlace("Frankenjura")).toBeNull();
     expect(photoKeyForPlace(null)).toBeNull();
   });
 });

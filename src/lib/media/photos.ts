@@ -19,6 +19,7 @@ import fontainebleauBoulders from "@/assets/photos/fontainebleau-boulders.jpg";
 import hanshellerenCave from "@/assets/photos/hanshelleren-cave.jpg";
 import elCapitan from "@/assets/photos/el-capitan.jpg";
 import midnightLightning from "@/assets/photos/midnight-lightning.jpg";
+import pottensteinerWand from "@/assets/photos/pottensteiner-wand.jpg";
 import { photoKeyForPlace, type PhotoKey } from "./photo-keys";
 
 export interface Photo {
@@ -219,6 +220,15 @@ export const PHOTOS: Readonly<Record<PhotoKey, Photo>> = {
     ...CC_BY_2,
     sourceUrl: `${COMMONS}Midnight_Lightning_yosemite.jpg`,
     focus: "45% 35%",
+  },
+  "pottensteiner-wand": {
+    key: "pottensteiner-wand",
+    image: pottensteinerWand,
+    place: "Pottensteiner Wand, Frankenjura",
+    author: "Nemracc",
+    ...CC_BY_SA_4,
+    sourceUrl: `${COMMONS}Rock_climbing,_Pottensteiner_Wand,_Franconian_Switzerland_01.jpg`,
+    focus: "45% 45%",
   },
 };
 
