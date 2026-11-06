@@ -1,3 +1,7 @@
+import { SourceNote } from "@/components/catalog/SourceNote";
+
+import { splitAttribution } from "@/lib/catalog/attribution";
+
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import {
@@ -58,6 +62,7 @@ export default async function RouteDetailPage({ params }: Props) {
   const gradeLookup = buildGradeLookup(grades);
   const routeGrade = hardestGrade(sortedPitches, gradeLookup);
   const routeLength = totalLength(sortedPitches);
+  const routeText = splitAttribution(route.description);
   const isFavorited = session ? favorites.some((f) => f.userId === session.userId) : false;
   const average = ratings.length
     ? ratings.reduce((sum, rating) => sum + rating.score, 0) / ratings.length
@@ -80,7 +85,7 @@ export default async function RouteDetailPage({ params }: Props) {
             {route.firstAscentDate && ` (${route.firstAscentDate})`}
           </p>
         )}
-        {route.description && <p className="mt-3 max-w-xl font-sans text-base text-stone">{route.description}</p>}
+        {routeText.body && <p className="mt-3 max-w-xl font-sans text-base text-stone">{routeText.body}</p>}
         {route.equipmentNotes && (
           <p className="mt-3 max-w-xl font-sans text-sm text-stone">
             <span className="font-semibold text-foreground">{t("Catalog.route.equipment")} </span>
@@ -161,6 +166,8 @@ export default async function RouteDetailPage({ params }: Props) {
           <p className="font-sans text-sm text-stone">{t("Catalog.route.signInToComment")}</p>
         )}
       </section>
+
+      <SourceNote sources={[routeText.source]} />
     </div>
   );
 }

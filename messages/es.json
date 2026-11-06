@@ -167,7 +167,8 @@
       "SPORT": "Deportiva",
       "TRAD": "Clásica",
       "BOULDER": "Bloque"
-    }
+    },
+    "source": "Fuente: {source}"
   },
   "Search": {
     "placeholder": "Busca vías, escuelas…",

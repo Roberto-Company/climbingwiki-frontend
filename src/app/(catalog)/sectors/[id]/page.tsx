@@ -1,3 +1,7 @@
+import { SourceNote } from "@/components/catalog/SourceNote";
+
+import { splitAttribution } from "@/lib/catalog/attribution";
+
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ApiError, getSector, listGrades, listRoutes } from "@/lib/api";
@@ -34,13 +38,15 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
     getTranslations(),
   ]);
   const gradeLookup = buildGradeLookup(grades);
+  const sectorText = splitAttribution(sector.description);
+  const routeTexts = new Map(routes.content.map((route) => [route.id, splitAttribution(route.description)]));
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-16">
       <div>
         <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Catalog.sector.eyebrow")}</p>
         <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{sector.name}</h1>
-        {sector.description && <p className="mt-3 max-w-xl font-sans text-base text-stone">{sector.description}</p>}
+        {sectorText.body && <p className="mt-3 max-w-xl font-sans text-base text-stone">{sectorText.body}</p>}
       </div>
 
       <section className="flex flex-col gap-3">
@@ -62,7 +68,7 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
                   key={route.id}
                   href={`/routes/${route.id}`}
                   title={route.name}
-                  description={route.description}
+                  description={routeTexts.get(route.id)?.body}
                   badges={
                     <>
                       {length !== null && <span className="font-sans text-xs text-stone">{t("Common.meters", { value: length })}</span>}
@@ -77,6 +83,8 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
         )}
         <Pagination basePath={`/sectors/${sectorId}`} page={routes.page} totalPages={routes.totalPages} />
       </section>
+
+      <SourceNote sources={[sectorText.source, ...[...routeTexts.values()].map((text) => text.source)]} />
     </div>
   );
 }
