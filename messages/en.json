@@ -28,7 +28,8 @@
     "logbook": "Logbook",
     "lists": "Lists",
     "following": "Following",
-    "logOut": "Log out"
+    "logOut": "Log out",
+    "review": "Review"
   },
   "LocaleSwitcher": {
     "switchTo": "Switch language to {language}",
@@ -374,5 +375,23 @@
     "catalogConflict": "This change conflicts with existing data.",
     "catalogInUse": "This still has data under it. Delete that first, or ask a moderator.",
     "pitchOrderTaken": "That pitch number is already used on this route."
+  },
+  "Moderation": {
+    "eyebrow": "Moderation",
+    "title": "Waiting for review",
+    "intro": "Climbing data added by users that no moderator has verified yet. Check each item on its page and verify it if it is correct.",
+    "empty": "Nothing is waiting for review.",
+    "groups": {
+      "zone": "Zones",
+      "crag": "Crags",
+      "sector": "Sectors",
+      "route": "Routes",
+      "pitch": "Pitches"
+    },
+    "pitchName": "{route}, pitch {number}",
+    "inParent": "in {name}",
+    "addedBy": "added by",
+    "unknownAuthor": "unknown author",
+    "count": "{count, plural, one {# item} other {# items}}"
   }
 }
