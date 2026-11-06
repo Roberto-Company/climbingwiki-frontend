@@ -4,13 +4,16 @@ import {
   getRoute,
   listComments,
   listFavorites,
+  listGrades,
   listPhotos,
   listPitches,
   listRatings,
   listRouteLists,
 } from "@/lib/api";
 import { getSession } from "@/lib/auth/session";
+import { buildGradeLookup, hardestGrade, totalLength } from "@/lib/catalog/route-summary";
 import { EmptyState } from "@/components/catalog/EmptyState";
+import { GradeBadge, RouteTypeBadge } from "@/components/catalog/RouteBadges";
 import { FavoriteButton } from "@/components/personal/FavoriteButton";
 import { RatingWidget } from "@/components/personal/RatingWidget";
 import { AddToListButton } from "@/components/personal/AddToListButton";
@@ -40,8 +43,9 @@ export default async function RouteDetailPage({ params }: Props) {
 
   const session = await getSession();
 
-  const [pitches, favorites, ratings, comments, photos, userLists] = await Promise.all([
+  const [pitches, grades, favorites, ratings, comments, photos, userLists] = await Promise.all([
     listPitches({ routeId }),
+    listGrades(),
     listFavorites({ routeId }),
     listRatings({ routeId }),
     listComments({ routeId }),
@@ -50,6 +54,9 @@ export default async function RouteDetailPage({ params }: Props) {
   ]);
 
   const sortedPitches = [...pitches.content].sort((a, b) => a.orderIndex - b.orderIndex);
+  const gradeLookup = buildGradeLookup(grades);
+  const routeGrade = hardestGrade(sortedPitches, gradeLookup);
+  const routeLength = totalLength(sortedPitches);
   const isFavorited = session ? favorites.some((f) => f.userId === session.userId) : false;
   const average = ratings.length
     ? ratings.reduce((sum, rating) => sum + rating.score, 0) / ratings.length
@@ -59,10 +66,13 @@ export default async function RouteDetailPage({ params }: Props) {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-10 px-6 py-16">
       <div>
-        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">
-          {route.routeType}
-        </p>
+        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">Route</p>
         <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{route.name}</h1>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <RouteTypeBadge routeType={route.routeType} />
+          <GradeBadge grade={routeGrade} />
+          {routeLength !== null && <span className="font-sans text-sm text-stone">{routeLength} m</span>}
+        </div>
         {route.firstAscentBy && (
           <p className="mt-2 font-sans text-sm text-stone">
             First ascent: {route.firstAscentBy}
@@ -114,7 +124,10 @@ export default async function RouteDetailPage({ params }: Props) {
               <li key={pitch.id} className="rounded-lg border border-border bg-surface px-5 py-4">
                 <div className="flex items-baseline justify-between gap-4">
                   <h3 className="font-display text-base font-medium text-foreground">Pitch {pitch.orderIndex}</h3>
-                  {pitch.lengthM !== null && <span className="font-sans text-xs text-stone">{pitch.lengthM} m</span>}
+                  <div className="flex items-center gap-2">
+                    {pitch.lengthM !== null && <span className="font-sans text-xs text-stone">{pitch.lengthM} m</span>}
+                    <GradeBadge grade={pitch.gradeId !== null ? gradeLookup.get(pitch.gradeId) ?? null : null} />
+                  </div>
                 </div>
                 {pitch.description && <p className="mt-1 font-sans text-sm text-stone">{pitch.description}</p>}
               </li>
