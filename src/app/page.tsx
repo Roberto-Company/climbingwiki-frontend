@@ -4,7 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { listCrags, listRoutes, listZones } from "@/lib/api";
 import type { CragResponse, ZoneResponse } from "@/lib/types";
 import { getSession } from "@/lib/auth/session";
-import { PHOTOS, zonePhoto } from "@/lib/media/photos";
+import { PHOTOS, placePhoto } from "@/lib/media/photos";
+import { subtreeZoneIds } from "@/lib/catalog/zone-tree";
 import { toMapPoints } from "@/lib/map/points";
 import { PhotoCard } from "@/components/media/PhotoCard";
 import { PhotoCredit } from "@/components/media/PhotoCredit";
@@ -14,6 +15,10 @@ const HERO = PHOTOS["catalonia-cave-roof"];
 const LOGBOOK_PHOTO = PHOTOS["margalef-overhang"];
 const MAX_AREAS = 6;
 const MAX_CRAGS_ON_MAP = 100;
+/** The API's largest page; the catalog has far fewer zones than this. */
+const ALL_ZONES = 100;
+/** The tall first card only fills the bento grid when four cards sit beside it. */
+const FEATURED_LAYOUT_SIZE = 5;
 
 type Area = { zone: ZoneResponse; cragCount: number };
 
@@ -26,26 +31,31 @@ type CatalogOverview = {
 };
 
 /**
- * The areas shown are the sub-zones of the first top-level zone (the region), which is how a
- * regional guide opens. Counts come from page metadata, so those requests ask for one item.
+ * The areas shown are the top-level zones (countries). With a single top-level zone the catalog is a
+ * regional guide, so its sub-zones are shown instead. Counts come from page metadata, so those
+ * requests ask for one item.
  */
 async function loadOverview(): Promise<CatalogOverview | null> {
   try {
     const [zones, crags, routes, roots] = await Promise.all([
-      listZones({ size: 1 }),
+      listZones({ size: ALL_ZONES }),
       listCrags({ size: MAX_CRAGS_ON_MAP }),
       listRoutes({ size: 1 }),
       listZones({ rootOnly: true, size: MAX_AREAS }),
     ]);
-    const region = roots.content[0];
-    const areaZones = region ? (await listZones({ parentZoneId: region.id, size: MAX_AREAS })).content : [];
+    const onlyRoot = roots.content.length === 1 ? roots.content[0] : null;
+    const areaZones = onlyRoot ? (await listZones({ parentZoneId: onlyRoot.id, size: MAX_AREAS })).content : [];
     const shown = areaZones.length > 0 ? areaZones : roots.content;
-    const cragCounts = await Promise.all(shown.map((zone) => listCrags({ zoneId: zone.id, size: 1 })));
+    // Crags hang from the innermost zone, so a country's count adds up every zone below it.
+    const directCounts = await Promise.all(zones.content.map((zone) => listCrags({ zoneId: zone.id, size: 1 })));
+    const cragsInZone = new Map(zones.content.map((zone, index) => [zone.id, directCounts[index].totalElements]));
+    const cragCount = (zone: ZoneResponse) =>
+      subtreeZoneIds(zone.id, zones.content).reduce((sum, id) => sum + (cragsInZone.get(id) ?? 0), 0);
     return {
       zoneCount: zones.totalElements,
       cragCount: crags.totalElements,
       routeCount: routes.totalElements,
-      areas: shown.map((zone, index) => ({ zone, cragCount: cragCounts[index].totalElements })),
+      areas: shown.map((zone) => ({ zone, cragCount: cragCount(zone) })),
       crags: crags.content,
     };
   } catch {
@@ -149,18 +159,21 @@ export default async function Home() {
             </Link>
           </div>
           <div className="grid auto-rows-[15rem] gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {overview.areas.map(({ zone, cragCount }, index) => (
-              <div key={zone.id} className={index === 0 ? "sm:col-span-2 lg:col-span-1 lg:row-span-2" : ""}>
-                <PhotoCard
-                  href={`/zones/${zone.id}`}
-                  title={zone.name}
-                  photo={zonePhoto(zone.name)}
-                  meta={tCounts("crags", { count: cragCount })}
-                  featured={index === 0}
-                  sizes={index === 0 ? "(min-width: 1024px) 33vw, 100vw" : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"}
-                />
-              </div>
-            ))}
+            {overview.areas.map(({ zone, cragCount }, index) => {
+              const featured = index === 0 && overview.areas.length === FEATURED_LAYOUT_SIZE;
+              return (
+                <div key={zone.id} className={featured ? "sm:col-span-2 lg:col-span-1 lg:row-span-2" : ""}>
+                  <PhotoCard
+                    href={`/zones/${zone.id}`}
+                    title={zone.name}
+                    photo={placePhoto(zone.name)}
+                    meta={tCounts("crags", { count: cragCount })}
+                    featured={featured}
+                    sizes={featured ? "(min-width: 1024px) 33vw, 100vw" : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"}
+                  />
+                </div>
+              );
+            })}
           </div>
         </section>
       )}

@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { getSession } from "@/lib/auth/session";
 import { listCrags, listZones } from "@/lib/api";
-import { zonePhoto } from "@/lib/media/photos";
+import { placePhoto } from "@/lib/media/photos";
 import { VerificationBadge } from "@/components/catalog/VerificationBadge";
 import { AddLink } from "@/components/catalog/edit/AddLink";
 import { EmptyState } from "@/components/catalog/EmptyState";
@@ -38,7 +38,7 @@ export default async function ZonesPage({ searchParams }: Props) {
                 key={zone.id}
                 href={`/zones/${zone.id}`}
                 title={zone.name}
-                photo={zonePhoto(zone.name)}
+                photo={placePhoto(zone.name)}
                 featured
                 sizes="(min-width: 640px) 50vw, 100vw"
                 badges={zone.verified ? undefined : <VerificationBadge verified={false} />}

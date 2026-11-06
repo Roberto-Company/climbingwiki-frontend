@@ -4,7 +4,7 @@ import { getCrag, getSector, listRoutes } from "@/lib/api";
 import { splitAttribution } from "@/lib/catalog/attribution";
 import { gradeHistogram } from "@/lib/catalog/grade-bands";
 import { loadOrNotFound } from "@/lib/catalog/page-data";
-import { allGrades, nearestZonePhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
+import { allGrades, nearestPhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
 import { buildGradeLookup } from "@/lib/catalog/route-summary";
 import { toMapPoints } from "@/lib/map/points";
 import { EmptyState } from "@/components/catalog/EmptyState";
@@ -51,7 +51,7 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
   return (
     <div className="flex flex-1 flex-col">
       <PhotoBanner
-        photo={nearestZonePhoto(chain)}
+        photo={nearestPhoto(chain, crag.name)}
         eyebrow={t("Catalog.sector.eyebrow")}
         title={sector.name}
         crumbs={[...zoneCrumbs(chain, t("Catalog.zones.title")), { href: `/crags/${crag.id}`, label: crag.name }]}

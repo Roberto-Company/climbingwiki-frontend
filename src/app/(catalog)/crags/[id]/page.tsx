@@ -4,7 +4,7 @@ import { getCrag, listSectors } from "@/lib/api";
 import { splitAttribution } from "@/lib/catalog/attribution";
 import { bandCounts, gradeHistogram } from "@/lib/catalog/grade-bands";
 import { loadOrNotFound } from "@/lib/catalog/page-data";
-import { allGrades, nearestZonePhoto, routesBySector, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
+import { allGrades, nearestPhoto, routesBySector, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
 import { buildGradeLookup } from "@/lib/catalog/route-summary";
 import { toMapPoints } from "@/lib/map/points";
 import { CatalogCard } from "@/components/catalog/CatalogCard";
@@ -47,7 +47,7 @@ export default async function CragDetailPage({ params }: Props) {
   return (
     <div className="flex flex-1 flex-col">
       <PhotoBanner
-        photo={nearestZonePhoto(chain)}
+        photo={nearestPhoto(chain, crag.name)}
         eyebrow={t("Catalog.crag.eyebrow")}
         title={crag.name}
         crumbs={zoneCrumbs(chain, t("Catalog.zones.title"))}
