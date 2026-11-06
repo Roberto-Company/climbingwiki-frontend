@@ -23,3 +23,12 @@ export function splitAttribution(description: string | null): SplitDescription {
   const body = description.slice(0, match.index).trim();
   return { body: body || null, source: match[1].trim() };
 }
+
+/**
+ * Sources to list once per page: no nulls or duplicates, and a source is dropped when a longer one
+ * starts with it (e.g. the same licence line without and with the URL).
+ */
+export function uniqueSources(sources: readonly (string | null)[]): string[] {
+  const distinct = [...new Set(sources.filter((source): source is string => source !== null))];
+  return distinct.filter((source) => !distinct.some((other) => other !== source && other.startsWith(source)));
+}

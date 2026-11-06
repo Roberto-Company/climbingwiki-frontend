@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { splitAttribution } from "./attribution";
+import { splitAttribution, uniqueSources } from "./attribution";
 
 describe("splitAttribution", () => {
   it("separates the trailing source sentence from the description", () => {
@@ -31,5 +31,19 @@ describe("splitAttribution", () => {
       body: "Junto a la Fuente: cuidado con el agua.",
       source: null,
     });
+  });
+});
+
+describe("uniqueSources", () => {
+  it("drops nulls, duplicates and sources that a longer one already covers", () => {
+    expect(
+      uniqueSources([
+        "theCrag contributors (CC BY-NC-SA)",
+        null,
+        "theCrag contributors (CC BY-NC-SA) – https://www.thecrag.com",
+        "theCrag contributors (CC BY-NC-SA) – https://www.thecrag.com",
+        "© OpenStreetMap contributors (ODbL)",
+      ]),
+    ).toEqual(["theCrag contributors (CC BY-NC-SA) – https://www.thecrag.com", "© OpenStreetMap contributors (ODbL)"]);
   });
 });
