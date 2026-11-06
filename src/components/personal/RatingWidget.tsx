@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useActionState } from "react";
 import { submitRatingAction, deleteRatingAction, type PersonalFormState } from "@/lib/personal/actions";
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export function RatingWidget({ routeId, average, count, userScore, isAuthenticated }: Props) {
+  const t = useTranslations("Personal.rating");
   const [submitState, submitAction, submitPending] = useActionState(submitRatingAction, initialState);
   const [deleteState, deleteAction, deletePending] = useActionState(deleteRatingAction, initialState);
 
@@ -27,7 +29,7 @@ export function RatingWidget({ routeId, average, count, userScore, isAuthenticat
         {average !== null ? (
           <StarDisplay score={average} />
         ) : (
-          <span className="font-sans text-sm text-stone">No ratings yet</span>
+          <span className="font-sans text-sm text-stone">{t("none")}</span>
         )}
         {count > 0 && <span className="font-sans text-xs text-stone">({count})</span>}
       </div>
@@ -61,14 +63,14 @@ export function RatingWidget({ routeId, average, count, userScore, isAuthenticat
                 disabled={deletePending}
                 className="font-sans text-xs font-medium text-stone underline hover:text-red-700"
               >
-                Clear my rating
+                {t("clear")}
               </button>
             </form>
           )}
         </div>
       ) : (
         <Link href="/login" className="font-sans text-sm font-medium text-moss-600 hover:text-moss-800">
-          Sign in to rate
+          {t("signIn")}
         </Link>
       )}
 

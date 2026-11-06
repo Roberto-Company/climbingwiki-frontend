@@ -1,5 +1,6 @@
 "use client";
 
+import { useFormatter, useTranslations } from "next-intl";
 import { useActionState, useState, useTransition } from "react";
 import { updateCommentAction, deleteCommentAction, type PersonalFormState } from "@/lib/personal/actions";
 import { Button } from "@/components/ui/Button";
@@ -13,6 +14,8 @@ type Props = {
 };
 
 export function CommentItem({ comment, canModify }: Props) {
+  const t = useTranslations("Common");
+  const format = useFormatter();
   const [isEditing, setIsEditing] = useState(false);
   const [updateState, setUpdateState] = useState<PersonalFormState>(initialState);
   const [updatePending, startUpdateTransition] = useTransition();
@@ -51,7 +54,7 @@ export function CommentItem({ comment, canModify }: Props) {
         {updateState.error && <p className="font-sans text-xs text-red-700">{updateState.error}</p>}
         <div className="flex gap-2">
           <Button type="submit" disabled={updatePending} className="px-3 py-1.5 text-xs">
-            Save
+            {t("save")}
           </Button>
           <Button
             type="button"
@@ -59,7 +62,7 @@ export function CommentItem({ comment, canModify }: Props) {
             className="px-3 py-1.5 text-xs"
             onClick={() => setIsEditing(false)}
           >
-            Cancel
+            {t("cancel")}
           </Button>
         </div>
       </form>
@@ -70,7 +73,7 @@ export function CommentItem({ comment, canModify }: Props) {
     <div className="rounded-lg border border-border bg-surface px-4 py-3">
       <p className="font-sans text-sm text-foreground">{comment.body}</p>
       <div className="mt-2 flex items-center gap-3 font-sans text-xs text-stone">
-        <span>{new Date(comment.createdAt).toLocaleDateString()}</span>
+        <span>{format.dateTime(new Date(comment.createdAt), { dateStyle: "medium" })}</span>
         {canModify && (
           <>
             <button
@@ -78,7 +81,7 @@ export function CommentItem({ comment, canModify }: Props) {
               onClick={() => setIsEditing(true)}
               className="font-medium text-moss-600 hover:text-moss-800"
             >
-              Edit
+              {t("edit")}
             </button>
             <form action={deleteAction}>
               <input type="hidden" name="id" value={comment.id} />
@@ -88,7 +91,7 @@ export function CommentItem({ comment, canModify }: Props) {
                 disabled={deletePending}
                 className="font-medium text-stone hover:text-red-700"
               >
-                Delete
+                {t("delete")}
               </button>
             </form>
           </>

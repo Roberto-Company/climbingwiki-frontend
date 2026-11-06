@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm";
 
 type Props = {
@@ -5,15 +6,15 @@ type Props = {
 };
 
 export default async function ResetPasswordPage({ searchParams }: Props) {
-  const { token } = await searchParams;
+  const [{ token }, t] = await Promise.all([searchParams, getTranslations("Auth.reset")]);
 
   return (
     <div className="flex flex-col gap-6">
       <div>
         <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">
-          Almost there
+          {t("eyebrow")}
         </p>
-        <h1 className="mt-2 font-display text-3xl font-medium text-foreground">Set a new password</h1>
+        <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{t("title")}</h1>
       </div>
       <ResetPasswordForm defaultToken={token} />
     </div>

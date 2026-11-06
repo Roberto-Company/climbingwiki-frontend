@@ -1,5 +1,5 @@
+import { useTranslations } from "next-intl";
 import type { GradeResponse, RouteType } from "@/lib/types";
-import { ROUTE_TYPE_LABELS } from "@/lib/catalog/route-summary";
 
 const BADGE_BASE = "inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-xs font-semibold";
 
@@ -24,19 +24,21 @@ function gradeBand(label: string): GradeBand {
 }
 
 export function RouteTypeBadge({ routeType }: { routeType: RouteType }) {
+  const t = useTranslations("Catalog.routeTypes");
   return (
     <span className={`${BADGE_BASE} border border-moss-400 uppercase tracking-wide text-moss-800`}>
-      {ROUTE_TYPE_LABELS[routeType]}
+      {t(routeType)}
     </span>
   );
 }
 
 export function GradeBadge({ grade }: { grade: GradeResponse | null }) {
+  const t = useTranslations("Catalog");
   if (grade === null) {
-    return <span className={`${BADGE_BASE} border border-dashed border-border text-stone`}>No grade</span>;
+    return <span className={`${BADGE_BASE} border border-dashed border-border text-stone`}>{t("noGrade")}</span>;
   }
   return (
-    <span className={`${BADGE_BASE} ${GRADE_BAND_CLASSES[gradeBand(grade.label)]}`} title="Grade">
+    <span className={`${BADGE_BASE} ${GRADE_BAND_CLASSES[gradeBand(grade.label)]}`} title={t("grade")}>
       {grade.label}
     </span>
   );

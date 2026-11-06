@@ -1,5 +1,6 @@
 "use server";
 
+import { validationError } from "@/i18n/validation-error";
 import { revalidatePath } from "next/cache";
 import {
   ApiError,
@@ -64,7 +65,7 @@ export async function toggleFavoriteAction(
   const routeId = formNumber(formData, "routeId");
   const intent = formString(formData, "intent");
   if (!routeId) {
-    return { error: "Missing route." };
+    return validationError("missingRoute");
   }
 
   try {
@@ -92,7 +93,7 @@ export async function toggleFollowAction(
   const followedId = formNumber(formData, "followedId");
   const intent = formString(formData, "intent");
   if (!followedId) {
-    return { error: "Missing user." };
+    return validationError("missingUser");
   }
 
   try {
@@ -119,7 +120,7 @@ export async function submitRatingAction(
   const routeId = formNumber(formData, "routeId");
   const score = formNumber(formData, "score");
   if (!routeId || score === null) {
-    return { error: "Missing route or score." };
+    return validationError("missingRouteOrScore");
   }
 
   try {
@@ -139,7 +140,7 @@ export async function deleteRatingAction(
   const session = await verifySession();
   const routeId = formNumber(formData, "routeId");
   if (!routeId) {
-    return { error: "Missing route." };
+    return validationError("missingRoute");
   }
 
   try {
@@ -164,7 +165,7 @@ export async function createCommentAction(
   const parentCommentId = formNumber(formData, "parentCommentId");
   const body = formString(formData, "body");
   if (!body) {
-    return { error: "Comment body is required." };
+    return validationError("commentRequired");
   }
 
   try {
@@ -192,7 +193,7 @@ export async function updateCommentAction(
   const parentCommentId = formNumber(formData, "parentCommentId");
   const body = formString(formData, "body");
   if (!id || !ownerId || !body) {
-    return { error: "Missing comment data." };
+    return validationError("missingCommentData");
   }
 
   try {
@@ -213,7 +214,7 @@ export async function deleteCommentAction(
   const id = formNumber(formData, "id");
   const routeId = formNumber(formData, "routeId");
   if (!id) {
-    return { error: "Missing comment." };
+    return validationError("missingComment");
   }
 
   try {
@@ -240,7 +241,7 @@ export async function createPhotoAction(
   const isTopo = formData.get("isTopo") === "on";
 
   if (!isSafeHttpUrl(url)) {
-    return { error: "Photo URL must be a valid http(s) link." };
+    return validationError("invalidPhotoUrl");
   }
 
   try {
@@ -264,7 +265,7 @@ export async function deletePhotoAction(
   const id = formNumber(formData, "id");
   const routeId = formNumber(formData, "routeId");
   if (!id) {
-    return { error: "Missing photo." };
+    return validationError("missingPhoto");
   }
 
   try {
@@ -289,7 +290,7 @@ export async function createLogbookEntryAction(
   const result = formString(formData, "result") as LogbookEntryResult;
   const notes = formString(formData, "notes");
   if (!routeId || !attemptDate || !result) {
-    return { error: "Route, date, and result are required." };
+    return validationError("logbookRequired");
   }
 
   try {
@@ -318,7 +319,7 @@ export async function updateLogbookEntryAction(
   const result = formString(formData, "result") as LogbookEntryResult;
   const notes = formString(formData, "notes");
   if (!id || !ownerId || !routeId || !attemptDate || !result) {
-    return { error: "Missing logbook entry data." };
+    return validationError("missingLogbookData");
   }
 
   try {
@@ -343,7 +344,7 @@ export async function deleteLogbookEntryAction(
   const session = await verifySession();
   const id = formNumber(formData, "id");
   if (!id) {
-    return { error: "Missing logbook entry." };
+    return validationError("missingLogbookEntry");
   }
 
   try {
@@ -367,7 +368,7 @@ export async function createRouteListAction(
   const description = formString(formData, "description");
   const isPublic = formData.get("isPublic") === "on";
   if (!name) {
-    return { error: "List name is required." };
+    return validationError("listNameRequired");
   }
 
   try {
@@ -394,7 +395,7 @@ export async function updateRouteListAction(
   const description = formString(formData, "description");
   const isPublic = formData.get("isPublic") === "on";
   if (!id || !ownerId || !name) {
-    return { error: "Missing list data." };
+    return validationError("missingListData");
   }
 
   try {
@@ -419,7 +420,7 @@ export async function deleteRouteListAction(
   const session = await verifySession();
   const id = formNumber(formData, "id");
   if (!id) {
-    return { error: "Missing list." };
+    return validationError("missingList");
   }
 
   try {
@@ -440,7 +441,7 @@ export async function addRouteToListAction(
   const listId = formNumber(formData, "listId");
   const routeId = formNumber(formData, "routeId");
   if (!listId || !routeId) {
-    return { error: "Missing list or route." };
+    return validationError("missingListOrRoute");
   }
 
   try {
@@ -462,7 +463,7 @@ export async function removeRouteFromListAction(
   const listId = formNumber(formData, "listId");
   const routeId = formNumber(formData, "routeId");
   if (!listId || !routeId) {
-    return { error: "Missing list or route." };
+    return validationError("missingListOrRoute");
   }
 
   try {

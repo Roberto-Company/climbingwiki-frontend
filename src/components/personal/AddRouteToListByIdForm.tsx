@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState, useEffect, useRef } from "react";
 import { addRouteToListAction, type PersonalFormState } from "@/lib/personal/actions";
 import { Button } from "@/components/ui/Button";
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export function AddRouteToListByIdForm({ listId }: Props) {
+  const t = useTranslations();
   const [state, action, pending] = useActionState(addRouteToListAction, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -25,9 +27,9 @@ export function AddRouteToListByIdForm({ listId }: Props) {
   return (
     <form ref={formRef} action={action} className="flex items-end gap-3">
       <input type="hidden" name="listId" value={listId} />
-      <TextField label="Route ID" name="routeId" type="number" required />
+      <TextField label={t("Common.routeId")} name="routeId" type="number" required />
       <Button type="submit" disabled={pending}>
-        {pending ? "Adding…" : "Add route"}
+        {pending ? t("Common.adding") : t("Personal.lists.addRoute")}
       </Button>
       {state.error && <FormMessage variant="error">{state.error}</FormMessage>}
     </form>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState, useEffect, useRef } from "react";
 import { createRouteListAction, type PersonalFormState } from "@/lib/personal/actions";
 import { Button } from "@/components/ui/Button";
@@ -9,6 +10,7 @@ import { FormMessage } from "@/components/ui/FormMessage";
 const initialState: PersonalFormState = {};
 
 export function RouteListForm() {
+  const t = useTranslations();
   const [state, action, pending] = useActionState(createRouteListAction, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -20,15 +22,15 @@ export function RouteListForm() {
 
   return (
     <form ref={formRef} action={action} className="flex flex-col gap-3">
-      <TextField label="List name" name="name" required error={state.fieldErrors?.name} />
-      <TextField label="Description" name="description" />
+      <TextField label={t("Personal.lists.name")} name="name" required error={state.fieldErrors?.name} />
+      <TextField label={t("Common.description")} name="description" />
       <label className="flex items-center gap-2 font-sans text-sm text-foreground">
         <input type="checkbox" name="isPublic" className="h-4 w-4 rounded border-border" />
-        Make this list public
+        {t("Personal.lists.makePublic")}
       </label>
       {state.error && <FormMessage variant="error">{state.error}</FormMessage>}
       <Button type="submit" disabled={pending} className="self-start">
-        {pending ? "Creating…" : "Create list"}
+        {pending ? t("Personal.lists.creating") : t("Personal.lists.create")}
       </Button>
     </form>
   );

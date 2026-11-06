@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { verifySession } from "@/lib/auth/dal";
 import { listRouteLists } from "@/lib/api";
@@ -5,18 +6,18 @@ import { EmptyState } from "@/components/catalog/EmptyState";
 import { RouteListForm } from "@/components/personal/RouteListForm";
 
 export default async function ListsPage() {
-  const session = await verifySession();
+  const [session, t] = await Promise.all([verifySession(), getTranslations()]);
   const lists = await listRouteLists({ userId: session.userId });
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-16">
       <div>
-        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">Your account</p>
-        <h1 className="mt-2 font-display text-3xl font-medium text-foreground">Your lists</h1>
+        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Common.yourAccount")}</p>
+        <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{t("Account.lists.title")}</h1>
       </div>
 
       {lists.length === 0 ? (
-        <EmptyState message="You haven't created any route lists yet." />
+        <EmptyState message={t("Account.lists.empty")} />
       ) : (
         <div className="flex flex-col gap-3">
           {lists.map((list) => (
@@ -29,7 +30,7 @@ export default async function ListsPage() {
                 <h3 className="font-display text-lg font-medium text-foreground">{list.name}</h3>
                 {list.isPublic && (
                   <span className="shrink-0 font-sans text-xs font-semibold uppercase tracking-wide text-moss-600">
-                    Public
+                    {t("Common.public")}
                   </span>
                 )}
               </div>
@@ -40,7 +41,7 @@ export default async function ListsPage() {
       )}
 
       <section className="flex flex-col gap-3 border-t border-border pt-6">
-        <h2 className="font-display text-xl font-medium text-foreground">Create a list</h2>
+        <h2 className="font-display text-xl font-medium text-foreground">{t("Account.lists.create")}</h2>
         <RouteListForm />
       </section>
     </div>

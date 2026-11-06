@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import type { CommentResponse } from "@/lib/types";
 import type { Session } from "@/lib/auth/session";
 import { canModify } from "@/lib/auth/roles";
@@ -10,8 +11,10 @@ type Props = {
 };
 
 export function CommentList({ comments, session }: Props) {
+  const t = useTranslations("Personal.comments");
+
   if (comments.length === 0) {
-    return <EmptyState message="No comments yet." />;
+    return <EmptyState message={t("empty")} />;
   }
 
   const topLevel = comments.filter((comment) => comment.parentCommentId === null);

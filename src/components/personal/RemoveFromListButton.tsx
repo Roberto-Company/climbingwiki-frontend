@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import { removeRouteFromListAction, type PersonalFormState } from "@/lib/personal/actions";
 
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export function RemoveFromListButton({ listId, routeId }: Props) {
+  const t = useTranslations("Common");
   const [state, action, pending] = useActionState(removeRouteFromListAction, initialState);
 
   return (
@@ -22,7 +24,7 @@ export function RemoveFromListButton({ listId, routeId }: Props) {
         disabled={pending}
         className="font-sans text-xs font-medium text-stone hover:text-red-700"
       >
-        Remove
+        {t("remove")}
       </button>
       {state.error && <p className="font-sans text-xs text-red-700">{state.error}</p>}
     </form>

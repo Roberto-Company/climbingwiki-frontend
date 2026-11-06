@@ -1,9 +1,11 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export function SearchBar() {
+  const t = useTranslations("Search");
   const router = useRouter();
   const searchParams = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -23,13 +25,13 @@ export function SearchBar() {
         type="search"
         name="q"
         defaultValue={searchParams.get("q") ?? ""}
-        placeholder="Search routes, crags…"
+        placeholder={t("placeholder")}
         className="w-44 rounded-md border border-border bg-background px-3 py-1.5 font-sans text-sm text-foreground placeholder:text-stone outline-none focus:border-moss-600 focus:w-56 transition-all duration-200"
       />
       <button
         type="submit"
         className="rounded-md px-2.5 py-1.5 font-sans text-sm font-medium text-stone hover:text-moss-600"
-        aria-label="Search"
+        aria-label={t("submit")}
       >
         ↵
       </button>

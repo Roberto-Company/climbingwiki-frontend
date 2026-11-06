@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState, useEffect, useRef } from "react";
 import { createPhotoAction, type PersonalFormState } from "@/lib/personal/actions";
 import { Button } from "@/components/ui/Button";
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function PhotoForm({ routeId, cragId }: Props) {
+  const t = useTranslations();
   const [state, action, pending] = useActionState(createPhotoAction, initialState);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -27,15 +29,15 @@ export function PhotoForm({ routeId, cragId }: Props) {
     <form ref={formRef} action={action} className="flex flex-col gap-3">
       {routeId !== undefined && <input type="hidden" name="routeId" value={routeId} />}
       {cragId !== undefined && <input type="hidden" name="cragId" value={cragId} />}
-      <TextField label="Photo URL" name="url" type="url" required placeholder="https://…" />
-      <TextField label="Caption" name="caption" />
+      <TextField label={t("Personal.photos.url")} name="url" type="url" required placeholder="https://…" />
+      <TextField label={t("Personal.photos.caption")} name="caption" />
       <label className="flex items-center gap-2 font-sans text-sm text-foreground">
         <input type="checkbox" name="isTopo" className="h-4 w-4 rounded border-border" />
-        This is a topo
+        {t("Personal.photos.isTopo")}
       </label>
       {state.error && <FormMessage variant="error">{state.error}</FormMessage>}
       <Button type="submit" disabled={pending} className="self-start">
-        {pending ? "Adding…" : "Add photo"}
+        {pending ? t("Common.adding") : t("Personal.photos.add")}
       </Button>
     </form>
   );

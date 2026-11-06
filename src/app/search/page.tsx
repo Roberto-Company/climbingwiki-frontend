@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { listRoutes, listCrags, listZones } from "@/lib/api";
 
@@ -8,15 +9,16 @@ type Props = {
 export default async function SearchPage({ searchParams }: Props) {
   const { q } = await searchParams;
   const query = q?.trim() ?? "";
+  const t = await getTranslations();
 
   if (!query) {
     return (
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-16">
         <div>
-          <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">Catalog</p>
-          <h1 className="mt-2 font-display text-3xl font-medium text-foreground">Search</h1>
+          <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Common.catalog")}</p>
+          <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{t("Search.title")}</h1>
           <p className="mt-3 font-sans text-base text-stone">
-            Type a name in the search bar to find routes, crags, or zones.
+            {t("Search.hint")}
           </p>
         </div>
       </div>
@@ -34,19 +36,19 @@ export default async function SearchPage({ searchParams }: Props) {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-16">
       <div>
-        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">Search results</p>
+        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Search.resultsEyebrow")}</p>
         <h1 className="mt-2 font-display text-3xl font-medium text-foreground">
           &ldquo;{query}&rdquo;
         </h1>
         <p className="mt-1 font-sans text-sm text-stone">
-          {totalResults === 0 ? "No results found." : `${totalResults} result${totalResults !== 1 ? "s" : ""}`}
+          {t("Search.count", { count: totalResults })}
         </p>
       </div>
 
       {routes.content.length > 0 && (
         <section className="flex flex-col gap-3">
           <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-stone">
-            Routes ({routes.totalElements})
+            {t("Search.routes", { count: routes.totalElements })}
           </h2>
           <div className="flex flex-col gap-2">
             {routes.content.map((route) => (
@@ -57,7 +59,7 @@ export default async function SearchPage({ searchParams }: Props) {
               >
                 <span className="font-display text-base font-medium text-foreground">{route.name}</span>
                 <span className="shrink-0 font-sans text-xs font-semibold uppercase tracking-wide text-moss-600">
-                  {route.routeType}
+                  {t(`Catalog.routeTypes.${route.routeType}`)}
                 </span>
               </Link>
             ))}
@@ -68,7 +70,7 @@ export default async function SearchPage({ searchParams }: Props) {
       {crags.content.length > 0 && (
         <section className="flex flex-col gap-3">
           <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-stone">
-            Crags ({crags.totalElements})
+            {t("Search.crags", { count: crags.totalElements })}
           </h2>
           <div className="flex flex-col gap-2">
             {crags.content.map((crag) => (
@@ -90,7 +92,7 @@ export default async function SearchPage({ searchParams }: Props) {
       {zones.content.length > 0 && (
         <section className="flex flex-col gap-3">
           <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-stone">
-            Zones ({zones.totalElements})
+            {t("Search.zones", { count: zones.totalElements })}
           </h2>
           <div className="flex flex-col gap-2">
             {zones.content.map((zone) => (
@@ -108,11 +110,13 @@ export default async function SearchPage({ searchParams }: Props) {
 
       {totalResults === 0 && (
         <p className="font-sans text-sm text-stone">
-          Try a different search term, or{" "}
-          <Link href="/zones" className="font-medium text-moss-600 hover:text-moss-800">
-            browse all zones
-          </Link>
-          .
+          {t.rich("Search.tryAgain", {
+            link: (chunks) => (
+              <Link href="/zones" className="font-medium text-moss-600 hover:text-moss-800">
+                {chunks}
+              </Link>
+            ),
+          })}
         </p>
       )}
     </div>

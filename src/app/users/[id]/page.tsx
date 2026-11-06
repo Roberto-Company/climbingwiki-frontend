@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -20,12 +21,13 @@ export default async function UserProfilePage({ params }: Props) {
   const { id } = await params;
   const userId = Number(id);
 
-  const [user, session] = await Promise.all([
+  const [user, session, t] = await Promise.all([
     getUser(userId).catch((e) => {
       if (e instanceof ApiError && e.status === 404) notFound();
       throw e;
     }),
     getSession(),
+    getTranslations(),
   ]);
 
   const [logbookPage, lists, followers, following] = await Promise.all([
@@ -61,12 +63,12 @@ export default async function UserProfilePage({ params }: Props) {
           )}
           <div className="mt-3 flex items-center gap-4 font-sans text-sm text-stone">
             <span>
-              <span className="font-semibold text-foreground">{followers.length}</span> followers
+              {t.rich("Users.followers", { count: followers.length, strong: (chunks) => <span className="font-semibold text-foreground">{chunks}</span> })}
             </span>
             <span>
-              <span className="font-semibold text-foreground">{following.length}</span> following
+              {t.rich("Users.following", { count: following.length, strong: (chunks) => <span className="font-semibold text-foreground">{chunks}</span> })}
             </span>
-            <span>Since {new Date(user.createdAt).getFullYear()}</span>
+            <span>{t("Users.since", { year: new Date(user.createdAt).getFullYear() })}</span>
           </div>
         </div>
         {!isSelf && (
@@ -77,7 +79,7 @@ export default async function UserProfilePage({ params }: Props) {
             href="/profile"
             className="font-sans text-sm font-medium text-moss-600 hover:text-moss-800"
           >
-            Edit profile
+            {t("Users.editProfile")}
           </Link>
         )}
       </div>
@@ -85,7 +87,7 @@ export default async function UserProfilePage({ params }: Props) {
       {logbookPage.content.length > 0 && (
         <section className="flex flex-col gap-3">
           <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-stone">
-            Recent ascents
+            {t("Users.recentAscents")}
           </h2>
           <div className="flex flex-col gap-2">
             {logbookPage.content.map((entry, i) => (
@@ -98,7 +100,7 @@ export default async function UserProfilePage({ params }: Props) {
                 </Link>
                 <div className="flex items-center gap-3 shrink-0">
                   <span className="font-sans text-xs font-semibold uppercase tracking-wide text-moss-600">
-                    {entry.result.replace("_", " ")}
+                    {t(`LogbookResults.${entry.result}`)}
                   </span>
                   <span className="font-sans text-xs text-stone">{entry.attemptDate}</span>
                 </div>
@@ -111,7 +113,7 @@ export default async function UserProfilePage({ params }: Props) {
       {publicLists.length > 0 && (
         <section className="flex flex-col gap-3">
           <h2 className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-stone">
-            Public lists
+            {t("Users.publicLists")}
           </h2>
           <div className="flex flex-col gap-2">
             {publicLists.map((list) => (
@@ -131,7 +133,7 @@ export default async function UserProfilePage({ params }: Props) {
       )}
 
       {logbookPage.content.length === 0 && publicLists.length === 0 && (
-        <p className="font-sans text-sm text-stone">No public activity yet.</p>
+        <p className="font-sans text-sm text-stone">{t("Users.noActivity")}</p>
       )}
     </div>
   );

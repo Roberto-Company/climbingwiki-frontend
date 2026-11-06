@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import { resetPasswordAction, type FormState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/Button";
@@ -13,19 +14,20 @@ type Props = {
 };
 
 export function ResetPasswordForm({ defaultToken }: Props) {
+  const t = useTranslations("Auth.reset");
   const [state, action, pending] = useActionState(resetPasswordAction, initialState);
 
   return (
     <form action={action} className="flex flex-col gap-5">
       <TextField
-        label="Reset token"
+        label={t("token")}
         name="token"
         defaultValue={defaultToken}
         error={state.fieldErrors?.token}
         required
       />
       <TextField
-        label="New password"
+        label={t("newPassword")}
         name="newPassword"
         type="password"
         autoComplete="new-password"
@@ -35,7 +37,7 @@ export function ResetPasswordForm({ defaultToken }: Props) {
       />
       {state.error && <FormMessage variant="error">{state.error}</FormMessage>}
       <Button type="submit" disabled={pending}>
-        {pending ? "Resetting…" : "Reset password"}
+        {pending ? t("pending") : t("submit")}
       </Button>
     </form>
   );

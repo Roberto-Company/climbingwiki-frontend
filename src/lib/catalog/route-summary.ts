@@ -1,10 +1,4 @@
-import type { GradeResponse, PitchResponse, RouteType } from "@/lib/types";
-
-export const ROUTE_TYPE_LABELS: Record<RouteType, string> = {
-  SPORT: "Sport",
-  TRAD: "Trad",
-  BOULDER: "Boulder",
-};
+import type { GradeResponse, PitchResponse } from "@/lib/types";
 
 export type GradeLookup = ReadonlyMap<number, GradeResponse>;
 
