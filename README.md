@@ -9,17 +9,18 @@ Web client for **ClimbingWiki**, a community wiki and logbook for rock climbing:
 - **Next.js 16** (App Router, Server Components, Server Actions) + **React 19** + **TypeScript**
 - **Tailwind CSS v4** with a custom palette (chalk, moss, ochre) and Fraunces/Inter typography
 - **next-intl**: Spanish and English, switched from the header
+- **Leaflet** + react-leaflet with OpenTopoMap tiles for the maps
 - **Vitest** for unit tests
 
 ## Features
 
-- Browse the catalog from zone to pitch, with route type, grade and length badges
+- Browse the catalog from zone to pitch: photo headers of the real places, breadcrumbs, a topographic map of crags and sectors, a routes-by-grade chart and a guidebook-style route table with grades coloured by difficulty band
 - Add and edit climbing data: new additions are marked **unverified** until a moderator verifies them
 - Moderation: a review page lists unverified data for moderators to check and verify; moderators can delete any comment or photo
 - Search routes, crags and zones
 - Accounts: register, log in, email verification and password reset (demo mode, no email is sent)
 - Personal layer: favorites, half-star ratings, threaded comments, photos, route lists, logbook, following other climbers, public profiles
-- Loading, error and 404 pages; data attribution shown once per page
+- Loading, error and 404 pages; data attribution shown once per page; a photo credits page (all photos from Wikimedia Commons)
 
 ## Run locally
 

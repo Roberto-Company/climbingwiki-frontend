@@ -40,7 +40,11 @@
   },
   "Footer": {
     "about": "ClimbingWiki es un proyecto de portfolio, no un servicio en producción.",
-    "attribution": "Datos de mapa © colaboradores de OpenStreetMap (ODbL). Datos de vías de los colaboradores de theCrag (CC BY-NC-SA)."
+    "attribution": "Datos de mapa © colaboradores de OpenStreetMap (ODbL). Datos de vías de los colaboradores de theCrag (CC BY-NC-SA).",
+    "credits": "Créditos de las fotos",
+    "zones": "Zonas",
+    "search": "Buscar",
+    "links": "Enlaces del pie"
   },
   "Home": {
     "eyebrow": "Guía de escalada y libreta de ascensos",
@@ -53,15 +57,22 @@
       "crags": "{count, plural, one {escuela} other {escuelas}}",
       "routes": "{count, plural, one {vía} other {vías}}"
     },
-    "startExploring": "Empieza a explorar",
     "allZones": "Todas las zonas →",
-    "features": {
-      "title": "Qué puedes hacer",
-      "guide": "Recorre la guía de zona a escuela, sector y vía, con grados y longitud de cada largo.",
-      "log": "Apunta tus ascensos, valora vías y guárdalas en listas.",
-      "community": "Sigue a otros escaladores y comparte fotos, croquis y comentarios."
+    "unavailable": "El catálogo no está disponible ahora mismo. Inténtalo de nuevo en un momento.",
+    "heroTitle": "Escalada en la Región de Murcia",
+    "heroSearchLabel": "Buscar en la guía",
+    "zonesTitle": "Zonas de escalada",
+    "zonesIntro": "Desde las paredes de Leiva en Sierra Espuña hasta la caliza de Mula, junto al embalse de La Cierva.",
+    "mapTitle": "Todas las escuelas, en el mapa",
+    "mapIntro": "Pulsa un punto para ver la escuela.",
+    "logbook": {
+      "eyebrow": "Tu libreta",
+      "title": "Cada ascenso, apuntado",
+      "body": "Guarda tus ascensos con fecha y estilo, valora las vías, haz listas de proyectos y sigue lo que escalan tus compañeros.",
+      "cta": "Crear una cuenta",
+      "ctaSignedIn": "Ir a tu libreta"
     },
-    "unavailable": "El catálogo no está disponible ahora mismo. Inténtalo de nuevo en un momento."
+    "heroSearchButton": "Buscar"
   },
   "Status": {
     "loading": "Cargando…",
@@ -236,6 +247,37 @@
         "invalidDate": "Usa una fecha válida.",
         "invalidChoice": "Elige una de las opciones."
       }
+    },
+    "histogram": {
+      "title": "Vías por grado",
+      "total": "{count, plural, one {# vía con grado} other {# vías con grado}}",
+      "bar": "{count, plural, one {# vía} other {# vías}} de {grade}",
+      "bands": {
+        "beginner": "Iniciación (hasta 5+)",
+        "intermediate": "Intermedio (6a–6b+)",
+        "advanced": "Avanzado (6c–7a+)",
+        "expert": "Experto (7b y más)"
+      }
+    },
+    "counts": {
+      "zones": "{count, plural, =0 {Sin subzonas} one {# subzona} other {# subzonas}}",
+      "crags": "{count, plural, =0 {Sin escuelas} one {# escuela} other {# escuelas}}",
+      "sectors": "{count, plural, =0 {Sin sectores} one {# sector} other {# sectores}}",
+      "routes": "{count, plural, =0 {Sin vías} one {# vía} other {# vías}}",
+      "gradeRange": "{from} a {to}"
+    },
+    "map": {
+      "title": "Situación",
+      "crags": "Mapa de las escuelas de {name}",
+      "sectors": "Mapa de los sectores de {name}",
+      "all": "Mapa de las escuelas de la guía",
+      "noLocation": "Todavía no hay coordenadas para situarlo en el mapa."
+    },
+    "routeTable": {
+      "number": "N.º",
+      "name": "Vía",
+      "length": "Longitud",
+      "grade": "Grado"
     }
   },
   "Search": {
@@ -393,5 +435,17 @@
     "addedBy": "añadido por",
     "unknownAuthor": "autor desconocido",
     "count": "{count, plural, one {# elemento} other {# elementos}}"
+  },
+  "Media": {
+    "credit": "{place} · Foto: {author}"
+  },
+  "Credits": {
+    "eyebrow": "Créditos",
+    "title": "Fotos de la guía",
+    "intro": "Todas las fotos vienen de Wikimedia Commons y se usan según su licencia. Solo se han redimensionado; pulsa cualquiera para ver el original.",
+    "place": "Lugar",
+    "author": "Autor",
+    "license": "Licencia",
+    "maps": "Los mapas usan datos de OpenStreetMap (ODbL) y teselas de OpenTopoMap (CC-BY-SA)."
   }
 }

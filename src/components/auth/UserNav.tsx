@@ -13,7 +13,7 @@ export function UserNav({ user }: Props) {
 
   if (!user) {
     return (
-      <div className="flex items-center gap-4 font-sans text-sm">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-sans text-sm">
         <Link href="/login" className="font-medium text-moss-600 hover:text-moss-800">
           {t("signIn")}
         </Link>
@@ -25,7 +25,7 @@ export function UserNav({ user }: Props) {
   }
 
   return (
-    <div className="flex items-center gap-4 font-sans text-sm">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-sans text-sm">
       <Link href="/favorites" className="font-medium text-stone hover:text-moss-600">
         {t("favorites")}
       </Link>
