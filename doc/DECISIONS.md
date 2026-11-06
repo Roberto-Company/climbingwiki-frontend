@@ -1,11 +1,11 @@
-# Decision Log — FrontendApp
+# Decision Log — climbingwiki-frontend
 
-Every non-obvious decision made on this project, and why. `HANDOFF.md` says where things stand; `ROADMAP.md` says what's planned; this says **why** things are the way they are, so nobody has to re-derive the reasoning or accidentally undo it. Newest entries at the bottom of each section.
+Every non-obvious decision made on this project, and why. `ROADMAP.md` says where things stand and what's planned; this says **why** things are the way they are, so nobody has to re-derive the reasoning or accidentally undo it. Newest entries at the bottom of each section.
 
 ## Project & tooling
 
 ### D1. Separate repo/folder from BackendApi
-**Decision:** `FrontendApp` is its own folder, not a subfolder of `BackendApi`.
+**Decision:** `climbingwiki-frontend` is its own folder, not a subfolder of `climbingwiki-backend`.
 **Why:** Explicit user decision (carried over from the original planning session, predates this log).
 
 ### D2. Next.js 16 + TypeScript + App Router + Tailwind v4
@@ -13,8 +13,8 @@ Every non-obvious decision made on this project, and why. `HANDOFF.md` says wher
 **Why:** Standard, current, well-supported stack for a server-rendered content site with auth. Tailwind v4 is CSS-first (no `tailwind.config.js`) — confirmed this is the current default, not assumed from older training data.
 
 ### D3. Scaffolded into a temp lowercase directory, then moved files in
-**Decision:** Ran `create-next-app` against a temporary `climbing-wiki-frontend` folder instead of directly into `FrontendApp/`, then moved the generated files over.
-**Why:** `create-next-app` derives the npm package name from the target directory name and rejects capital letters. `FrontendApp` has capitals, so direct scaffolding failed. The package name itself (`climbing-wiki-frontend` in `package.json`) doesn't need to match the folder name, so this was a clean workaround with no lasting effect.
+**Decision:** Ran `create-next-app` against a temporary `climbing-wiki-frontend` folder instead of directly into `climbingwiki-frontend/`, then moved the generated files over.
+**Why:** `create-next-app` derives the npm package name from the target directory name and rejects capital letters. `climbingwiki-frontend` has capitals, so direct scaffolding failed. The package name itself (`climbing-wiki-frontend` in `package.json`) doesn't need to match the folder name, so this was a clean workaround with no lasting effect.
 
 ### D4. Next.js 16 renamed `middleware.ts` → `proxy.ts`
 **Decision:** Used `src/proxy.ts` (exported function `proxy`), not `middleware.ts`.
@@ -34,7 +34,7 @@ Every non-obvious decision made on this project, and why. `HANDOFF.md` says wher
 
 ### D7. Error parsing matches the backend's actual `GlobalExceptionHandler`, not a guess
 **Decision:** `ApiError` class with `.status`, `.message`, optional `.validationErrors: Record<string,string>`.
-**Why:** Read `BackendApi`'s `GlobalExceptionHandler.java` and `ApiError.java` directly. The backend returns `{message: string}` for most error paths and a raw `Map<field, message>` (no wrapper) for `@Valid` failures — two different shapes on the wire. Modeling this from the real source avoided shipping a client that silently mishandles one of the two shapes.
+**Why:** Read `climbingwiki-backend`'s `GlobalExceptionHandler.java` and `ApiError.java` directly. The backend returns `{message: string}` for most error paths and a raw `Map<field, message>` (no wrapper) for `@Valid` failures — two different shapes on the wire. Modeling this from the real source avoided shipping a client that silently mishandles one of the two shapes.
 
 ### D8. `lib/types` mirrors all 40 backend DTOs 1:1, not a hand-picked subset
 **Decision:** One TypeScript interface per backend `Request`/`Response` DTO, named identically (`RouteRequest`, `RouteResponse`, etc.), grouped into 19 files + a barrel.
@@ -46,7 +46,7 @@ Every non-obvious decision made on this project, and why. `HANDOFF.md` says wher
 
 ### D10. Nullability on a few fields decided by checking Java validation annotations, not guessed
 **Decision:** `UserRequest.role`, `RouteRequest.tagIds`, and several free-text `CragResponse`/`RouteResponse` fields are typed `T | null`.
-**Why:** No `@NotNull`/`@NotBlank` on the corresponding Java field means the backend record allows `null` there. Flagged in `HANDOFF.md` as "revisit if real API responses disagree" rather than treated as settled fact, since this was inferred from annotations rather than observed on live data for every field.
+**Why:** No `@NotNull`/`@NotBlank` on the corresponding Java field means the backend record allows `null` there. Flagged at the time as "revisit if real API responses disagree" rather than treated as settled fact, since this was inferred from annotations rather than observed on live data for every field.
 
 ### D11. `apiFetch` reads `response.text()` before parsing, not just checking for HTTP 204
 **Decision:** Empty-body detection is based on whether the response body is actually empty, not on status code 204 specifically.
@@ -76,7 +76,7 @@ Every non-obvious decision made on this project, and why. `HANDOFF.md` says wher
 
 ### D17. `proxy.ts` only protects `/profile` so far
 **Decision:** `PROTECTED_ROUTES = ["/profile"]`, not the full set of account pages listed in `ROADMAP.md` (`/logbook`, `/favorites`, `/follows`, `/lists`).
-**Why:** Those pages don't exist yet — they're Phase 3 ("personal layer") scope. Protecting routes with no content would be speculative. `HANDOFF.md` flags this list as the first thing to extend when Phase 3 adds those pages.
+**Why:** Those pages don't exist yet — they're Phase 3 ("personal layer") scope. Protecting routes with no content would be speculative. The list was extended when Phase 3 added them (`/favorites`, `/follows`, `/logbook`, `/lists`).
 
 ### D18. Skipped Zod for the auth forms despite the house rule to use it for schema validation
 **Decision:** Form validation relies on HTML5 input attributes (`required`, `type`, `minLength`) plus the backend's real `@Valid` errors surfaced via `fieldErrors` — no Zod schema layer on the frontend.
@@ -88,7 +88,7 @@ Every non-obvious decision made on this project, and why. `HANDOFF.md` says wher
 
 ### D20. `forgot-password` shows the reset token on-screen; `verify-email` is a manual token-paste form
 **Decision:** Neither flow sends real email. `forgot-password` displays the backend's returned `resetToken` directly in the UI with a visible "Development mode" label and a link straight to `/reset-password?token=...`. `verify-email` is just a bare token input with no way to arrive there from a clicked email link.
-**Why:** The backend has no email-sending infrastructure yet (`AuthService` stubs tokens via the response body / logs only — confirmed in `BackendApi`'s own handoff notes). `ROADMAP.md` Phase 1 explicitly scoped this as "wire the three endpoints, no email UI needed yet." This UX is a known, temporary stand-in — replace it once the backend sends real email.
+**Why:** The backend has no email-sending infrastructure yet (`AuthService` stubs tokens via the response body / logs only — confirmed in `climbingwiki-backend`'s `AuthService`). `ROADMAP.md` Phase 1 explicitly scoped this as "wire the three endpoints, no email UI needed yet." This UX is a known, temporary stand-in — replace it once the backend sends real email.
 
 ## Operational decisions
 
@@ -100,9 +100,9 @@ Every non-obvious decision made on this project, and why. `HANDOFF.md` says wher
 **Decision:** Started the actual Spring Boot backend and MySQL container, then drove the UI through a real browser (Playwright) for register → login → profile → logout, both `proxy.ts` redirect directions, forgot-password → reset-password (confirming the old password stopped working and the new one worked), and verify-email (confirming the DB flag actually flipped).
 **Why:** Type-checking and linting only prove the code is internally consistent, not that it's correct against the real system. This is what caught D11 (the empty-body bug) and D21 (the missing migration) — neither would have surfaced from static checks alone.
 
-### D23. Added parent-filter query params to `BackendApi` instead of filtering client-side
-**Decision:** Reading `ZoneController`/`CragController`/`SectorController`/`RouteController` source revealed no `?parentZoneId=`/`?zoneId=`/`?cragId=`/`?sectorId=` filters existed (only `PitchController`'s `?routeId=` did). Asked the user which way to close the gap; user chose adding the params to `BackendApi` over fetching everything and filtering in the frontend.
-**Why:** Filtering server-side scales correctly once real catalog data lands (pagination stays meaningful); client-side filtering would mean fetching entire unpaginated resource lists just to discard most of them. This was a cross-repo change made in a different project (`BackendApi`) from this session, so it's recorded here too since `lib/api`'s catalog clients (D25) depend on the exact param names chosen there (`parentZoneId`, `rootOnly`, `zoneId`, `cragId`, `sectorId`). See `BackendApi/doc/DECISIONS.md` (or equivalent) for the implementation-side reasoning.
+### D23. Added parent-filter query params to `climbingwiki-backend` instead of filtering client-side
+**Decision:** Reading `ZoneController`/`CragController`/`SectorController`/`RouteController` source revealed no `?parentZoneId=`/`?zoneId=`/`?cragId=`/`?sectorId=` filters existed (only `PitchController`'s `?routeId=` did). Asked the user which way to close the gap; user chose adding the params to `climbingwiki-backend` over fetching everything and filtering in the frontend.
+**Why:** Filtering server-side scales correctly once real catalog data lands (pagination stays meaningful); client-side filtering would mean fetching entire unpaginated resource lists just to discard most of them. This was a cross-repo change made in a different project (`climbingwiki-backend`) from this session, so it's recorded here too since `lib/api`'s catalog clients (D25) depend on the exact param names chosen there (`parentZoneId`, `rootOnly`, `zoneId`, `cragId`, `sectorId`). See `BackendApi/doc/DECISIONS.md` (or equivalent) for the implementation-side reasoning.
 
 ### D24. Zone's root-zones query uses a separate `rootOnly` boolean, not just `parentZoneId=null`
 **Decision:** `GET /api/zones` accepts both `?parentZoneId=<id>` and `?rootOnly=true`, as two independent optional params, rather than overloading a single nullable `parentZoneId`.
@@ -119,3 +119,21 @@ Every non-obvious decision made on this project, and why. `HANDOFF.md` says wher
 ### D27. `GradingSystem` and `Grade` list endpoints return plain arrays, not `PagedResponse<T>`
 **Decision:** `listGradingSystems(): Promise<GradingSystemResponse[]>` and `listGrades(params): Promise<GradeResponse[]>` — no pagination wrapper, unlike every other catalog resource client.
 **Why:** Confirmed by reading `GradingSystemController`/`GradeController` source directly: both `list()` methods return a plain `List<T>`, not a `Page<T>`/`PagedResponse<T>`. These are small, bounded reference tables (grading systems and their grade scales), not user-generated content that grows unbounded, so the backend never paginated them. Modeling them as arrays on the frontend matches the real wire contract instead of assuming consistency with the other six resources.
+
+## Portfolio direction (2026-11)
+
+### D28. Interface in Spanish and English, switched with a cookie, not with the URL
+**Decision:** next-intl in "without i18n routing" mode. The locale comes from a `cw_locale` cookie, then the browser's `Accept-Language`, then Spanish (`src/i18n/config.ts`). A globe button in the header (`LocaleSwitcher`) sets the cookie through a Server Action, which re-renders the page. Messages live in `messages/{es,en}.json`; `src/global.d.ts` types the keys, so a missing or misspelled key fails `tsc`.
+**Why:** The user asked for a toggle "like a dark/light theme switch", which is a per-visitor preference, not a different page. Locale prefixes (`/es/...`) would have meant moving every route under `app/[locale]` and redirecting in `proxy.ts` for no benefit in a portfolio project with no SEO needs. next-intl over hand-rolled dictionaries because it covers Server and Client Components, plurals and date formatting.
+
+### D29. Photos use a plain `<img>`, not `next/image`
+**Decision:** `PhotoGallery` renders user-supplied photo URLs with `<img loading="lazy">` (with the ESLint rule disabled on that line) after checking the scheme with `isSafeHttpUrl`.
+**Why:** Photos are links to any host the user chooses (the backend has no upload). `next/image` would need every possible host listed in `images.remotePatterns` or would proxy arbitrary URLs through the server.
+
+### D30. Vitest for pure helpers first, in a node environment
+**Decision:** `npm test` runs Vitest over `src/**/*.test.ts` with no DOM. Tested so far: `splitAttribution`, `pickLocale`, `hardestGrade`/`totalLength`. `@types/node` moved to 24 to match the Node runtime and Vitest 5's peer range.
+**Why:** The riskiest logic is in small pure functions. Async Server Components can't be unit-tested with Vitest yet (per the Next.js docs), so page behaviour is better covered by Playwright E2E tests later. jsdom and Testing Library can be added when a component needs it.
+
+### D31. Data attribution is split off descriptions in the frontend
+**Decision:** The import scripts end each description with "Fuente: … (licence) – url.". `splitAttribution` removes that sentence for display, and `SourceNote` shows each distinct source once at the bottom of the zone, crag, sector or route page.
+**Why:** The sentence filled every card in a sector list. Attribution must stay visible (ODbL and CC BY-NC-SA), so it's moved, not removed. A cleaner fix is storing the source in its own backend fields (`external_source` exists in the DB but not in the DTOs); this frontend split works with the data already loaded.

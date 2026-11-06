@@ -1,94 +1,32 @@
-# Roadmap — FrontendApp
+# Roadmap — climbingwiki-frontend
 
-Separate repo/folder from `BackendApi`, per explicit user decision. Stack: **Next.js + TypeScript** (App Router). Nothing scaffolded yet — this is the plan for when scaffolding starts.
+Next.js 16 (App Router) + TypeScript + Tailwind v4 client for the [climbingwiki-backend](https://github.com/Roberto-Company/climbingwiki-backend) REST API.
 
-## Target structure
+**Direction:** ClimbingWiki is a portfolio project, not a production service. The goal is a finished, polished, well-tested core that is easy to run and review, rather than maximum feature breadth. Production-only concerns (real email delivery, refresh tokens, hosting) are documented, not built.
 
-```
-FrontendApp/
-├── doc/
-│   └── ROADMAP.md
-├── src/
-│   ├── app/
-│   │   ├── (auth)/
-│   │   │   ├── login/page.tsx
-│   │   │   ├── register/page.tsx
-│   │   │   ├── verify-email/page.tsx
-│   │   │   ├── forgot-password/page.tsx
-│   │   │   └── reset-password/page.tsx
-│   │   ├── (catalog)/
-│   │   │   ├── zones/page.tsx            # top-level zone list (recursive tree)
-│   │   │   ├── zones/[id]/page.tsx       # zone detail -> child zones/crags
-│   │   │   ├── crags/[id]/page.tsx       # crag detail -> sectors
-│   │   │   ├── sectors/[id]/page.tsx     # sector detail -> routes
-│   │   │   └── routes/[id]/page.tsx      # route detail -> pitches, comments, photos, ratings
-│   │   ├── (account)/
-│   │   │   ├── profile/page.tsx
-│   │   │   ├── logbook/page.tsx
-│   │   │   ├── favorites/page.tsx
-│   │   │   ├── follows/page.tsx
-│   │   │   └── lists/page.tsx            # RouteList + lists/[id] for ListRoute entries
-│   │   ├── layout.tsx
-│   │   └── page.tsx                      # landing/home
-│   ├── components/
-│   │   ├── ui/          # design-system primitives (Button, Input, Pagination, etc.)
-│   │   ├── catalog/     # RouteCard, GradeBadge, ZoneTree, TagPill
-│   │   ├── auth/        # LoginForm, RegisterForm, AuthGuard
-│   │   └── personal/    # RatingStars, FavoriteButton, CommentList, LogbookForm
-│   ├── lib/
-│   │   ├── api/         # one typed client module per resource (zones.ts, routes.ts, auth.ts, ...)
-│   │   ├── auth/        # token storage + auth context/provider
-│   │   └── types/       # TS types mirroring backend Request/Response DTOs
-│   ├── hooks/           # useAuth, usePaginatedQuery, etc.
-│   └── styles/
-├── public/
-├── .env.local            # NEXT_PUBLIC_API_BASE_URL, etc.
-└── package.json
-```
+Why things are built the way they are: [`DECISIONS.md`](./DECISIONS.md).
 
-### Why this shape
+## Done
 
-- **Route groups `(auth)` / `(catalog)` / `(account)`** keep URL structure flat (`/login`, `/zones/12`) while letting each area have its own layout (e.g. `(account)` gets an auth-guarded layout, `(auth)` doesn't).
-- **`lib/api/*` mirrors backend controllers 1:1** (`ZoneController` → `zones.ts`, `AuthController` → `auth.ts`, etc.) so adding a backend resource has an obvious frontend home.
-- **`lib/types` mirrors backend DTOs** (`RouteRequest`/`RouteResponse` → `Route` types) — keeps the contract explicit instead of `any`-typed fetches.
-- Server state (catalog data, personal data) goes through **TanStack Query** wrapping `lib/api/*`; the backend's `PagedResponse<T>` envelope (`content`/`page`/`size`/`totalElements`/`totalPages`) maps directly onto a paginated query hook.
-- Auth: backend issues a stateless JWT (24h, no refresh) — store it client-side (httpOnly cookie via a Next.js route handler proxy is preferable to `localStorage` for XSS resistance) and attach `Authorization: Bearer` on every request via the `lib/api` client.
+- **Auth:** register, login, logout, email verification and password reset (demo mode: tokens shown on screen, no email is sent). Session in an httpOnly cookie; `src/proxy.ts` guards account pages. The visitor's IP is forwarded on login so the backend can rate-limit per visitor.
+- **Catalog browsing:** zones → crags → sectors → routes → pitches, paginated, with route type and grade badges. Route lists get grade and length from the route list response (one request per page).
+- **Personal layer:** favorites, ratings (half stars), comments with replies, photos (URL only), logbook, route lists, follows.
+- **Search** across routes, crags and zones; **public user profiles**.
+- **Languages:** Spanish and English with a header toggle (next-intl, cookie mode, no locale in URLs). First visit follows the browser language, default Spanish.
+- **Home page** with live catalog counts and featured zones; **loading, error and 404 pages**; footer with data attribution. Source sentences in imported descriptions are shown once per page as a footnote.
+- **Tests:** Vitest unit tests for the pure helpers (`npm test`).
 
-## Phases
+## Next
 
-### Phase 0 — Scaffold
-- `create-next-app` (TypeScript, App Router, ESLint)
-- Tailwind (or chosen styling approach) + base design tokens
-- `lib/api` base client (fetch wrapper, base URL from env, error envelope handling matching backend's `GlobalExceptionHandler` status codes)
-- `lib/types` stubs for all 12 backend resources + auth DTOs
+1. **One-command run:** Dockerfile for this app and a full-stack `docker compose up` (database, backend, frontend, seeded data, demo accounts).
+2. **More tests:** a few Playwright end-to-end flows (browse catalog, log in, switch language); component tests where useful.
+3. **CI:** GitHub Actions running type-check, lint, tests and build.
+4. **README** with screenshots, architecture diagram, demo GIF and an "If this went to production" section.
+5. **One standout feature:** crag and sector map (Leaflet + OpenStreetMap), or create/edit forms for catalog data with role checks.
+6. **Accessibility and mobile pass** (keyboard navigation, contrast, small screens).
 
-### Phase 1 — Auth
-- Register / login / logout, token storage, `AuthGuard`/middleware for protected routes
-- Email verification + forgot/reset password flows (backend stubs tokens via response/log — frontend just needs the three endpoints wired, no email UI needed yet)
-- Role-aware UI (USER/MODERATOR/ADMIN) gating write actions on wiki resources
+## Known limitations
 
-### Phase 2 — Catalog browsing (read-only)
-- Zone (recursive) → Crag → Sector → Route → Pitch navigation
-- Tag and Grading System/Grade display
-- Pagination/sorting UI wired to the 9 paginated list endpoints (Route, Crag, Sector, Zone, Tag, Pitch, Comment, Photo, LogbookEntry)
-- Map/coordinates display for sector- and route-level lat/lng where present
-
-### Phase 3 — Personal layer
-- Favorites, Follows, Ratings (half-star), Comments, Photos (URL-only, no upload), Logbook entries, RouteList/ListRoute
-- Ownership-aware UI (edit/delete only shown for the owning user, mirroring backend's `isSelfOrModeratorOrAdmin`)
-
-### Phase 4 — Catalog write/admin
-- Create/edit/delete for wiki resources (Zone/Crag/Sector/Route/Pitch/Tag), gated to authenticated users per backend policy
-- Admin-only `User` management screen
-
-### Phase 5 — Search/filtering
-- Blocked until backend search/filtering beyond exact-match ships (`KNOWN_ISSUES.md` in `BackendApi`) and real data is loaded — UI can stub this with the current equality filters in the meantime
-
-### Phase 6 — Polish & deploy
-- Responsive breakpoints, accessibility pass, loading/error states, Lighthouse pass
-- Deployment target (decided alongside `BackendApi`'s own deployment-prep step, currently also not started)
-
-## Dependencies on BackendApi
-
-- Two pending SQL migrations (ratings half-star, auth tokens) must run before Phase 1 (password reset) and Phase 3 (ratings) can be tested end-to-end against real data.
-- OpenBeta import / grade seeding is owned by a separate session — Phase 2 catalog browsing has no real data to render until that lands.
+- Error messages that come from the backend API are in English only.
+- Password reset and email verification are demo flows (no email delivery).
+- Some account pages fetch each route separately (favorites, logbook, lists). Fine at portfolio scale.
