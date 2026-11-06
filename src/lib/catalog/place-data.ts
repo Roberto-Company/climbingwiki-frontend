@@ -3,7 +3,7 @@ import "server-only";
 import { cache } from "react";
 import { getZone, listGrades, listRoutes } from "@/lib/api";
 import type { Crumb } from "@/components/media/PhotoBanner";
-import { zonePhoto, type Photo } from "@/lib/media/photos";
+import { placePhoto, type Photo } from "@/lib/media/photos";
 import type { GradeResponse, RouteResponse, ZoneResponse } from "@/lib/types";
 
 /** Zones nest a few levels at most (region → area); the cap guards against a cycle in bad data. */
@@ -28,10 +28,13 @@ export function zoneCrumbs(chain: readonly ZoneResponse[], zonesLabel: string): 
   return [{ href: "/zones", label: zonesLabel }, ...chain.map((zone) => ({ href: `/zones/${zone.id}`, label: zone.name }))];
 }
 
-/** The photo of the nearest zone that has one: a crag in Mula shows Mula, not the whole region. */
-export function nearestZonePhoto(chain: readonly ZoneResponse[]): Photo | null {
-  for (const zone of chain.toReversed()) {
-    const photo = zonePhoto(zone.name);
+/**
+ * The photo of the nearest place that has one: the crag itself first, then its zones from the
+ * innermost out, so a crag in Mula shows Mula, not the whole region.
+ */
+export function nearestPhoto(chain: readonly ZoneResponse[], cragName?: string): Photo | null {
+  for (const name of [cragName, ...chain.toReversed().map((zone) => zone.name)]) {
+    const photo = placePhoto(name);
     if (photo) {
       return photo;
     }

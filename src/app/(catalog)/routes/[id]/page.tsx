@@ -23,7 +23,7 @@ import {
   listRouteLists,
 } from "@/lib/api";
 import { buildGradeLookup, hardestGrade, totalLength } from "@/lib/catalog/route-summary";
-import { nearestZonePhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
+import { nearestPhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
 import { PhotoBanner } from "@/components/media/PhotoBanner";
 import { EmptyState } from "@/components/catalog/EmptyState";
 import { GradeBadge } from "@/components/catalog/RouteBadges";
@@ -83,7 +83,7 @@ export default async function RouteDetailPage({ params }: Props) {
   return (
     <div className="flex flex-1 flex-col">
       <PhotoBanner
-        photo={nearestZonePhoto(chain)}
+        photo={nearestPhoto(chain, crag.name)}
         eyebrow={t("Catalog.route.eyebrow")}
         title={route.name}
         crumbs={[

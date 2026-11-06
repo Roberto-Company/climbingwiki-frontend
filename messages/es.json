@@ -40,7 +40,7 @@
   },
   "Footer": {
     "about": "ClimbingWiki es un proyecto de portfolio, no un servicio en producción.",
-    "attribution": "Datos de mapa © colaboradores de OpenStreetMap (ODbL). Datos de vías de los colaboradores de theCrag (CC BY-NC-SA).",
+    "attribution": "Datos de mapa © colaboradores de OpenStreetMap (ODbL). Vías de Mula: colaboradores de theCrag (CC BY-NC-SA). Vías famosas: datos de conocimiento público. Cada ficha indica su fuente.",
     "credits": "Créditos de las fotos",
     "zones": "Zonas",
     "search": "Buscar",
@@ -59,10 +59,10 @@
     },
     "allZones": "Todas las zonas →",
     "unavailable": "El catálogo no está disponible ahora mismo. Inténtalo de nuevo en un momento.",
-    "heroTitle": "Escalada en la Región de Murcia",
+    "heroTitle": "De la escuela de casa a las paredes de leyenda",
     "heroSearchLabel": "Buscar en la guía",
     "zonesTitle": "Zonas de escalada",
-    "zonesIntro": "Desde las paredes de Leiva en Sierra Espuña hasta la caliza de Mula, junto al embalse de La Cierva.",
+    "zonesIntro": "De la caliza de Siurana y Céüse al granito de Yosemite, sin olvidar las escuelas de casa en Murcia.",
     "mapTitle": "Todas las escuelas, en el mapa",
     "mapIntro": "Pulsa un punto para ver la escuela.",
     "logbook": {

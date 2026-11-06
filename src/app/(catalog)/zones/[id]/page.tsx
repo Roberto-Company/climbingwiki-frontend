@@ -3,9 +3,9 @@ import { getSession } from "@/lib/auth/session";
 import { getZone, listCrags, listZones } from "@/lib/api";
 import { splitAttribution } from "@/lib/catalog/attribution";
 import { loadOrNotFound } from "@/lib/catalog/page-data";
-import { nearestZonePhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
+import { nearestPhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
 import { toMapPoints } from "@/lib/map/points";
-import { zonePhoto } from "@/lib/media/photos";
+import { placePhoto } from "@/lib/media/photos";
 import { CatalogCard } from "@/components/catalog/CatalogCard";
 import { EmptyState } from "@/components/catalog/EmptyState";
 import { SourceNote } from "@/components/catalog/SourceNote";
@@ -39,7 +39,7 @@ export default async function ZoneDetailPage({ params }: Props) {
   return (
     <div className="flex flex-1 flex-col">
       <PhotoBanner
-        photo={nearestZonePhoto(chain)}
+        photo={nearestPhoto(chain)}
         eyebrow={t("Catalog.zone.eyebrow")}
         title={zone.name}
         crumbs={zoneCrumbs(chain.slice(0, -1), t("Catalog.zones.title"))}
@@ -79,7 +79,7 @@ export default async function ZoneDetailPage({ params }: Props) {
                     key={child.id}
                     href={`/zones/${child.id}`}
                     title={child.name}
-                    photo={zonePhoto(child.name)}
+                    photo={placePhoto(child.name)}
                     badges={child.verified ? undefined : <VerificationBadge verified={false} />}
                   />
                 ))}

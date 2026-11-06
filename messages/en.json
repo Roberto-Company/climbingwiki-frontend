@@ -40,7 +40,7 @@
   },
   "Footer": {
     "about": "ClimbingWiki is a portfolio project, not a production service.",
-    "attribution": "Map data © OpenStreetMap contributors (ODbL). Route data from theCrag contributors (CC BY-NC-SA).",
+    "attribution": "Map data © OpenStreetMap contributors (ODbL). Mula routes: theCrag contributors (CC BY-NC-SA). Famous routes: public-knowledge facts. Each page names its source.",
     "credits": "Photo credits",
     "zones": "Areas",
     "search": "Search",
@@ -59,10 +59,10 @@
     },
     "allZones": "All zones →",
     "unavailable": "The catalog is unavailable right now. Try again in a moment.",
-    "heroTitle": "Climbing in the Region of Murcia",
+    "heroTitle": "From your local crag to the legendary walls",
     "heroSearchLabel": "Search the guide",
     "zonesTitle": "Climbing areas",
-    "zonesIntro": "From the Leiva walls in Sierra Espuña to the Mula limestone by the La Cierva reservoir.",
+    "zonesIntro": "From the limestone of Siurana and Céüse to Yosemite granite, plus the home crags of Murcia.",
     "mapTitle": "Every crag on the map",
     "mapIntro": "Tap a dot to open the crag.",
     "logbook": {
