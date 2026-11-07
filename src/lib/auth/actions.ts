@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { apiFetch, ApiError, type ValidationErrors } from "@/lib/api";
 import type {
   ForgotPasswordRequest,
-  ForgotPasswordResponse,
   LoginRequest,
   LoginResponse,
   ResetPasswordRequest,
@@ -20,7 +19,6 @@ export interface FormState {
   error?: string;
   fieldErrors?: ValidationErrors;
   success?: boolean;
-  resetToken?: string;
 }
 
 export async function loginAction(
@@ -133,11 +131,13 @@ export async function forgotPasswordAction(
   }
 
   try {
-    const data = await apiFetch<ForgotPasswordResponse>("/auth/forgot-password", {
+    // The API answers 204 whether or not the email is registered; the link arrives by email.
+    await apiFetch<void>("/auth/forgot-password", {
       method: "POST",
+      headers: await clientIpHeaders(),
       body: { email } satisfies ForgotPasswordRequest,
     });
-    return { success: true, resetToken: data.resetToken };
+    return { success: true };
   } catch (error) {
     if (error instanceof ApiError) {
       return { error: error.message, fieldErrors: error.validationErrors };

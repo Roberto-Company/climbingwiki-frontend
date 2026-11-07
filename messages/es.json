@@ -114,10 +114,9 @@
     "forgot": {
       "eyebrow": "¿No puedes entrar?",
       "title": "Recupera tu contraseña",
-      "submit": "Enviar código",
+      "submit": "Enviar enlace",
       "pending": "Enviando…",
-      "devToken": "Modo demo: no se envía ningún correo. Código de recuperación:",
-      "continue": "Continuar para cambiar la contraseña"
+      "sent": "Si hay una cuenta con ese correo, te hemos enviado un enlace para cambiar la contraseña. Caduca en 1 hora."
     },
     "reset": {
       "eyebrow": "Ya casi está",

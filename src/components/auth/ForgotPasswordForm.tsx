@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { useActionState } from "react";
 import { forgotPasswordAction, type FormState } from "@/lib/auth/actions";
 import { Button } from "@/components/ui/Button";
@@ -25,18 +24,7 @@ export function ForgotPasswordForm() {
         required
       />
       {state.error && <FormMessage variant="error">{state.error}</FormMessage>}
-      {state.resetToken && (
-        <FormMessage variant="success">
-          {t("forgot.devToken")}{" "}
-          <span className="font-mono">{state.resetToken}</span>.{" "}
-          <Link
-            href={`/reset-password?token=${encodeURIComponent(state.resetToken)}`}
-            className="font-medium underline"
-          >
-            {t("forgot.continue")}
-          </Link>
-        </FormMessage>
-      )}
+      {state.success && <FormMessage variant="success">{t("forgot.sent")}</FormMessage>}
       <Button type="submit" disabled={pending}>
         {pending ? t("forgot.pending") : t("forgot.submit")}
       </Button>
