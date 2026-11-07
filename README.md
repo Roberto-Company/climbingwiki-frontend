@@ -12,6 +12,10 @@ Web client for **ClimbingWiki**, a community wiki and logbook for rock climbing:
 |---|---|---|
 | ![Zone catalog](doc/screenshots/zones.jpg) | ![Crag page with routes-by-grade chart and map](doc/screenshots/crag.jpg) | ![Sector page with the route table](doc/screenshots/sector.jpg) |
 
+| Profile | Logbook | Settings |
+|---|---|---|
+| ![Public profile with stats and recent ascents](doc/screenshots/profile.jpg) | ![Logbook with the route picker](doc/screenshots/logbook.jpg) | ![Settings page with profile picture upload](doc/screenshots/settings.jpg) |
+
 ## Stack
 
 - **Next.js 16** (App Router, Server Components, Server Actions) + **React 19** + **TypeScript**
