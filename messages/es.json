@@ -81,12 +81,20 @@
     "loading": "Cargando…",
     "errorEyebrow": "Algo ha fallado",
     "errorTitle": "No hemos podido cargar esta página",
-    "errorBody": "Puede que el servidor esté caído o vaya lento. Inténtalo de nuevo o vuelve en un momento.",
+    "errorBody": "Algo ha fallado al cargar esta página. Vuelve a intentarlo.",
     "retry": "Reintentar",
     "notFoundEyebrow": "404",
     "notFoundTitle": "Página no encontrada",
     "notFoundBody": "La página que buscas no existe o se ha eliminado.",
-    "backHome": "Volver al inicio"
+    "backHome": "Volver al inicio",
+    "checkingEyebrow": "Un momento",
+    "checkingTitle": "Comprobando el servidor…",
+    "checkingBody": "La página no ha cargado. Estamos viendo si el servidor está disponible.",
+    "wakingEyebrow": "Arrancando",
+    "wakingTitle": "El servidor se está despertando",
+    "wakingBody": "Esta demo usa un alojamiento gratuito que se duerme cuando nadie la usa. Suele tardar menos de un minuto; la página se recargará sola.",
+    "gaveUpTitle": "El servidor no responde",
+    "gaveUpBody": "Está tardando más de lo normal. Vuelve a intentarlo en unos minutos."
   },
   "Auth": {
     "username": "Usuario",
