@@ -3,6 +3,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import type { Role } from "@/lib/types";
 import { SESSION_COOKIE_NAME, SESSION_MAX_AGE_SECONDS } from "./constants";
+import { isSecureCookie } from "./cookie-secure";
 
 export interface Session {
   token: string;
@@ -26,7 +27,7 @@ export async function createSession(session: Session): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE_NAME, JSON.stringify(session), {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isSecureCookie(),
     sameSite: "lax",
     path: "/",
     maxAge: SESSION_MAX_AGE_SECONDS,

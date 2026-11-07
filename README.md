@@ -22,12 +22,27 @@ Web client for **ClimbingWiki**, a community wiki and logbook for rock climbing:
 - Personal layer: favorites, half-star ratings, threaded comments, photos, route lists, logbook, following other climbers, public profiles
 - Loading, error and 404 pages; data attribution shown once per page; a photo credits page (all photos from Wikimedia Commons)
 
-## Run locally
+## Run it
 
-Requires Node 24 and the backend running on `http://localhost:8080` (see the backend README).
+### Whole stack with Docker (one command)
+
+Clone both repos next to each other, then from the backend repo:
 
 ```bash
-cp .env.example .env.local   # then adjust if needed
+git clone https://github.com/Roberto-Company/climbingwiki-backend.git
+git clone https://github.com/Roberto-Company/climbingwiki-frontend.git
+cd climbingwiki-backend
+docker compose up --build    # open http://localhost:3000
+```
+
+Demo accounts (password `climbing-demo`): `demo` (climber), `moderator`, `admin`. See the backend README for details.
+
+### Frontend development
+
+Requires Node 24 and the backend running on `http://localhost:8080` (for example `docker compose up -d db backend` in the backend repo).
+
+```bash
+cp .env.example .env.local   # API_BASE_URL; adjust if needed
 npm install
 npm run dev                  # http://localhost:3000
 ```
@@ -38,6 +53,11 @@ npm run dev                  # http://localhost:3000
 | `npm run build` / `npm start` | Production build and server |
 | `npm test` | Unit tests (Vitest) |
 | `npm run lint` | ESLint |
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `API_BASE_URL` | `http://localhost:8080/api` | Backend URL, read at runtime by the Next.js server |
+| `SESSION_COOKIE_SECURE` | `true` in production builds | Set `false` to serve a production build over plain HTTP (the Docker demo does) |
 
 ## Project layout
 
