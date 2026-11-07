@@ -31,7 +31,6 @@ Why things are built the way they are: [`DECISIONS.md`](./DECISIONS.md).
 
 - Error messages that come from the backend API are in English only.
 - Password reset and email verification are demo flows (no email delivery).
-- **Next.js 16.2.9 has published security advisories** (fixed in 16.4+); upgrade before deploying.
 - The header has no mobile menu yet: on phones the links wrap onto a second line and the header search is hidden (the home page has its own).
 - Crag pages load routes with one request per sector (the API filters routes by sector only).
 - Some account pages fetch each route separately (favorites, logbook, lists). Fine at portfolio scale.
