@@ -9,7 +9,11 @@ import { FormMessage } from "@/components/ui/FormMessage";
 
 const initialState: FormState = {};
 
-export function VerifyEmailForm() {
+type Props = {
+  defaultToken?: string;
+};
+
+export function VerifyEmailForm({ defaultToken }: Props) {
   const t = useTranslations("Auth.verify");
   const [state, action, pending] = useActionState(verifyEmailAction, initialState);
 
@@ -22,6 +26,7 @@ export function VerifyEmailForm() {
       <TextField
         label={t("token")}
         name="token"
+        defaultValue={defaultToken}
         error={state.fieldErrors?.token}
         required
       />

@@ -114,10 +114,9 @@
     "forgot": {
       "eyebrow": "Locked out?",
       "title": "Reset your password",
-      "submit": "Send reset token",
+      "submit": "Send reset link",
       "pending": "Sending…",
-      "devToken": "Demo mode — no email is sent. Reset token:",
-      "continue": "Continue to reset password"
+      "sent": "If an account uses that email, we've sent it a link to choose a new password. The link expires in 1 hour."
     },
     "reset": {
       "eyebrow": "Almost there",

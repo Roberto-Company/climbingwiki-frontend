@@ -16,10 +16,6 @@ export interface ForgotPasswordRequest {
   email: string;
 }
 
-export interface ForgotPasswordResponse {
-  resetToken: string;
-}
-
 export interface ResetPasswordRequest {
   token: string;
   newPassword: string;
