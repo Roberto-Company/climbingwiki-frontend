@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
-import { getSession } from "@/lib/auth/session";
+import { getCurrentUser } from "@/lib/users/current-user";
 import { UserNav } from "@/components/auth/UserNav";
 import { SearchBar } from "@/components/catalog/SearchBar";
 import { LocaleSwitcher } from "@/components/i18n/LocaleSwitcher";
@@ -34,7 +34,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [session, locale, t] = await Promise.all([getSession(), getLocale(), getTranslations()]);
+  const [user, locale, t] = await Promise.all([getCurrentUser(), getLocale(), getTranslations()]);
 
   return (
     <html lang={locale} className={`${fraunces.variable} ${inter.variable} h-full`}>
@@ -55,7 +55,7 @@ export default async function RootLayout({
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-              <UserNav user={session} />
+              <UserNav user={user} />
               <LocaleSwitcher />
             </div>
           </header>

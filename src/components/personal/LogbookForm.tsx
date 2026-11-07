@@ -6,6 +6,7 @@ import { createLogbookEntryAction, type PersonalFormState } from "@/lib/personal
 import type { LogbookEntryResult } from "@/lib/types";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
+import { RoutePicker } from "@/components/users/RoutePicker";
 import { FormMessage } from "@/components/ui/FormMessage";
 
 const initialState: PersonalFormState = {};
@@ -32,7 +33,7 @@ export function LogbookForm({ routeId }: Props) {
       {routeId !== undefined ? (
         <input type="hidden" name="routeId" value={routeId} />
       ) : (
-        <TextField label={t("Common.routeId")} name="routeId" type="number" required error={state.fieldErrors?.routeId} />
+        <RoutePicker label={t("Personal.routePicker.label")} error={state.fieldErrors?.routeId} resetKey={state.success ? state : undefined} />
       )}
       <TextField label={t("Personal.logbook.date")} name="attemptDate" type="date" required error={state.fieldErrors?.attemptDate} />
       <div className="flex flex-col gap-1.5">

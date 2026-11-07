@@ -21,3 +21,19 @@ export interface UserResponse {
   role: Role;
   createdAt: string;
 }
+
+/** The fields a user edits on their own profile. Null clears the field. */
+export interface ProfileRequest {
+  fullName: string | null;
+  bio: string | null;
+}
+
+/** Activity counts shown on a profile. `sends` counts redpoints, flashes and onsights. */
+export interface UserStatsResponse {
+  ascents: number;
+  sends: number;
+  hardestSendGradeId: number | null;
+  favorites: number;
+  followers: number;
+  following: number;
+}

@@ -31,6 +31,7 @@ import { FavoriteButton } from "@/components/personal/FavoriteButton";
 import { RatingWidget } from "@/components/personal/RatingWidget";
 import { AddToListButton } from "@/components/personal/AddToListButton";
 import { CommentList } from "@/components/personal/CommentList";
+import { loadUsersById } from "@/lib/users/load-users";
 import { CommentForm } from "@/components/personal/CommentForm";
 import { PhotoGallery } from "@/components/personal/PhotoGallery";
 import { PhotoForm } from "@/components/personal/PhotoForm";
@@ -69,6 +70,7 @@ export default async function RouteDetailPage({ params }: Props) {
     session ? loadGradeGroups() : Promise.resolve([]),
   ]);
 
+  const commentAuthors = await loadUsersById(comments.content.map((comment) => comment.userId));
   const sortedPitches = [...pitches.content].sort((a, b) => a.orderIndex - b.orderIndex);
   const gradeLookup = buildGradeLookup(grades);
   const routeGrade = hardestGrade(sortedPitches, gradeLookup);
@@ -220,7 +222,7 @@ export default async function RouteDetailPage({ params }: Props) {
 
         <section className="flex flex-col gap-3">
           <h2 className="font-display text-xl font-medium text-foreground">{t("Catalog.route.comments")}</h2>
-          <CommentList comments={comments.content} session={session} />
+          <CommentList comments={comments.content} authors={commentAuthors} session={session} />
           {session ? (
             <CommentForm routeId={routeId} />
           ) : (

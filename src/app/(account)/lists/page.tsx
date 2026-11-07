@@ -4,17 +4,15 @@ import { verifySession } from "@/lib/auth/dal";
 import { listRouteLists } from "@/lib/api";
 import { EmptyState } from "@/components/catalog/EmptyState";
 import { RouteListForm } from "@/components/personal/RouteListForm";
+import { AccountHeader } from "@/components/users/AccountHeader";
 
 export default async function ListsPage() {
   const [session, t] = await Promise.all([verifySession(), getTranslations()]);
   const lists = await listRouteLists({ userId: session.userId });
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-16">
-      <div>
-        <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Common.yourAccount")}</p>
-        <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{t("Account.lists.title")}</h1>
-      </div>
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 px-6 py-14">
+      <AccountHeader title={t("Account.lists.title")} />
 
       {lists.length === 0 ? (
         <EmptyState message={t("Account.lists.empty")} />

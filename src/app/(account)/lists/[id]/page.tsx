@@ -1,13 +1,17 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ApiError, getRoute, getRouteList, listListRoutes } from "@/lib/api";
+import { ApiError, getRouteList, getUser, listListRoutes } from "@/lib/api";
 import { verifySession } from "@/lib/auth/dal";
 import { canModify } from "@/lib/auth/roles";
 import { EmptyState } from "@/components/catalog/EmptyState";
 import { RouteListEditForm } from "@/components/personal/RouteListEditForm";
 import { RemoveFromListButton } from "@/components/personal/RemoveFromListButton";
-import { AddRouteToListByIdForm } from "@/components/personal/AddRouteToListByIdForm";
+import { AddRouteToListForm } from "@/components/personal/AddRouteToListForm";
+import { Avatar } from "@/components/users/Avatar";
+import { RouteRow } from "@/components/users/RouteRow";
+import { displayName } from "@/lib/users/avatar";
+import { loadRouteCards } from "@/lib/users/route-cards";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -33,8 +37,9 @@ export default async function RouteListDetailPage({ params }: Props) {
     notFound();
   }
 
-  const listRoutes = await listListRoutes({ listId });
-  const routes = await Promise.all(listRoutes.map((entry) => getRoute(entry.routeId)));
+  const [listRoutes, owner] = await Promise.all([listListRoutes({ listId }), getUser(list.userId)]);
+  const cards = await loadRouteCards(listRoutes.map((entry) => entry.routeId));
+  const routes = listRoutes.flatMap((entry) => cards.get(entry.routeId) ?? []);
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-6 py-16">
@@ -42,6 +47,10 @@ export default async function RouteListDetailPage({ params }: Props) {
         <p className="font-sans text-sm font-semibold uppercase tracking-[0.2em] text-ochre-600">{t("Account.list.eyebrow")}</p>
         <h1 className="mt-2 font-display text-3xl font-medium text-foreground">{list.name}</h1>
         {list.description && <p className="mt-2 font-sans text-base text-stone">{list.description}</p>}
+        <Link href={`/users/${owner.id}`} className="mt-4 inline-flex items-center gap-2 font-sans text-sm text-stone hover:text-moss-800">
+          <Avatar user={owner} size="xs" />
+          <span>{t("Account.list.by", { name: displayName(owner) })}</span>
+        </Link>
       </div>
 
       {isOwner && (
@@ -53,28 +62,21 @@ export default async function RouteListDetailPage({ params }: Props) {
       {routes.length === 0 ? (
         <EmptyState message={t("Account.list.empty")} />
       ) : (
-        <div className="flex flex-col gap-3">
-          {routes.map((route) => (
-            <div
-              key={route.id}
-              className="flex items-center justify-between gap-4 rounded-lg border border-border bg-surface px-5 py-4"
-            >
-              <Link href={`/routes/${route.id}`} className="flex-1">
-                <h3 className="font-display text-lg font-medium text-foreground">{route.name}</h3>
-                <p className="font-sans text-xs font-semibold uppercase tracking-wide text-moss-600">
-                  {t(`Catalog.routeTypes.${route.routeType}`)}
-                </p>
-              </Link>
-              {isOwner && <RemoveFromListButton listId={listId} routeId={route.id} />}
-            </div>
+        <ol className="flex flex-col gap-2">
+          {routes.map((card) => (
+            <RouteRow
+              key={card.route.id}
+              card={card}
+              actions={isOwner ? <RemoveFromListButton listId={listId} routeId={card.route.id} /> : undefined}
+            />
           ))}
-        </div>
+        </ol>
       )}
 
       {isOwner && (
         <section className="flex flex-col gap-3 border-t border-border pt-6">
-          <h2 className="font-display text-xl font-medium text-foreground">{t("Account.list.addById")}</h2>
-          <AddRouteToListByIdForm listId={listId} />
+          <h2 className="font-display text-xl font-medium text-foreground">{t("Account.list.addRoute")}</h2>
+          <AddRouteToListForm listId={listId} />
         </section>
       )}
     </div>
