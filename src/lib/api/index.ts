@@ -69,4 +69,4 @@ export {
   deleteListRoute,
   type ListListRoutesParams,
 } from "./list-routes";
-export { getUser } from "./users";
+export { getUser, getUserStats, updateProfile, uploadAvatar, deleteAvatar, fetchAvatar } from "./users";

@@ -116,6 +116,22 @@ body {
   animation-delay: var(--delay, 0ms);
 }
 
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Dropdown menus drop in from their button. */
+.menu-in {
+  animation: menu-in 160ms var(--ease-out-quart) both;
+}
+
 /* Hero photos ease back from a slight zoom while the page loads. */
 .settle {
   animation: settle 1800ms var(--ease-out-quart) both;
@@ -139,6 +155,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .rise-in,
+  .menu-in,
   .settle,
   .reveal,
   .grow-on-view {

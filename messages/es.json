@@ -13,7 +13,6 @@
     "adding": "Añadiendo…",
     "saving": "Guardando…",
     "description": "Descripción",
-    "routeId": "ID de la vía",
     "meters": "{value} m",
     "yourAccount": "Tu cuenta",
     "catalog": "Catálogo",
@@ -29,7 +28,11 @@
     "lists": "Listas",
     "following": "Siguiendo",
     "logOut": "Salir",
-    "review": "Revisión"
+    "review": "Revisión",
+    "yourProfile": "Tu perfil",
+    "settings": "Ajustes",
+    "openMenu": "Menú de la cuenta de {name}",
+    "personal": "Tus páginas"
   },
   "LocaleSwitcher": {
     "switchTo": "Cambiar idioma a {language}",
@@ -293,22 +296,37 @@
     "tryAgain": "Prueba con otra búsqueda o <link>explora todas las zonas</link>."
   },
   "Users": {
-    "followers": "<strong>{count}</strong> {count, plural, one {seguidor} other {seguidores}}",
-    "following": "<strong>{count}</strong> siguiendo",
-    "since": "Desde {year}",
+    "since": "Miembro desde {date}",
     "editProfile": "Editar perfil",
     "recentAscents": "Ascensos recientes",
     "publicLists": "Listas públicas",
-    "noActivity": "Todavía no hay actividad pública."
+    "eyebrow": "Escalador",
+    "stats": {
+      "ascents": "Ascensiones",
+      "sends": "Encadenes",
+      "hardest": "Encadene más duro",
+      "followers": "Seguidores",
+      "following": "Siguiendo"
+    },
+    "noAscents": "{name} aún no ha apuntado ninguna ascensión.",
+    "noAscentsSelf": "Aquí aparecerán tus ascensiones.",
+    "logFirst": "Apunta tu primera ascensión",
+    "fullLogbook": "Ver todo tu cuaderno",
+    "noLists": "Aún no hay listas públicas."
   },
   "Account": {
     "favorites": {
       "title": "Favoritas",
-      "empty": "Todavía no has marcado ninguna vía como favorita."
+      "empty": "Todavía no has marcado ninguna vía como favorita.",
+      "count": "{count, plural, =0 {Ninguna vía guardada} one {# vía guardada} other {# vías guardadas}}",
+      "browse": "Explorar las zonas"
     },
     "follows": {
       "title": "Siguiendo",
-      "empty": "Todavía no sigues a nadie."
+      "empty": "Todavía no sigues a nadie.",
+      "following": "Siguiendo · {count}",
+      "followers": "Seguidores · {count}",
+      "noFollowers": "Aún no te sigue nadie."
     },
     "lists": {
       "title": "Tus listas",
@@ -318,7 +336,8 @@
     "list": {
       "eyebrow": "Lista de vías",
       "empty": "Todavía no hay vías en esta lista.",
-      "addById": "Añadir una vía por su ID"
+      "by": "De {name}",
+      "addRoute": "Añadir una vía"
     },
     "logbook": {
       "title": "Ascensos",
@@ -327,6 +346,33 @@
     },
     "profile": {
       "logOut": "Salir"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "viewPublic": "Ver tu perfil público",
+      "picture": "Foto de perfil",
+      "pictureDescription": "Se ve en tu perfil, en la cabecera y junto a tus comentarios.",
+      "publicProfile": "Perfil público",
+      "publicDescription": "Cualquiera puede verlo en tu página de perfil.",
+      "account": "Cuenta",
+      "username": "Usuario",
+      "email": "Correo",
+      "role": "Rol",
+      "memberSince": "Miembro desde",
+      "usernameFixed": "El nombre de usuario no se puede cambiar. Tu correo solo lo ves tú y los administradores.",
+      "fullName": "Nombre",
+      "fullNamePlaceholder": "Cómo te conocen otros escaladores",
+      "bio": "Biografía",
+      "bioPlaceholder": "Dónde escalas, qué te gusta, tu proyecto actual…",
+      "characters": "{count} / {max}",
+      "saveProfile": "Guardar perfil",
+      "profileSaved": "Perfil guardado.",
+      "uploadPicture": "Subir una foto",
+      "changePicture": "Cambiar foto",
+      "removePicture": "Quitar",
+      "pictureHint": "JPEG, PNG o WebP. Se recorta en cuadrado desde el centro.",
+      "pictureSaved": "Foto actualizada.",
+      "pictureUnreadable": "No se ha podido leer ese archivo como imagen. Prueba con un JPEG o PNG."
     }
   },
   "Personal": {
@@ -361,7 +407,8 @@
       "empty": "Todavía no hay comentarios.",
       "placeholder": "Cuenta tu experiencia…",
       "post": "Publicar comentario",
-      "posting": "Publicando…"
+      "posting": "Publicando…",
+      "deletedUser": "Usuario eliminado"
     },
     "photos": {
       "empty": "Todavía no hay fotos.",
@@ -377,6 +424,12 @@
       "result": "Resultado",
       "notes": "Notas",
       "submit": "Apuntar ascenso"
+    },
+    "routePicker": {
+      "label": "Vía",
+      "placeholder": "Busca una vía por su nombre",
+      "change": "Cambiar",
+      "noResults": "No hay vías con ese nombre."
     }
   },
   "LogbookResults": {
@@ -416,7 +469,12 @@
     "catalogNotFound": "Este elemento ya no existe.",
     "catalogConflict": "Este cambio choca con datos existentes.",
     "catalogInUse": "Todavía tiene datos debajo. Bórralos primero o pide ayuda a un moderador.",
-    "pitchOrderTaken": "Ese número de largo ya está en uso en esta vía."
+    "pitchOrderTaken": "Ese número de largo ya está en uso en esta vía.",
+    "nameTooLong": "El nombre puede tener como máximo 150 caracteres.",
+    "bioTooLong": "La biografía puede tener como máximo 1000 caracteres.",
+    "pictureRequired": "Elige primero una foto.",
+    "pictureInvalid": "Solo se aceptan fotos JPEG, PNG y WebP.",
+    "pictureTooLarge": "La foto es demasiado grande."
   },
   "Moderation": {
     "eyebrow": "Moderación",

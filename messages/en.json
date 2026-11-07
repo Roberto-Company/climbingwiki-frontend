@@ -13,7 +13,6 @@
     "adding": "Adding…",
     "saving": "Saving…",
     "description": "Description",
-    "routeId": "Route ID",
     "meters": "{value} m",
     "yourAccount": "Your account",
     "catalog": "Catalog",
@@ -29,7 +28,11 @@
     "lists": "Lists",
     "following": "Following",
     "logOut": "Log out",
-    "review": "Review"
+    "review": "Review",
+    "yourProfile": "Your profile",
+    "settings": "Settings",
+    "openMenu": "Account menu for {name}",
+    "personal": "Your pages"
   },
   "LocaleSwitcher": {
     "switchTo": "Switch language to {language}",
@@ -293,22 +296,37 @@
     "tryAgain": "Try a different search term, or <link>browse all zones</link>."
   },
   "Users": {
-    "followers": "<strong>{count}</strong> {count, plural, one {follower} other {followers}}",
-    "following": "<strong>{count}</strong> following",
-    "since": "Since {year}",
+    "since": "Member since {date}",
     "editProfile": "Edit profile",
     "recentAscents": "Recent ascents",
     "publicLists": "Public lists",
-    "noActivity": "No public activity yet."
+    "eyebrow": "Climber",
+    "stats": {
+      "ascents": "Ascents",
+      "sends": "Sends",
+      "hardest": "Hardest send",
+      "followers": "Followers",
+      "following": "Following"
+    },
+    "noAscents": "{name} hasn't logged any ascents yet.",
+    "noAscentsSelf": "Your ascents will show up here.",
+    "logFirst": "Log your first ascent",
+    "fullLogbook": "See your whole logbook",
+    "noLists": "No public lists yet."
   },
   "Account": {
     "favorites": {
       "title": "Favorites",
-      "empty": "You haven't favorited any routes yet."
+      "empty": "You haven't favorited any routes yet.",
+      "count": "{count, plural, =0 {No routes saved} one {# route saved} other {# routes saved}}",
+      "browse": "Browse the zones"
     },
     "follows": {
       "title": "Following",
-      "empty": "You aren't following anyone yet."
+      "empty": "You aren't following anyone yet.",
+      "following": "Following · {count}",
+      "followers": "Followers · {count}",
+      "noFollowers": "Nobody follows you yet."
     },
     "lists": {
       "title": "Your lists",
@@ -318,7 +336,8 @@
     "list": {
       "eyebrow": "Route list",
       "empty": "No routes in this list yet.",
-      "addById": "Add a route by ID"
+      "by": "By {name}",
+      "addRoute": "Add a route"
     },
     "logbook": {
       "title": "Logbook",
@@ -327,6 +346,33 @@
     },
     "profile": {
       "logOut": "Log out"
+    },
+    "settings": {
+      "title": "Settings",
+      "viewPublic": "View your public profile",
+      "picture": "Profile picture",
+      "pictureDescription": "Shown on your profile, in the header and next to your comments.",
+      "publicProfile": "Public profile",
+      "publicDescription": "Anyone can see these on your profile page.",
+      "account": "Account",
+      "username": "Username",
+      "email": "Email",
+      "role": "Role",
+      "memberSince": "Member since",
+      "usernameFixed": "Your username can't be changed. Your email is only visible to you and the admins.",
+      "fullName": "Full name",
+      "fullNamePlaceholder": "How other climbers know you",
+      "bio": "Bio",
+      "bioPlaceholder": "Where you climb, what you like, your current project…",
+      "characters": "{count} / {max}",
+      "saveProfile": "Save profile",
+      "profileSaved": "Profile saved.",
+      "uploadPicture": "Upload a picture",
+      "changePicture": "Change picture",
+      "removePicture": "Remove",
+      "pictureHint": "JPEG, PNG or WebP. It is cropped to a square from the centre.",
+      "pictureSaved": "Picture updated.",
+      "pictureUnreadable": "That file couldn't be read as a picture. Try a JPEG or PNG."
     }
   },
   "Personal": {
@@ -361,7 +407,8 @@
       "empty": "No comments yet.",
       "placeholder": "Share your experience…",
       "post": "Post comment",
-      "posting": "Posting…"
+      "posting": "Posting…",
+      "deletedUser": "Deleted user"
     },
     "photos": {
       "empty": "No photos yet.",
@@ -377,6 +424,12 @@
       "result": "Result",
       "notes": "Notes",
       "submit": "Log ascent"
+    },
+    "routePicker": {
+      "label": "Route",
+      "placeholder": "Search a route by name",
+      "change": "Change",
+      "noResults": "No routes with that name."
     }
   },
   "LogbookResults": {
@@ -416,7 +469,12 @@
     "catalogNotFound": "This item no longer exists.",
     "catalogConflict": "This change conflicts with existing data.",
     "catalogInUse": "This still has data under it. Delete that first, or ask a moderator.",
-    "pitchOrderTaken": "That pitch number is already used on this route."
+    "pitchOrderTaken": "That pitch number is already used on this route.",
+    "nameTooLong": "The name can be at most 150 characters.",
+    "bioTooLong": "The bio can be at most 1000 characters.",
+    "pictureRequired": "Choose a picture first.",
+    "pictureInvalid": "Only JPEG, PNG and WebP pictures are accepted.",
+    "pictureTooLarge": "The picture is too large."
   },
   "Moderation": {
     "eyebrow": "Moderation",
