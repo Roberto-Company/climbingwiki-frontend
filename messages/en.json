@@ -101,7 +101,8 @@
       "forgot": "Forgot password?",
       "createAccount": "Create an account",
       "registered": "Account created. Sign in to continue.",
-      "reset": "Password reset. Sign in with your new password."
+      "reset": "Password reset. Sign in with your new password.",
+      "expired": "Your session has ended. Sign in again to continue."
     },
     "register": {
       "eyebrow": "Join the wiki",

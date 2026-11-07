@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect, unstable_rethrow } from "next/navigation";
 import {
   ApiError,
   createCatalogItem,
@@ -106,6 +106,8 @@ async function saveItem<K extends CatalogKind, V>(
     try {
       await afterCreate(savedId, parsed.value, session.token);
     } catch (error) {
+      // A rejected session redirects (thrown by Next.js); let that through.
+      unstable_rethrow(error);
       // The item itself is saved; sending the user back to the form would create a duplicate.
       console.error(`Saved ${kind} ${savedId}, but the follow-up step failed`, error);
     }

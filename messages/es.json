@@ -101,7 +101,8 @@
       "forgot": "¿Has olvidado la contraseña?",
       "createAccount": "Crear una cuenta",
       "registered": "Cuenta creada. Entra para continuar.",
-      "reset": "Contraseña cambiada. Entra con tu nueva contraseña."
+      "reset": "Contraseña cambiada. Entra con tu nueva contraseña.",
+      "expired": "Tu sesión ha terminado. Vuelve a entrar para continuar."
     },
     "register": {
       "eyebrow": "Únete a la wiki",
