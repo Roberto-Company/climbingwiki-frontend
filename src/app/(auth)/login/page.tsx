@@ -3,11 +3,11 @@ import { LoginForm } from "@/components/auth/LoginForm";
 import { FormMessage } from "@/components/ui/FormMessage";
 
 type Props = {
-  searchParams: Promise<{ registered?: string; reset?: string }>;
+  searchParams: Promise<{ registered?: string; reset?: string; expired?: string }>;
 };
 
 export default async function LoginPage({ searchParams }: Props) {
-  const [{ registered, reset }, t] = await Promise.all([searchParams, getTranslations("Auth.login")]);
+  const [{ registered, reset, expired }, t] = await Promise.all([searchParams, getTranslations("Auth.login")]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -20,6 +20,7 @@ export default async function LoginPage({ searchParams }: Props) {
       {registered && (
         <FormMessage variant="success">{t("registered")}</FormMessage>
       )}
+      {expired && <FormMessage variant="info">{t("expired")}</FormMessage>}
       {reset && (
         <FormMessage variant="success">{t("reset")}</FormMessage>
       )}

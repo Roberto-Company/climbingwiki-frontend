@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+import { SESSION_EXPIRED_PATH, sessionWasRejected } from "@/lib/auth/session-expiry";
 import { API_BASE_URL } from "./config";
 import { ApiError, type ValidationErrors } from "./errors";
 
@@ -48,6 +50,10 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
     },
     body: body !== undefined ? JSON.stringify(body) : undefined,
   });
+
+  if (sessionWasRejected(response.status, Boolean(token))) {
+    redirect(SESSION_EXPIRED_PATH);
+  }
 
   if (!response.ok) {
     const { message, validationErrors } = await parseErrorBody(response);

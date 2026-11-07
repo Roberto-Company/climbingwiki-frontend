@@ -1,4 +1,6 @@
 import { apiFetch } from "./client";
+import { redirect } from "next/navigation";
+import { SESSION_EXPIRED_PATH, sessionWasRejected } from "@/lib/auth/session-expiry";
 import { API_BASE_URL } from "./config";
 import { ApiError } from "./errors";
 import type { ProfileRequest, UserResponse, UserStatsResponse } from "@/lib/types";
@@ -29,6 +31,9 @@ export async function uploadAvatar(id: number, file: Blob, token: string): Promi
     headers: { Authorization: `Bearer ${token}` },
     body: form,
   });
+  if (sessionWasRejected(response.status, true)) {
+    redirect(SESSION_EXPIRED_PATH);
+  }
   const data: unknown = await response.json().catch(() => null);
   if (!response.ok) {
     const message =
