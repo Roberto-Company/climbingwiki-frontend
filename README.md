@@ -55,6 +55,7 @@ npm run dev                  # http://localhost:3000
 | `npm run build` / `npm start` | Production build and server |
 | `npm test` | Unit tests (Vitest) |
 | `npm run lint` | ESLint |
+| `npm run typecheck` | Generate Next.js types, then `tsc --noEmit` |
 
 | Variable | Default | Purpose |
 |---|---|---|
