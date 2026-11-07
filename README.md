@@ -6,6 +6,12 @@ Web client for **ClimbingWiki**, a community wiki and logbook for rock climbing:
 
 > Portfolio project. Not a production service. The API lives in [climbingwiki-backend](https://github.com/Roberto-Company/climbingwiki-backend).
 
+![Home page](doc/screenshots/home.jpg)
+
+| Zones | Crag | Sector |
+|---|---|---|
+| ![Zone catalog](doc/screenshots/zones.jpg) | ![Crag page with routes-by-grade chart and map](doc/screenshots/crag.jpg) | ![Sector page with the route table](doc/screenshots/sector.jpg) |
+
 ## Stack
 
 - **Next.js 16** (App Router, Server Components, Server Actions) + **React 19** + **TypeScript**
