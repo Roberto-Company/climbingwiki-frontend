@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { gradeBand, type GradeBand } from "@/lib/catalog/grade-bands";
 import type { GradeResponse, RouteType } from "@/lib/types";
+import { useGradingSystem } from "./GradingSystemsProvider";
 import { useDisplayGrade } from "./use-display-grade";
 
 const BADGE_BASE = "inline-flex items-center whitespace-nowrap rounded-full px-2.5 py-0.5 font-sans text-xs font-semibold tabular-nums";
@@ -35,10 +36,11 @@ export function GradeBadge({ grade }: { grade: GradeResponse | null }) {
 function KnownGradeBadge({ grade }: { grade: GradeResponse }) {
   const t = useTranslations("Catalog");
   const { label, original } = useDisplayGrade(grade);
+  const band = gradeBand(grade, useGradingSystem(grade.gradingSystemId)?.name);
   const title = original ? t("gradeSystems.convertedFrom", original) : t("grade");
 
   return (
-    <span className={`${BADGE_BASE} ${GRADE_BAND_CLASSES[gradeBand(grade)]}`} title={title}>
+    <span className={`${BADGE_BASE} ${GRADE_BAND_CLASSES[band]}`} title={title}>
       {original ? `≈ ${label}` : label}
     </span>
   );
