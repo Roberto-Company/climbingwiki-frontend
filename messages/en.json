@@ -289,6 +289,19 @@
       "name": "Route",
       "length": "Length",
       "grade": "Grade"
+    },
+    "gradeSystems": {
+      "label": "System",
+      "original": "Original",
+      "convertedFrom": "Approximate equivalent. Original: {label} ({system})",
+      "names": {
+        "French": "French",
+        "YDS": "YDS (US)",
+        "UIAA": "UIAA",
+        "Ewbank": "Ewbank",
+        "Font": "Font",
+        "V-Scale": "V-Scale"
+      }
     }
   },
   "Search": {

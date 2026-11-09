@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { GradeRange } from "@/components/catalog/RouteBadges";
 import { getSession } from "@/lib/auth/session";
 import { fetchAllPages, getCrag, listSectors } from "@/lib/api";
 import { splitAttribution } from "@/lib/catalog/attribution";
@@ -56,7 +57,7 @@ export default async function CragDetailPage({ params }: Props) {
             <span>{t("Catalog.counts.sectors", { count: sectors.length })}</span>
             <span>{t("Catalog.counts.routes", { count: allRoutes.length })}</span>
             {bins.length > 0 && (
-              <span>{t("Catalog.counts.gradeRange", { from: bins[0].grade.label, to: bins[bins.length - 1].grade.label })}</span>
+              <GradeRange from={bins[0].grade} to={bins[bins.length - 1].grade} />
             )}
             {crag.rockType && <span>{crag.rockType}</span>}
             {crag.orientation && <span>{crag.orientation}</span>}

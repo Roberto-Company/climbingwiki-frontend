@@ -289,6 +289,19 @@
       "name": "Vía",
       "length": "Longitud",
       "grade": "Grado"
+    },
+    "gradeSystems": {
+      "label": "Sistema",
+      "original": "Original",
+      "convertedFrom": "Equivalencia aproximada. Original: {label} ({system})",
+      "names": {
+        "French": "Francés",
+        "YDS": "YDS (EE. UU.)",
+        "UIAA": "UIAA",
+        "Ewbank": "Ewbank",
+        "Font": "Font",
+        "V-Scale": "Escala V"
+      }
     }
   },
   "Search": {
