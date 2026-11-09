@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { getSession } from "@/lib/auth/session";
-import { getZone, listCrags, listZones } from "@/lib/api";
+import { fetchAllPages, getZone, listCrags, listZones } from "@/lib/api";
 import { splitAttribution } from "@/lib/catalog/attribution";
 import { loadOrNotFound } from "@/lib/catalog/page-data";
 import { nearestPhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
@@ -27,14 +27,14 @@ export default async function ZoneDetailPage({ params }: Props) {
 
   const [chain, childZones, crags, t, session] = await Promise.all([
     zoneChain(zone.id),
-    listZones({ parentZoneId: zoneId }),
-    listCrags({ zoneId }),
+    fetchAllPages((page, size) => listZones({ parentZoneId: zoneId, page, size })),
+    fetchAllPages((page, size) => listCrags({ zoneId, page, size })),
     getTranslations(),
     getSession(),
   ]);
   const parentPath = zone.parentZoneId ? `/zones/${zone.parentZoneId}` : "/zones";
-  const cragTexts = new Map(crags.content.map((crag) => [crag.id, splitAttribution(crag.description)]));
-  const mapPoints = toMapPoints(crags.content, "/crags");
+  const cragTexts = new Map(crags.map((crag) => [crag.id, splitAttribution(crag.description)]));
+  const mapPoints = toMapPoints(crags, "/crags");
 
   return (
     <div className="flex flex-1 flex-col">
@@ -45,8 +45,8 @@ export default async function ZoneDetailPage({ params }: Props) {
         crumbs={zoneCrumbs(chain.slice(0, -1), t("Catalog.zones.title"))}
         facts={
           <>
-            {childZones.totalElements > 0 && <span>{t("Catalog.counts.zones", { count: childZones.totalElements })}</span>}
-            <span>{t("Catalog.counts.crags", { count: crags.totalElements })}</span>
+            {childZones.length > 0 && <span>{t("Catalog.counts.zones", { count: childZones.length })}</span>}
+            <span>{t("Catalog.counts.crags", { count: crags.length })}</span>
           </>
         }
       />
@@ -67,14 +67,14 @@ export default async function ZoneDetailPage({ params }: Props) {
           {zone.description && <p className="max-w-2xl font-sans text-base leading-7 text-stone">{zone.description}</p>}
         </div>
 
-        {(childZones.content.length > 0 || session) && (
+        {(childZones.length > 0 || session) && (
           <section className="reveal flex flex-col gap-4">
             <h2 className="font-display text-2xl font-medium text-foreground">{t("Catalog.zone.subZones")}</h2>
-            {childZones.content.length === 0 ? (
+            {childZones.length === 0 ? (
               <EmptyState message={t("Catalog.zone.noSubZones")} />
             ) : (
               <div className="grid auto-rows-[13rem] gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {childZones.content.map((child) => (
+                {childZones.map((child) => (
                   <PhotoCard
                     key={child.id}
                     href={`/zones/${child.id}`}
@@ -92,11 +92,11 @@ export default async function ZoneDetailPage({ params }: Props) {
         <section className="reveal grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
           <div className="flex flex-col gap-3">
             <h2 className="font-display text-2xl font-medium text-foreground">{t("Catalog.zone.crags")}</h2>
-            {crags.content.length === 0 ? (
+            {crags.length === 0 ? (
               <EmptyState message={t("Catalog.zone.noCrags")} />
             ) : (
               <div className="flex flex-col gap-3">
-                {crags.content.map((crag) => (
+                {crags.map((crag) => (
                   <CatalogCard
                     key={crag.id}
                     href={`/crags/${crag.id}`}
