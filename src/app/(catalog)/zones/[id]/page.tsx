@@ -73,7 +73,6 @@ export default async function ZoneDetailPage({ params }: Props) {
             {childZones.length === 0 ? (
               <EmptyState message={t("Catalog.zone.noSubZones")} />
             ) : (
-              {/* Rows match PhotoCard's min-h-56 (14rem); shorter rows let cards overflow into the gap. */}
               <div className="grid auto-rows-[14rem] gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {childZones.map((child) => (
                   <PhotoCard
