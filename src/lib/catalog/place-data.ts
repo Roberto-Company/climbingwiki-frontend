@@ -1,15 +1,13 @@
 import "server-only";
 
 import { cache } from "react";
-import { getZone, listGrades, listRoutes } from "@/lib/api";
+import { fetchAllPages, getZone, listGrades, listRoutes } from "@/lib/api";
 import type { Crumb } from "@/components/media/PhotoBanner";
 import { placePhoto, type Photo } from "@/lib/media/photos";
 import type { GradeResponse, RouteResponse, ZoneResponse } from "@/lib/types";
 
 /** Zones nest a few levels at most (region → area); the cap guards against a cycle in bad data. */
 const MAX_ZONE_DEPTH = 6;
-/** The API's largest page; sectors hold far fewer routes than this. */
-const ALL_ROUTES = 100;
 
 /** A zone and its ancestors, outermost first. Cached per request, so pages can call it freely. */
 export const zoneChain = cache(async (zoneId: number | null): Promise<ZoneResponse[]> => {
@@ -44,11 +42,13 @@ export function nearestPhoto(chain: readonly ZoneResponse[], cragName?: string):
 
 /**
  * Every route of each sector, for crag-level stats. The API filters routes by sector only, so this
- * is one request per sector, sent in parallel.
+ * is one request per sector (more for sectors over a page), sent in parallel.
  */
 export async function routesBySector(sectorIds: readonly number[]): Promise<Map<number, RouteResponse[]>> {
-  const pages = await Promise.all(sectorIds.map((sectorId) => listRoutes({ sectorId, size: ALL_ROUTES })));
-  return new Map(sectorIds.map((sectorId, index) => [sectorId, pages[index].content]));
+  const routes = await Promise.all(
+    sectorIds.map((sectorId) => fetchAllPages((page, size) => listRoutes({ sectorId, page, size }))),
+  );
+  return new Map(sectorIds.map((sectorId, index) => [sectorId, routes[index]]));
 }
 
 export const allGrades = cache((): Promise<GradeResponse[]> => listGrades());

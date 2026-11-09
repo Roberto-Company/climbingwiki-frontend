@@ -2,6 +2,7 @@ export { apiFetch } from "./client";
 export { API_BASE_URL } from "./config";
 export { ApiError, type ValidationErrors } from "./errors";
 export { toQueryString, type QueryParams, type PageParams } from "./query";
+export { fetchAllPages, MAX_PAGE_SIZE } from "./all-pages";
 export { listZones, getZone, type ListZonesParams } from "./zones";
 export { listCrags, getCrag, type ListCragsParams } from "./crags";
 export { listSectors, getSector, type ListSectorsParams } from "./sectors";

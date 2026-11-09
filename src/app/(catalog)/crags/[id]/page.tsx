@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { getSession } from "@/lib/auth/session";
-import { getCrag, listSectors } from "@/lib/api";
+import { fetchAllPages, getCrag, listSectors } from "@/lib/api";
 import { splitAttribution } from "@/lib/catalog/attribution";
 import { bandCounts, gradeHistogram } from "@/lib/catalog/grade-bands";
 import { loadOrNotFound } from "@/lib/catalog/page-data";
@@ -29,19 +29,19 @@ export default async function CragDetailPage({ params }: Props) {
 
   const [chain, sectors, grades, t, session] = await Promise.all([
     zoneChain(crag.zoneId),
-    listSectors({ cragId }),
+    fetchAllPages((page, size) => listSectors({ cragId, page, size })),
     allGrades(),
     getTranslations(),
     getSession(),
   ]);
-  const routes = await routesBySector(sectors.content.map((sector) => sector.id));
+  const routes = await routesBySector(sectors.map((sector) => sector.id));
   const lookup = buildGradeLookup(grades);
   const allRoutes = [...routes.values()].flat();
   const bins = gradeHistogram(allRoutes, lookup, grades);
   const cragText = splitAttribution(crag.description);
-  const sectorTexts = new Map(sectors.content.map((sector) => [sector.id, splitAttribution(sector.description)]));
+  const sectorTexts = new Map(sectors.map((sector) => [sector.id, splitAttribution(sector.description)]));
 
-  const sectorPoints = toMapPoints(sectors.content, "/sectors");
+  const sectorPoints = toMapPoints(sectors, "/sectors");
   const mapPoints = sectorPoints.length > 0 ? sectorPoints : toMapPoints([crag], "/crags");
 
   return (
@@ -53,7 +53,7 @@ export default async function CragDetailPage({ params }: Props) {
         crumbs={zoneCrumbs(chain, t("Catalog.zones.title"))}
         facts={
           <>
-            <span>{t("Catalog.counts.sectors", { count: sectors.totalElements })}</span>
+            <span>{t("Catalog.counts.sectors", { count: sectors.length })}</span>
             <span>{t("Catalog.counts.routes", { count: allRoutes.length })}</span>
             {bins.length > 0 && (
               <span>{t("Catalog.counts.gradeRange", { from: bins[0].grade.label, to: bins[bins.length - 1].grade.label })}</span>
@@ -90,11 +90,11 @@ export default async function CragDetailPage({ params }: Props) {
 
           <section className="reveal flex flex-col gap-3">
             <h2 className="font-display text-2xl font-medium text-foreground">{t("Catalog.crag.sectors")}</h2>
-            {sectors.content.length === 0 ? (
+            {sectors.length === 0 ? (
               <EmptyState message={t("Catalog.crag.noSectors")} />
             ) : (
               <div className="flex flex-col gap-3">
-                {sectors.content.map((sector) => {
+                {sectors.map((sector) => {
                   const sectorRoutes = routes.get(sector.id) ?? [];
                   return (
                     <CatalogCard

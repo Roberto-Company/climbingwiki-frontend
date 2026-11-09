@@ -20,6 +20,8 @@ import hanshellerenCave from "@/assets/photos/hanshelleren-cave.jpg";
 import elCapitan from "@/assets/photos/el-capitan.jpg";
 import midnightLightning from "@/assets/photos/midnight-lightning.jpg";
 import pottensteinerWand from "@/assets/photos/pottensteiner-wand.jpg";
+import smithRockMonkeyFace from "@/assets/photos/smith-rock-monkey-face.jpg";
+import joshuaTreeHiddenValley from "@/assets/photos/joshua-tree-hidden-valley.jpg";
 import { photoKeyForPlace, type PhotoKey } from "./photo-keys";
 
 export interface Photo {
@@ -40,6 +42,7 @@ const COMMONS = "https://commons.wikimedia.org/wiki/File:";
 const CC_BY_2 = { license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/" };
 const CC_BY_SA_2 = { license: "CC BY-SA 2.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/" };
 const CC_BY_SA_3 = { license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/" };
+const PUBLIC_DOMAIN = { license: "Public domain", licenseUrl: "https://creativecommons.org/publicdomain/mark/1.0/" };
 const CC_BY_SA_4 = { license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/" };
 
 /** Every photo is from Wikimedia Commons, resized and recompressed; nothing else is changed. */
@@ -229,6 +232,24 @@ export const PHOTOS: Readonly<Record<PhotoKey, Photo>> = {
     ...CC_BY_SA_4,
     sourceUrl: `${COMMONS}Rock_climbing,_Pottensteiner_Wand,_Franconian_Switzerland_01.jpg`,
     focus: "45% 45%",
+  },
+  "smith-rock-monkey-face": {
+    key: "smith-rock-monkey-face",
+    image: smithRockMonkeyFace,
+    place: "Monkey Face, Smith Rock",
+    author: "Los Paseos from Earth",
+    ...CC_BY_SA_2,
+    sourceUrl: `${COMMONS}Monkey_Face_(21666728519).jpg`,
+    focus: "60% 40%",
+  },
+  "joshua-tree-hidden-valley": {
+    key: "joshua-tree-hidden-valley",
+    image: joshuaTreeHiddenValley,
+    place: "Hidden Valley, Joshua Tree",
+    author: "Joshua Tree National Park (NPS)",
+    ...PUBLIC_DOMAIN,
+    sourceUrl: `${COMMONS}Climbing_in_Hidden_Valley_(26105723740).jpg`,
+    focus: "40% 40%",
   },
 };
 
