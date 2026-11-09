@@ -23,7 +23,7 @@ export function RouteRow({ card, leading, meta, actions, children }: Props) {
     <li className="group flex items-start gap-4 rounded-lg border border-border bg-surface/60 px-4 py-3 transition-colors hover:border-moss-400 hover:bg-moss-50/60">
       {leading}
       <div className="min-w-0 flex-1">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
           <div className="min-w-0">
             <Link
               href={`/routes/${route.id}`}
@@ -33,7 +33,7 @@ export function RouteRow({ card, leading, meta, actions, children }: Props) {
             </Link>
             {place && <p className="mt-0.5 truncate font-sans text-xs text-stone">{place}</p>}
           </div>
-          <div className="flex shrink-0 items-center gap-2 pt-0.5">
+          <div className="flex shrink-0 flex-wrap items-center gap-2 sm:pt-0.5">
             {meta}
             <GradeBadge grade={grade} />
             {actions}
