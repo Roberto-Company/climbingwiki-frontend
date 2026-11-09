@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import type { GradeBand, HistogramBin } from "@/lib/catalog/grade-bands";
-import { showsCounts, tickStep } from "@/lib/catalog/histogram-ticks";
+import { mobileTickStep, showsCounts, tickStep } from "@/lib/catalog/histogram-ticks";
 
 export const GRADE_BAND_FILL: Record<GradeBand, string> = {
   beginner: "bg-grade-beginner",
@@ -10,17 +10,16 @@ export const GRADE_BAND_FILL: Record<GradeBand, string> = {
 };
 
 const BAR_AREA_PX = 112;
-const CROWDED_BINS = 10;
 
 type Props = {
   bins: readonly HistogramBin[];
 };
 
-function tickClass(index: number, step: number, crowded: boolean, label: string): string {
+function tickClass(index: number, step: number, phoneStep: number): string {
   if (index % step !== 0) {
     return "invisible";
   }
-  return step === 1 && crowded && label.endsWith("+") ? "max-sm:invisible" : "";
+  return index % phoneStep !== 0 ? "max-sm:invisible" : "";
 }
 
 /** Routes per grade, the way guidebooks summarise a crag. Bars grow in as the chart scrolls into view. */
@@ -31,8 +30,8 @@ export function GradeHistogram({ bins }: Props) {
   }
   const max = Math.max(...bins.map((bin) => bin.count));
   const total = bins.reduce((sum, bin) => sum + bin.count, 0);
-  // On phones a long scale has no room for every label; the "+" grades keep their bars but not their tick.
-  const crowded = bins.length > CROWDED_BINS;
+  // Phones have room for fewer labels: they show every n-th of the desktop ones; the hover title keeps all.
+  const phoneStep = mobileTickStep(bins.length);
   // Longer scales (YDS) label only every n-th bar and drop the counts; the hover title keeps them.
   const step = tickStep(bins.length);
   const withCounts = showsCounts(bins.length);
@@ -59,7 +58,7 @@ export function GradeHistogram({ bins }: Props) {
               aria-hidden="true"
             />
             <span
-              className={`whitespace-nowrap font-sans text-xs font-semibold text-foreground ${tickClass(index, step, crowded, bin.grade.label)}`}
+              className={`whitespace-nowrap font-sans text-xs font-semibold text-foreground ${tickClass(index, step, phoneStep)}`}
             >
               {bin.grade.label}
             </span>

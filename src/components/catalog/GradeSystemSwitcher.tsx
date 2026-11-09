@@ -30,7 +30,7 @@ export function GradeSystemSwitcher({ category }: Props) {
             role="radio"
             aria-checked={isActive}
             onClick={() => setGradeDisplayChoice(category, value)}
-            className={`rounded-full border px-2.5 py-0.5 font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ochre-400 ${
+            className={`rounded-full border px-3 py-1.5 font-semibold sm:px-2.5 sm:py-0.5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ochre-400 ${
               isActive
                 ? "border-moss-600 bg-moss-600 text-white"
                 : "border-border text-stone hover:border-moss-600 hover:text-moss-700"

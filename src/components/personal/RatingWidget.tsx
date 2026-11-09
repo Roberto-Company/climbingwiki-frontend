@@ -45,7 +45,7 @@ export function RatingWidget({ routeId, average, count, userScore, isAuthenticat
                 name="score"
                 value={step}
                 disabled={submitPending}
-                className={`rounded-md px-2 py-1 font-sans text-xs font-semibold transition-colors ${
+                className={`min-w-10 rounded-md px-2.5 py-2 font-sans text-sm font-semibold transition-colors sm:min-w-0 sm:px-2 sm:py-1 sm:text-xs ${
                   userScore === step
                     ? "bg-moss-600 text-background"
                     : "bg-moss-50 text-moss-800 hover:bg-moss-100"

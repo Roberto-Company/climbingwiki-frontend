@@ -205,3 +205,15 @@ body {
 .leaflet-tile-pane {
   filter: saturate(0.55) sepia(0.12) brightness(1.03);
 }
+
+/*
+ * iOS Safari zooms the page when a field under 16px gets focus. On phones every text field uses
+ * 16px; unlayered, so it wins over the utilities' smaller text without touching each form.
+ */
+@media (max-width: 639px) {
+  input:not([type="checkbox"], [type="radio"], [type="hidden"], [type="range"], [type="file"]),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}

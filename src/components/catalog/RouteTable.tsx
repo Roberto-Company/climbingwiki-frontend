@@ -28,7 +28,7 @@ export function RouteTable({ routes, lookup, firstNumber = 1 }: Props) {
             <th scope="col" className="px-3 py-2.5">
               {t("Catalog.routeTable.name")}
             </th>
-            <th scope="col" className="px-3 py-2.5 text-right">
+            <th scope="col" className="px-3 py-2.5 text-right max-sm:hidden">
               {t("Catalog.routeTable.length")}
             </th>
             <th scope="col" className="w-20 px-4 py-2.5 text-right">
@@ -56,7 +56,7 @@ export function RouteTable({ routes, lookup, firstNumber = 1 }: Props) {
                     </span>
                   )}
                 </td>
-                <td className="px-3 py-2.5 text-right tabular-nums text-stone">
+                <td className="px-3 py-2.5 text-right tabular-nums text-stone max-sm:hidden">
                   {route.totalLengthM !== null ? t("Common.meters", { value: route.totalLengthM }) : "–"}
                 </td>
                 <td className="px-4 py-2.5 text-right">

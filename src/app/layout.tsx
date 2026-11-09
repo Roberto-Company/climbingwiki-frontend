@@ -76,6 +76,11 @@ export default async function RootLayout({
               <UserNav user={user} />
               <LocaleSwitcher />
             </div>
+            <div className="w-full md:hidden">
+              <Suspense>
+                <SearchBar />
+              </Suspense>
+            </div>
           </header>
           {children}
           <footer className="relative isolate overflow-hidden bg-night px-6 py-12 font-sans text-sm text-white/70 sm:px-16">
