@@ -43,7 +43,7 @@
   },
   "Footer": {
     "about": "ClimbingWiki is a portfolio project, not a production service.",
-    "attribution": "Map data © OpenStreetMap contributors (ODbL). Mula routes: theCrag contributors (CC BY-NC-SA). Famous routes: public-knowledge facts. Each page names its source.",
+    "attribution": "Map data © OpenStreetMap contributors (ODbL). Mula routes: theCrag contributors (CC BY-NC-SA). US routes: OpenBeta (CC0). Famous routes: public-knowledge facts. Each page names its source.",
     "credits": "Photo credits",
     "zones": "Areas",
     "search": "Search",

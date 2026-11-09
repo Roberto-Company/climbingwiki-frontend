@@ -20,7 +20,9 @@ export type PhotoKey =
   | "hanshelleren-cave"
   | "el-capitan"
   | "midnight-lightning"
-  | "pottensteiner-wand";
+  | "pottensteiner-wand"
+  | "smith-rock-monkey-face"
+  | "joshua-tree-hidden-valley";
 
 /**
  * Cover photos of zones and crags, by normalised name. Each photo was taken in or right next to the
@@ -48,6 +50,8 @@ const PLACE_PHOTOS: Readonly<Record<string, PhotoKey>> = {
   flatanger: "hanshelleren-cave",
   "estados unidos": "el-capitan",
   yosemite: "el-capitan",
+  oregon: "smith-rock-monkey-face",
+  "joshua tree": "joshua-tree-hidden-valley",
   // Crags
   siurana: "siurana-el-pati",
   margalef: "margalef-overhang",
@@ -60,6 +64,8 @@ const PLACE_PHOTOS: Readonly<Record<string, PhotoKey>> = {
   hanshelleren: "hanshelleren-cave",
   "el capitan": "el-capitan",
   "camp 4": "midnight-lightning",
+  "smith rock": "smith-rock-monkey-face",
+  "hidden valley": "joshua-tree-hidden-valley",
 };
 
 function normalise(name: string): string {
