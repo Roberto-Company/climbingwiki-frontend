@@ -5,7 +5,7 @@ import { fetchAllPages, getCrag, listSectors } from "@/lib/api";
 import { splitAttribution } from "@/lib/catalog/attribution";
 import { bandCounts, gradeHistogram } from "@/lib/catalog/grade-bands";
 import { loadOrNotFound } from "@/lib/catalog/page-data";
-import { allGrades, nearestPhoto, routesBySector, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
+import { allGrades, gradingSystemNames, nearestPhoto, routesBySector, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
 import { buildGradeLookup } from "@/lib/catalog/route-summary";
 import { toMapPoints } from "@/lib/map/points";
 import { CatalogCard } from "@/components/catalog/CatalogCard";
@@ -28,17 +28,18 @@ export default async function CragDetailPage({ params }: Props) {
   const cragId = Number(id);
   const crag = await loadOrNotFound(() => getCrag(cragId));
 
-  const [chain, sectors, grades, t, session] = await Promise.all([
+  const [chain, sectors, grades, systemNames, t, session] = await Promise.all([
     zoneChain(crag.zoneId),
     fetchAllPages((page, size) => listSectors({ cragId, page, size })),
     allGrades(),
+    gradingSystemNames(),
     getTranslations(),
     getSession(),
   ]);
   const routes = await routesBySector(sectors.map((sector) => sector.id));
   const lookup = buildGradeLookup(grades);
   const allRoutes = [...routes.values()].flat();
-  const bins = gradeHistogram(allRoutes, lookup, grades);
+  const bins = gradeHistogram(allRoutes, lookup, grades, systemNames);
   const cragText = splitAttribution(crag.description);
   const sectorTexts = new Map(sectors.map((sector) => [sector.id, splitAttribution(sector.description)]));
 
@@ -105,7 +106,7 @@ export default async function CragDetailPage({ params }: Props) {
                       subtitle={t("Catalog.counts.routes", { count: sectorRoutes.length })}
                       description={sectorTexts.get(sector.id)?.body}
                       badges={sector.verified ? undefined : <VerificationBadge verified={false} />}
-                      footer={<BandBar counts={bandCounts(sectorRoutes, lookup)} />}
+                      footer={<BandBar counts={bandCounts(sectorRoutes, lookup, systemNames)} />}
                     />
                   );
                 })}

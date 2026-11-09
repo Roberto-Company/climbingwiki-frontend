@@ -83,6 +83,16 @@ export function systemsForCategory(category: GradingSystemCategory): readonly Gr
   return category === "BOULDER" ? BOULDER_SYSTEMS : ROPED_SYSTEMS;
 }
 
+/**
+ * Position of a grade on its reference scale (row of the equivalence table: French for roped
+ * grades, Font for boulders), so grades of any system can be compared. Null when unknown.
+ */
+export function referenceRank(label: string, systemName: string): number | null {
+  const rows = rowsFor(systemName);
+  const index = rows?.findIndex((row) => row[systemName]?.includes(label)) ?? -1;
+  return index >= 0 ? index : null;
+}
+
 /** Boulders are graded in boulder systems; sport and trad routes in roped ones. */
 export function routeGradeCategory(routeType: RouteType): GradingSystemCategory {
   return routeType === "BOULDER" ? "BOULDER" : "ROPED";

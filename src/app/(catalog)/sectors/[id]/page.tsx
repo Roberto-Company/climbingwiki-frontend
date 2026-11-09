@@ -6,7 +6,7 @@ import { splitAttribution } from "@/lib/catalog/attribution";
 import { gradeHistogram } from "@/lib/catalog/grade-bands";
 import { routeGradeCategory } from "@/lib/catalog/grade-conversion";
 import { loadOrNotFound } from "@/lib/catalog/page-data";
-import { allGrades, nearestPhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
+import { allGrades, gradingSystemNames, nearestPhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
 import { buildGradeLookup } from "@/lib/catalog/route-summary";
 import { toMapPoints } from "@/lib/map/points";
 import { EmptyState } from "@/components/catalog/EmptyState";
@@ -36,16 +36,17 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
   const page = Number(pageParam) || 0;
   const sector = await loadOrNotFound(() => getSector(sectorId));
 
-  const [crag, routes, grades, t, session] = await Promise.all([
+  const [crag, routes, grades, systemNames, t, session] = await Promise.all([
     getCrag(sector.cragId),
     listRoutes({ sectorId, page, size: ROUTES_PER_PAGE }),
     allGrades(),
+    gradingSystemNames(),
     getTranslations(),
     getSession(),
   ]);
   const chain = await zoneChain(crag.zoneId);
   const lookup = buildGradeLookup(grades);
-  const bins = gradeHistogram(routes.content, lookup, grades);
+  const bins = gradeHistogram(routes.content, lookup, grades, systemNames);
   const sectorText = splitAttribution(sector.description);
   const routeTexts = new Map(routes.content.map((route) => [route.id, splitAttribution(route.description)]));
   const ownPoint = toMapPoints([sector], "/sectors");
