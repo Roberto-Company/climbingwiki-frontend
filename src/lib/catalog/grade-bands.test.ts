@@ -48,3 +48,36 @@ describe("bandCounts", () => {
     ]);
   });
 });
+
+describe("gradeBand in other systems", () => {
+  const yds = (label: string, difficultyScore: number): GradeResponse => ({ id: 100, gradingSystemId: 2, label, difficultyScore });
+  const v = (label: string, difficultyScore: number): GradeResponse => ({ id: 200, gradingSystemId: 3, label, difficultyScore });
+
+  it("bands YDS grades by their French equivalent, not their raw score", () => {
+    expect(gradeBand(yds("5.9", 5), "YDS")).toBe("beginner");
+    expect(gradeBand(yds("5.10b", 7), "YDS")).toBe("intermediate");
+    expect(gradeBand(yds("5.11b", 11), "YDS")).toBe("advanced");
+    expect(gradeBand(yds("5.12b", 15), "YDS")).toBe("expert");
+  });
+
+  it("bands boulder grades on the Font scale", () => {
+    expect(gradeBand(v("V2", 4), "V-Scale")).toBe("beginner");
+    expect(gradeBand(v("V3", 5), "V-Scale")).toBe("intermediate");
+    expect(gradeBand(v("V5", 7), "V-Scale")).toBe("advanced");
+    expect(gradeBand(v("V8", 10), "V-Scale")).toBe("expert");
+  });
+
+  it("falls back to the score when the system or grade is unknown", () => {
+    expect(gradeBand(yds("5.99", 16), "YDS")).toBe("expert");
+    expect(gradeBand(yds("6a", 8))).toBe("intermediate");
+  });
+
+  it("uses the system names in histograms and band counts", () => {
+    const systemNames = new Map([[2, "YDS"]]);
+    const ydsGrades = [yds("5.10b", 7)].map((entry) => ({ ...entry, id: 30 }));
+    const ydsLookup = new Map(ydsGrades.map((entry) => [entry.id, entry]));
+
+    expect(bandCounts([{ hardestGradeId: 30 }], ydsLookup, systemNames)).toEqual([{ band: "intermediate", count: 1 }]);
+    expect(gradeHistogram([{ hardestGradeId: 30 }], ydsLookup, ydsGrades, systemNames)[0].band).toBe("intermediate");
+  });
+});

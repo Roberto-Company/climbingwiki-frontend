@@ -1,7 +1,7 @@
 import "server-only";
 
 import { cache } from "react";
-import { fetchAllPages, getZone, listGrades, listRoutes } from "@/lib/api";
+import { fetchAllPages, getZone, listGrades, listGradingSystems, listRoutes } from "@/lib/api";
 import type { Crumb } from "@/components/media/PhotoBanner";
 import { placePhoto, type Photo } from "@/lib/media/photos";
 import type { GradeResponse, RouteResponse, ZoneResponse } from "@/lib/types";
@@ -52,3 +52,9 @@ export async function routesBySector(sectorIds: readonly number[]): Promise<Map<
 }
 
 export const allGrades = cache((): Promise<GradeResponse[]> => listGrades());
+
+/** Grading system names by id, for banding grades of any system (see `gradeBand`). */
+export const gradingSystemNames = cache(async (): Promise<ReadonlyMap<number, string>> => {
+  const systems = await listGradingSystems();
+  return new Map(systems.map((system) => [system.id, system.name]));
+});
