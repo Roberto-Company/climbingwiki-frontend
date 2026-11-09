@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import type { GradeBand, HistogramBin } from "@/lib/catalog/grade-bands";
+import { showsCounts, tickStep } from "@/lib/catalog/histogram-ticks";
 
 export const GRADE_BAND_FILL: Record<GradeBand, string> = {
   beginner: "bg-grade-beginner",
@@ -15,6 +16,13 @@ type Props = {
   bins: readonly HistogramBin[];
 };
 
+function tickClass(index: number, step: number, crowded: boolean, label: string): string {
+  if (index % step !== 0) {
+    return "invisible";
+  }
+  return step === 1 && crowded && label.endsWith("+") ? "max-sm:invisible" : "";
+}
+
 /** Routes per grade, the way guidebooks summarise a crag. Bars grow in as the chart scrolls into view. */
 export function GradeHistogram({ bins }: Props) {
   const t = useTranslations("Catalog.histogram");
@@ -25,6 +33,9 @@ export function GradeHistogram({ bins }: Props) {
   const total = bins.reduce((sum, bin) => sum + bin.count, 0);
   // On phones a long scale has no room for every label; the "+" grades keep their bars but not their tick.
   const crowded = bins.length > CROWDED_BINS;
+  // Longer scales (YDS) label only every n-th bar and drop the counts; the hover title keeps them.
+  const step = tickStep(bins.length);
+  const withCounts = showsCounts(bins.length);
 
   return (
     <figure className="flex flex-col gap-3">
@@ -33,15 +44,23 @@ export function GradeHistogram({ bins }: Props) {
         <span className="font-sans text-xs text-stone">{t("total", { count: total })}</span>
       </figcaption>
       <ol className="flex items-end gap-1" style={{ height: BAR_AREA_PX + 40 }} aria-label={t("title")}>
-        {bins.map((bin) => (
-          <li key={bin.grade.id} className="flex min-w-0 flex-1 flex-col items-center justify-end gap-1">
-            <span className="font-sans text-[11px] tabular-nums text-stone">{bin.count > 0 ? bin.count : ""}</span>
+        {bins.map((bin, index) => (
+          <li
+            key={bin.grade.id}
+            className="flex min-w-0 flex-1 flex-col items-center justify-end gap-1"
+            title={t("bar", { count: bin.count, grade: bin.grade.label })}
+          >
+            {withCounts && (
+              <span className="font-sans text-[11px] tabular-nums text-stone">{bin.count > 0 ? bin.count : ""}</span>
+            )}
             <span
               className={`grow-on-view block w-full max-w-10 rounded-t-sm ${bin.count > 0 ? GRADE_BAND_FILL[bin.band] : "bg-border/50"}`}
               style={{ height: bin.count > 0 ? Math.max(4, (bin.count / max) * BAR_AREA_PX) : 2 }}
               aria-hidden="true"
             />
-            <span className={`font-sans text-xs font-semibold text-foreground ${crowded && bin.grade.label.endsWith("+") ? "max-sm:invisible" : ""}`}>
+            <span
+              className={`whitespace-nowrap font-sans text-xs font-semibold text-foreground ${tickClass(index, step, crowded, bin.grade.label)}`}
+            >
               {bin.grade.label}
             </span>
             <span className="sr-only">{t("bar", { count: bin.count, grade: bin.grade.label })}</span>
