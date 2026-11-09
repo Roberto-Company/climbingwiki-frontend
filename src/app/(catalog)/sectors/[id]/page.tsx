@@ -1,8 +1,10 @@
 import { getTranslations } from "next-intl/server";
+import { GradeRange } from "@/components/catalog/RouteBadges";
 import { getSession } from "@/lib/auth/session";
 import { getCrag, getSector, listRoutes } from "@/lib/api";
 import { splitAttribution } from "@/lib/catalog/attribution";
 import { gradeHistogram } from "@/lib/catalog/grade-bands";
+import { routeGradeCategory } from "@/lib/catalog/grade-conversion";
 import { loadOrNotFound } from "@/lib/catalog/page-data";
 import { allGrades, nearestPhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
 import { buildGradeLookup } from "@/lib/catalog/route-summary";
@@ -11,6 +13,7 @@ import { EmptyState } from "@/components/catalog/EmptyState";
 import { GradeHistogram } from "@/components/catalog/GradeHistogram";
 import { Pagination } from "@/components/catalog/Pagination";
 import { RouteTable } from "@/components/catalog/RouteTable";
+import { GradeSystemSwitcher } from "@/components/catalog/GradeSystemSwitcher";
 import { SourceNote } from "@/components/catalog/SourceNote";
 import { VerificationBadge } from "@/components/catalog/VerificationBadge";
 import { AddLink } from "@/components/catalog/edit/AddLink";
@@ -47,6 +50,9 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
   const routeTexts = new Map(routes.content.map((route) => [route.id, splitAttribution(route.description)]));
   const ownPoint = toMapPoints([sector], "/sectors");
   const mapPoints = ownPoint.length > 0 ? ownPoint : toMapPoints([crag], "/crags");
+  const gradeCategories = [
+    ...new Set(routes.content.map((route) => routeGradeCategory(route.routeType))),
+  ];
 
   return (
     <div className="flex flex-1 flex-col">
@@ -59,7 +65,7 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
           <>
             <span>{t("Catalog.counts.routes", { count: routes.totalElements })}</span>
             {bins.length > 0 && (
-              <span>{t("Catalog.counts.gradeRange", { from: bins[0].grade.label, to: bins[bins.length - 1].grade.label })}</span>
+              <GradeRange from={bins[0].grade} to={bins[bins.length - 1].grade} />
             )}
           </>
         }
@@ -83,7 +89,12 @@ export default async function SectorDetailPage({ params, searchParams }: Props) 
           </div>
 
           <section className="reveal flex flex-col gap-3">
-            <h2 className="font-display text-2xl font-medium text-foreground">{t("Catalog.sector.routes")}</h2>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2 className="font-display text-2xl font-medium text-foreground">{t("Catalog.sector.routes")}</h2>
+              {gradeCategories.map((category) => (
+                <GradeSystemSwitcher key={category} category={category} />
+              ))}
+            </div>
             {routes.content.length === 0 ? (
               <EmptyState message={t("Catalog.sector.noRoutes")} />
             ) : (

@@ -23,10 +23,12 @@ import {
   listRouteLists,
 } from "@/lib/api";
 import { buildGradeLookup, hardestGrade, totalLength } from "@/lib/catalog/route-summary";
+import { routeGradeCategory } from "@/lib/catalog/grade-conversion";
 import { nearestPhoto, zoneChain, zoneCrumbs } from "@/lib/catalog/place-data";
 import { PhotoBanner } from "@/components/media/PhotoBanner";
 import { EmptyState } from "@/components/catalog/EmptyState";
 import { GradeBadge } from "@/components/catalog/RouteBadges";
+import { GradeSystemSwitcher } from "@/components/catalog/GradeSystemSwitcher";
 import { FavoriteButton } from "@/components/personal/FavoriteButton";
 import { RatingWidget } from "@/components/personal/RatingWidget";
 import { AddToListButton } from "@/components/personal/AddToListButton";
@@ -156,7 +158,12 @@ export default async function RouteDetailPage({ params }: Props) {
         </div>
 
         <section className="flex flex-col gap-3">
-          <h2 className="font-display text-xl font-medium text-foreground">{t("Catalog.route.pitches")}</h2>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="font-display text-xl font-medium text-foreground">{t("Catalog.route.pitches")}</h2>
+            {routeGrade !== null && (
+              <GradeSystemSwitcher category={routeGradeCategory(route.routeType)} />
+            )}
+          </div>
           {sortedPitches.length === 0 ? (
             <EmptyState message={t("Catalog.route.noPitches")} />
           ) : (

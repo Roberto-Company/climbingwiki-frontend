@@ -5,6 +5,9 @@ import { Suspense } from "react";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { getCurrentUser } from "@/lib/users/current-user";
+import { listGradingSystems } from "@/lib/api";
+import type { GradingSystemResponse } from "@/lib/types";
+import { GradingSystemsProvider } from "@/components/catalog/GradingSystemsProvider";
 import { UserNav } from "@/components/auth/UserNav";
 import { SearchBar } from "@/components/catalog/SearchBar";
 import { LocaleSwitcher } from "@/components/i18n/LocaleSwitcher";
@@ -29,17 +32,32 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+/** Grade badges only need these to offer conversions; if the API is down, grades show as entered. */
+async function loadGradingSystems(): Promise<GradingSystemResponse[]> {
+  try {
+    return await listGradingSystems();
+  } catch {
+    return [];
+  }
+}
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [user, locale, t] = await Promise.all([getCurrentUser(), getLocale(), getTranslations()]);
+  const [user, locale, t, gradingSystems] = await Promise.all([
+    getCurrentUser(),
+    getLocale(),
+    getTranslations(),
+    loadGradingSystems(),
+  ]);
 
   return (
     <html lang={locale} className={`${fraunces.variable} ${inter.variable} h-full`}>
       <body className="min-h-full flex flex-col font-sans antialiased">
         <NextIntlClientProvider>
+          <GradingSystemsProvider systems={gradingSystems}>
           <header className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b border-border px-6 py-4 sm:px-16">
             <div className="flex items-center gap-6 sm:gap-8">
               <Link href="/" className="font-display text-xl font-medium text-foreground">
@@ -83,6 +101,7 @@ export default async function RootLayout({
             </div>
             <p className="mt-10 border-t border-white/15 pt-4 text-xs text-white/55">{t("Footer.attribution")}</p>
           </footer>
+          </GradingSystemsProvider>
         </NextIntlClientProvider>
       </body>
     </html>
