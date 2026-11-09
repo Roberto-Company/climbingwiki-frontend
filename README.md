@@ -70,6 +70,7 @@ npm run dev                  # http://localhost:3000
 | Variable | Default | Purpose |
 |---|---|---|
 | `API_BASE_URL` | `http://localhost:8080/api` | Backend URL, read at runtime by the Next.js server |
+| `API_PROXY_SECRET` | unset | Same value as the backend's `PROXY_SHARED_SECRET` (32+ chars). Lets the backend trust the visitor IP this server forwards when a hosting proxy sits in between (Vercel → Render). Server-only: never prefix it with `NEXT_PUBLIC_` |
 | `SESSION_COOKIE_SECURE` | `true` in production builds | Set `false` to serve a production build over plain HTTP (the Docker demo does) |
 
 ## Project layout
